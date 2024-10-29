@@ -60,7 +60,7 @@ export class User {
 
     private isValidStartDate(startdate: Date): boolean {
         const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        today.setHours(23, 59, 59, 59);
         return startdate <= today;
     }
 

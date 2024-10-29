@@ -4,7 +4,7 @@ test('given: valid values for achievement, when: achievement is created, then: a
     const achievement = new Achievement({
         title: 'starting out',
         description: 'post your first boulder',
-        difficulity: 'easy',
+        difficulty: 'easy',
     });
 
     expect(achievement.getTitle()).toEqual('starting out');

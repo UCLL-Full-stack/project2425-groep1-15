@@ -28,7 +28,7 @@ export class Post {
 
     private isValidDate(date: Date): boolean {
         const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        today.setHours(23, 59, 59, 59);
         return date <= today;
     }
 

@@ -1,7 +1,7 @@
 import { set } from 'date-fns';
 import { User } from '../../model/user';
 
-const start = set(new Date(), { hours: 8, minutes: 30 });
+const start = set(new Date(), { hours: 0, minutes: 0 });
 
 test('given: valid values for user, when: user is created, then: user is created with those values', () => {
     const user = new User({
