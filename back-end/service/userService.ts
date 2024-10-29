@@ -1,14 +1,6 @@
-const getAllUsers = async () => {
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-};
+import { User } from '../model/user';
+import userDb from '../repository/user.db';
 
-const UserService = {
-    getAllUsers,
-};
+const getAllUsers = (): User[] => userDb.getAllUsers();
 
-export default UserService;
+export default { getAllUsers };
