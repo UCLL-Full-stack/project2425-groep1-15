@@ -16,7 +16,8 @@ afterEach(() => {
 });
 
 test('given a valid user, when schedule is user, then user is created with those values', () => {
-    userService.createUser({});
+    const newuser = new User({ name: 'f', email: 'e@a.c', password: 'lol', numPosts: 2 });
+    userService.createUser(newuser);
 
     expect(mockUserDbCreateUser).toHaveBeenCalledTimes(1);
     expect(mockUserDbCreateUser).toHaveBeenCalledWith(
