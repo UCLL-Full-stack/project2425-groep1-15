@@ -3,6 +3,14 @@ import userDb from '../repository/user.db';
 
 const getAllUsers = (): User[] => userDb.getAllUsers();
 
-const createuser = (user: User): void => userDb.createUser(user);
+const createUser = (user: User): User => {
+    const newUser = new User({
+        name: user.getName(),
+        email: user.getEmail(),
+        password: user.getPassword(),
+        numPosts: user.getNumposts(),
+    });
+    return userDb.createUser(newUser);
+};
 
-export default { getAllUsers };
+export default { getAllUsers, createUser };

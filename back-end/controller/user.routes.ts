@@ -22,15 +22,14 @@
  *            password:
  *              type: string
  *              description: User Password.
- *            startDate:
- *              type: date
- *              description: startDate User.
  *            numPosts:
  *              type: number
  *              format: int64
  */
 import express, { NextFunction, Request, Response } from 'express';
-import UserService from '../service/userService';
+import userService from '../service/userService';
+import { create } from 'domain';
+import { User } from '../model/user';
 
 const userRouter = express.Router();
 
@@ -51,8 +50,37 @@ const userRouter = express.Router();
  */
 userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const users = await UserService.getAllUsers();
+        const users = await userService.getAllUsers();
         res.status(200).json(users);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: Create a new user.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       201:
+ *         description: User created successfully.
+ *       400:
+ *         description: Invalid input.
+ */
+userRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // Validate user data here if needed
+        const userData = req.body;
+        const newUser = new User(userData);
+        const createdUser = await userService.createUser(newUser);
+        res.status(201).json(createdUser);
     } catch (error) {
         next(error);
     }

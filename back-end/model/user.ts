@@ -3,7 +3,6 @@ export class User {
     private name: string;
     private email: string;
     private password: string;
-    private startdate: Date;
     private numPosts: number;
 
     constructor(user: {
@@ -11,7 +10,6 @@ export class User {
         name: string;
         email: string;
         password: string;
-        startdate: Date;
         numPosts: number;
     }) {
         if (!this.isNotEmpty(user.name)) {
@@ -26,10 +24,6 @@ export class User {
             throw new Error('Password cannot be empty.');
         }
 
-        if (!this.isValidStartDate(user.startdate)) {
-            throw new Error('Start date cannot be in the future.');
-        }
-
         if (!this.isValidNumPosts(user.numPosts)) {
             throw new Error('Number of posts cannot be a negative number');
         }
@@ -38,7 +32,6 @@ export class User {
         this.name = user.name;
         this.email = user.email;
         this.password = user.password;
-        this.startdate = user.startdate;
         this.numPosts = user.numPosts;
     }
 
@@ -56,12 +49,6 @@ export class User {
             dotIndex > atIndex + 1 &&
             dotIndex < email.length - 1
         );
-    }
-
-    private isValidStartDate(startdate: Date): boolean {
-        const today = new Date();
-        today.setHours(23, 59, 59, 59);
-        return startdate <= today;
     }
 
     private isValidNumPosts(numPosts: number): boolean {
@@ -82,10 +69,6 @@ export class User {
 
     getPassword(): string {
         return this.password;
-    }
-
-    getStartdate(): Date {
-        return this.startdate;
     }
 
     getNumposts(): number {
