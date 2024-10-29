@@ -1,10 +1,10 @@
-export class User {
+export class BoulderProblem {
     private id?: number;
     private grade: string;
 
-    constructor(user: { id?: number; grade: string }) {
-        this.id = user.id;
-        this.grade = user.grade;
+    constructor(boulderProblem: { id?: number; grade: string }) {
+        this.id = boulderProblem.id;
+        this.grade = boulderProblem.grade;
     }
 
     getId(): number | undefined {
