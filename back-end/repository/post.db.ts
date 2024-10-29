@@ -9,10 +9,26 @@ const posts = [
         comment: 'this is the first V5 i have ever done',
         date: date1,
     }),
+    new Post({
+        title: 'first boulder ever',
+        comment: 'this is the first boulder problem i have ever done',
+        date: date1,
+    }),
 ];
 
 const getAllposts = (): Post[] => posts;
 
+const createPost = (post: Post): Post => {
+    const newPost = new Post({
+        title: post.getTitle(),
+        comment: post.getComment(),
+        date: post.getDate(),
+    });
+    posts.push(newPost);
+    return newPost;
+};
+
 export default {
     getAllposts,
+    createPost,
 };

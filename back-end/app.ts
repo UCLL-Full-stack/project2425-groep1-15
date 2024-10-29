@@ -5,6 +5,7 @@ import * as bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
+import { postRouter } from './controller/post.routes';
 
 const app = express();
 dotenv.config();
@@ -14,6 +15,7 @@ app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
 
 app.use('/users', userRouter);
+app.use('/posts', postRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Courses API is running...' });

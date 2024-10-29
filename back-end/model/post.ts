@@ -13,9 +13,6 @@ export class Post {
             throw new Error('Comment cannot be empty.');
         }
 
-        if (!this.isValidDate(post.date)) {
-            throw new Error('Date cannot be in the future.');
-        }
         this.id = post.id;
         this.title = post.title;
         this.comment = post.comment;
@@ -24,12 +21,6 @@ export class Post {
 
     private isNotEmpty(input: string): boolean {
         return input.trim().length > 0;
-    }
-
-    private isValidDate(date: Date): boolean {
-        const today = new Date();
-        today.setHours(23, 59, 59, 59);
-        return date <= today;
     }
 
     getId(): number | undefined {
