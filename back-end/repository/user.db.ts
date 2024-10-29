@@ -22,6 +22,18 @@ const users = [
 
 const getAllUsers = (): User[] => users;
 
+const createUser = (user: User): void => {
+    const newUser = new User({
+        name: user.getName(),
+        email: user.getEmail(),
+        password: user.getPassword(),
+        startdate: user.getStartdate(),
+        numPosts: user.getNumposts(),
+    });
+    users.push(newUser);
+};
+
 export default {
     getAllUsers,
+    createUser,
 };
