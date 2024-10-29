@@ -25,7 +25,12 @@ const createUser = (user: User): User => {
     return user;
 };
 
+const getUserByEmail = (email: string): User | null => {
+    return users.find((user) => user.getEmail() === email) || null;
+};
+
 export default {
     getAllUsers,
     createUser,
+    getUserByEmail,
 };
