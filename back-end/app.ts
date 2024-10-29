@@ -6,6 +6,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
 import { postRouter } from './controller/post.routes';
+import { achievementRouter } from './controller/achievement.routes';
 
 const app = express();
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 
 app.use('/users', userRouter);
 app.use('/posts', postRouter);
+app.use('/achievements', achievementRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Courses API is running...' });

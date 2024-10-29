@@ -75,11 +75,11 @@ postRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  */
 postRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const postData = req.body; // Get post data from request body
-        const newPost = await PostService.createPost(postData); // Call the service to create a new post
-        res.status(201).json(newPost); // Respond with the newly created post
+        const postData = req.body;
+        const newPost = await PostService.createPost(postData);
+        res.status(201).json(newPost);
     } catch (error) {
-        next(error); // Pass the error to the error handler
+        next(error);
     }
 });
 
