@@ -10,10 +10,29 @@ export class Achievement {
         description: string;
         difficulity: string;
     }) {
+        if (!this.isNotEmpty(achievement.title)) {
+            throw new Error('Title cannot be empty.');
+        }
+
+        if (!this.isNotEmpty(achievement.description)) {
+            throw new Error('Description cannot be empty.');
+        }
+
+        if (!this.checkDifficulity(achievement.difficulity)) {
+            throw new Error('Difficulity has to be easy, medium, hard or extreme.');
+        }
         this.id = achievement.id;
         this.title = achievement.title;
         this.description = achievement.description;
         this.difficulty = achievement.difficulity;
+    }
+
+    private isNotEmpty(input: string): boolean {
+        return input.trim().length > 0;
+    }
+
+    private checkDifficulity(difficulity: string): boolean {
+        return difficulity in ['easy', 'medium', 'hard', 'extreme'];
     }
 
     getId(): number | undefined {
