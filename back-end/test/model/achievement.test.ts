@@ -11,3 +11,33 @@ test('given: valid values for achievement, when: achievement is created, then: a
     expect(achievement.getDescription()).toEqual('post your first boulder');
     expect(achievement.getDifficulty()).toEqual('easy');
 });
+
+test('given: invalid title for achievement, when: achievement is created, then: error is thrown', () => {
+    expect(() => {
+        new Achievement({
+            title: '',
+            description: 'post your first boulder',
+            difficulty: 'easy',
+        });
+    }).toThrow('Title cannot be empty.');
+});
+
+test('given: invalid description for achievement, when: achievement is created, then: error is thrown', () => {
+    expect(() => {
+        new Achievement({
+            title: 'title',
+            description: '',
+            difficulty: 'easy',
+        });
+    }).toThrow('Description cannot be empty.');
+});
+
+test('given: invalid difficulty for achievement, when: achievement is created, then: error is thrown', () => {
+    expect(() => {
+        new Achievement({
+            title: 'title',
+            description: 'description',
+            difficulty: '',
+        });
+    }).toThrow('Difficulty has to be easy, medium, hard or extreme.');
+});

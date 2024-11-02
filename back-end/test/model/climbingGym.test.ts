@@ -7,3 +7,11 @@ test('given: valid values for climbingGym, when: climbingGym is created, then: c
 
     expect(climbingGym.getLocation()).toEqual('BoulderOne Herent');
 });
+
+test('given: invalid values for climbingGym, when: climbingGym is created, then: error is thrown', () => {
+    expect(() => {
+        new ClimbingGym({
+            location: '',
+        });
+    }).toThrow('Location cannot be empty.');
+});

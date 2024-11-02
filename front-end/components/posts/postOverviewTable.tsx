@@ -30,7 +30,7 @@ const PostOverviewTable: React.FC<Props> = ({ posts }) => {
               >
                 <td>{post.title}</td>
                 <td>{post.comment}</td>
-                <td>{post.date.toLocaleDateString()}</td>
+                <td>{post.date.toString()}</td>
               </tr>
             ))}
           </tbody>

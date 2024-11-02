@@ -7,3 +7,11 @@ test('given: valid values for boulderProblem, when: boulderProblem is created, t
 
     expect(boulderProblem.getGrade()).toEqual('V5');
 });
+
+test('given: invalid values for boulderProblem, when: boulderProblem is created, then: error is thrown', () => {
+    expect(() => {
+        new BoulderProblem({
+            grade: '',
+        });
+    }).toThrow('Grade cannot be empty.');
+});

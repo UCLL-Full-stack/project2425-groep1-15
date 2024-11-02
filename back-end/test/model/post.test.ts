@@ -14,3 +14,23 @@ test('given: valid values for post, when: post is created, then: post is created
     expect(post.getComment()).toEqual('this is my first V5 ever! I am so proud of myself');
     expect(post.getDate()).toEqual(date);
 });
+
+test('given: invalid title for Post, when: Post is created, then: error is thrown', () => {
+    expect(() => {
+        new Post({
+            title: '',
+            comment: 'this is my first V5 ever! I am so proud of myself',
+            date: date,
+        });
+    }).toThrow('Title cannot be empty.');
+});
+
+test('given: invalid Comment for Post, when: Post is created, then: error is thrown', () => {
+    expect(() => {
+        new Post({
+            title: 'title',
+            comment: '',
+            date: date,
+        });
+    }).toThrow('Comment cannot be empty.');
+});
