@@ -6,30 +6,18 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 
 const Posts: React.FC = () => {
-  const [title, setTitle] = useState("");
-  const [comment, setComment] = useState("");
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("iets gebeurt");
-    const { name, value } = event.target;
-
-    switch (name) {
-      case "title":
-        setTitle(value);
-        break;
-      case "comment":
-        setComment(value);
-        break;
-      default:
-        break;
-    }
-  };
+  const [title, setTitle] = useState<string>("");
+  const [comment, setComment] = useState<string>("");
 
   const date = new Date();
 
   const handlePublish = () => {
     setTitle((document.getElementById("title") as HTMLInputElement).value);
     setComment((document.getElementById("comment") as HTMLInputElement).value);
+    createPost();
+  };
+
+  const createPost = () => {
     console.log(`${title}${comment}${date}`);
 
     const newPost: Post = {
