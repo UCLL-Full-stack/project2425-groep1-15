@@ -8,8 +8,8 @@ const Header: React.FC = () => {
         <Link href="/" className={styles.link}>
           Home
         </Link>
-        <Link href="/lecturers" className={styles.link}>
-          Lecturers
+        <Link href="/posts" className={styles.link}>
+          posts
         </Link>
       </nav>
     </header>
