@@ -26,6 +26,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import AchievementService from '../service/achievementService';
 import achievementService from '../service/achievementService';
+import { AchievementInput } from '../types';
 
 const achievementRouter = express.Router();
 
@@ -76,7 +77,7 @@ achievementRouter.get('/', async (req: Request, res: Response, next: NextFunctio
  */
 achievementRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const achievementData = req.body;
+        const achievementData: AchievementInput = req.body;
         const newAchievent = await achievementService.createAchievement(achievementData);
         res.status(201).json(newAchievent);
     } catch (error) {

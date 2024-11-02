@@ -25,6 +25,7 @@
  */
 import express, { NextFunction, Request, Response } from 'express';
 import PostService from '../service/postService';
+import { PostInput } from '../types';
 
 const postRouter = express.Router();
 
@@ -75,7 +76,7 @@ postRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  */
 postRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const postData = req.body;
+        const postData: PostInput = req.body;
         const newPost = await PostService.createPost(postData);
         res.status(201).json(newPost);
     } catch (error) {

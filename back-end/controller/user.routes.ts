@@ -30,6 +30,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import userService from '../service/userService';
 import { create } from 'domain';
 import { User } from '../model/user';
+import { UserInput } from '../types/index';
 
 const userRouter = express.Router();
 
@@ -77,7 +78,7 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
 userRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         // Validate user data here if needed
-        const userData = req.body;
+        const userData: UserInput = req.body;
         const newUser = new User(userData);
         const createdUser = await userService.createUser(newUser);
         res.status(201).json(createdUser);
