@@ -9,35 +9,25 @@ const Posts: React.FC = () => {
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("iets gebeurt");
-    const { name, value } = event.target;
-
-    switch (name) {
-      case "title":
-        setTitle(value);
-        break;
-      case "comment":
-        setComment(value);
-        break;
-      default:
-        break;
-    }
-  };
-
   const date = new Date();
 
-  const handlePublish = () => {
-    setTitle((document.getElementById("title") as HTMLInputElement).value);
-    setComment((document.getElementById("comment") as HTMLInputElement).value);
-    console.log(`${title}${comment}${date}`);
+  const handlePublish = async () => {
+    const newTitle = (document.getElementById("title") as HTMLInputElement)
+      .value;
+    const newComment = (document.getElementById("comment") as HTMLInputElement)
+      .value;
+
+    setTitle(newTitle);
+    setComment(newComment);
+    console.log(`${newTitle} ${newComment} ${date}`);
 
     const newPost: Post = {
-      title,
-      comment,
+      title: newTitle,
+      comment: newComment,
       date,
     };
-    PostService.createPost(newPost);
+
+    await PostService.createPost(newPost);
   };
 
   return (
