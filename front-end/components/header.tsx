@@ -1,17 +1,14 @@
 import Link from "next/link";
-import "../styles/Home.module.css";
+import styles from "../styles/Home.module.css";
 const Header: React.FC = () => {
   return (
-    <header className="header">
-      <a className="fs-2 d-flex justify-content-center mb-2 mb-lg-0 text-white-50 text-decoration-none">
-        {" "}
-        Courses App
-      </a>
-      <nav className="nav justify-content-center">
-        <Link href="/" className="nav-link px-4 fs-5 text-white">
+    <header className={styles.header}>
+      <a className={styles.title}> Courses App</a>
+      <nav className={styles.nav}>
+        <Link href="/" className={styles.link}>
           Home
         </Link>
-        <Link href="/lecturers" className="nav-link px-4 fs-5 text-white">
+        <Link href="/lecturers" className={styles.link}>
           Lecturers
         </Link>
       </nav>
