@@ -1,0 +1,54 @@
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0 2rem 0;
+}
+
+.table {
+  justify-content: space-between;
+  align-items: center;
+  align-self: center;
+  justify-items: center;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.tableSection {
+  justify-content: space-between;
+  align-items: center;
+  justify-items: center;
+}
+
+.tableHead {
+  margin: 2rem;
+  padding: 2rem;
+  border: 1px solid black;
+  font-size: 1.5rem;
+}
+
+.tr {
+  padding: 2rem;
+  border: 1px solid black;
+}
+
+.td {
+  padding: 2rem;
+  text-align: center;
+  flex-wrap: wrap;
+  border: 1px solid black;
+}
+
+.tableBody {
+  display: flex;
+  justify-content: space-around;
+}
+
+.createButton {
+  margin: 2rem;
+  padding: 2rem;
+  text-decoration: solid;
+  color: black;
+  font-size: 1rem;
+  font-weight: bold;
+}

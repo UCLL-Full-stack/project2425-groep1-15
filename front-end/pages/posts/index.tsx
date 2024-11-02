@@ -5,6 +5,9 @@ import { Post } from "@/types";
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import PostStyles from "../../styles/Posts.module.css";
+import Styles from "../../styles/Home.module.css";
+
 const Posts: React.FC = () => {
   const [posts, setPosts] = useState<Array<Post>>();
 
@@ -28,16 +31,18 @@ const Posts: React.FC = () => {
       </Head>
       <Header></Header>
       <main>
-        <h1>Posts</h1>
-
-        {posts && (
-          <section>
-            <PostOverviewTable posts={posts} />
-          </section>
-        )}
-        <Link href="/create">
-          <button>Create new post</button>
-        </Link>
+        <h1 className={PostStyles.title}>Posts</h1>
+        <div className={PostStyles.tableBody}>
+          <h2 className={PostStyles.createButton}>Statistics (TBA)</h2>
+          {posts && (
+            <section className={PostStyles.tableSection}>
+              <PostOverviewTable posts={posts} />
+            </section>
+          )}
+          <Link href="/create">
+            <button className={PostStyles.createButton}>Create new post</button>
+          </Link>
+        </div>
       </main>
     </>
   );
