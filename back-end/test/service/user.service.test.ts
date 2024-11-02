@@ -25,3 +25,25 @@ test('given a valid user, when schedule is user, then user is created with those
         new User({ name: 'f', email: 'e@a.c', password: 'lol', numPosts: 2 })
     );
 });
+
+test('given a user with existing email, when createUser is called, then an error is thrown', () => {
+    const user1 = new User({
+        name: 'user1',
+        email: 'user@gmail.com',
+        password: '123',
+        numPosts: 1,
+    });
+    const user2 = new User({
+        name: 'user2',
+        email: 'user@gmail.com',
+        password: '123',
+        numPosts: 1,
+    });
+
+    expect(() => {
+        userService.createUser(user1);
+        userService.createUser(user2);
+    }).toThrowError(`User with this email already exists.`);
+
+    expect(mockUserDbCreateUser).toHaveBeenCalledTimes(1);
+});
