@@ -6,26 +6,27 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 
 const Posts: React.FC = () => {
-  const [title, setTitle] = useState<string>("");
-  const [comment, setComment] = useState<string>("");
+  const [title, setTitle] = useState("");
+  const [comment, setComment] = useState("");
 
   const date = new Date();
 
-  const handlePublish = () => {
-    setTitle((document.getElementById("title") as HTMLInputElement).value);
-    setComment((document.getElementById("comment") as HTMLInputElement).value);
-    createPost();
-  };
+  const handlePublish = async () => {
+    const newTitle = (document.getElementById("title") as HTMLInputElement)
+      .value;
+    const newComment = (document.getElementById("comment") as HTMLInputElement)
+      .value;
 
-  const createPost = () => {
-    console.log(`${title}${comment}${date}`);
+    setTitle(newTitle);
+    setComment(newComment);
 
     const newPost: Post = {
-      title,
-      comment,
+      title: newTitle,
+      comment: newComment,
       date,
     };
-    PostService.createPost(newPost);
+
+    await PostService.createPost(newPost);
   };
 
   return (
