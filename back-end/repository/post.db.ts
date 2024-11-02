@@ -6,12 +6,12 @@ const date1 = set(new Date(), { hours: 0, minutes: 0 });
 const posts = [
     new Post({
         title: 'first V5',
-        comment: 'this is the first V5 i have ever done',
+        comment: 'this is the first V5 I have ever done',
         date: date1,
     }),
     new Post({
         title: 'first boulder ever',
-        comment: 'this is the first boulder problem i have ever done',
+        comment: 'this is the first boulder problem I have ever done',
         date: date1,
     }),
 ];

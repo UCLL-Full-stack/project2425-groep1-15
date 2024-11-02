@@ -1,13 +1,18 @@
 import Header from "@/components/header";
 import PostOverviewTable from "@/components/posts/postOverviewTable";
 import PostService from "@/services/PostService";
-import { Post } from "@/types";
+import { ClimbingGym, Post } from "@/types";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import postStyle from "../../styles/Posts.module.css";
+import createStyle from "../../styles/Create.module.css";
+import ClimbingGymService from "@/services/ClimbingGymService";
 
 const Posts: React.FC = () => {
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
+  const [gymName, setgymName] = useState("");
+  const [Location, setLocation] = useState("");
 
   const date = new Date();
 
@@ -17,8 +22,16 @@ const Posts: React.FC = () => {
     const newComment = (document.getElementById("comment") as HTMLInputElement)
       .value;
 
+    const newGymName = (document.getElementById("gymName") as HTMLInputElement)
+      .value;
+    const newLocation = (
+      document.getElementById("location") as HTMLInputElement
+    ).value;
+
     setTitle(newTitle);
     setComment(newComment);
+    setgymName(newGymName);
+    setLocation(newLocation);
 
     const newPost: Post = {
       title: newTitle,
@@ -26,7 +39,13 @@ const Posts: React.FC = () => {
       date,
     };
 
+    const newClimbingGym: ClimbingGym = {
+      location: newLocation,
+      gymName: newGymName,
+    };
+
     await PostService.createPost(newPost);
+    await ClimbingGymService.createClimbingGym(newClimbingGym);
   };
 
   return (
@@ -39,10 +58,38 @@ const Posts: React.FC = () => {
       </Head>
       <Header></Header>
       <main>
-        <h1>Create new post</h1>
-        <input type="text" id="title" placeholder="title" />
-        <input type="text" id="comment" placeholder="comment" />
-        <button onClick={handlePublish}>publish</button>
+        <h1 className={postStyle.title}>Create new post</h1>
+        <div className={createStyle.fields}>
+          <input
+            className={createStyle.input}
+            type="text"
+            id="title"
+            placeholder="Title"
+          />
+          <input
+            className={createStyle.input}
+            type="text"
+            id="comment"
+            placeholder="Comment"
+          />
+          <input
+            className={createStyle.input}
+            type="text"
+            id="gymName"
+            placeholder="Gym Name"
+          />
+          <input
+            className={createStyle.input}
+            type="text"
+            id="location"
+            placeholder="Location"
+          />
+        </div>
+        <div className={createStyle.publishContainer}>
+          <button className={createStyle.publishButton} onClick={handlePublish}>
+            publish
+          </button>
+        </div>
       </main>
     </>
   );

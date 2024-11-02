@@ -16,6 +16,7 @@ type User = {
 type ClimbingGym = {
   id?: number;
   location: string;
+  gymName: string;
 };
 
 type Achievement = {

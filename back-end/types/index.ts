@@ -16,6 +16,7 @@ type UserInput = {
 type ClimbingGymInput = {
     id?: number;
     location: string;
+    gymName: string;
 };
 
 type AchievementInput = {

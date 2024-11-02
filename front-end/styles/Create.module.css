@@ -1,0 +1,27 @@
+.input {
+  font-size: 3rem;
+  margin: 1rem 0 1rem 0;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 10rem 0 10rem;
+}
+
+.publishButton {
+  font-size: 2rem;
+  display: flex;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.publishButton:hover {
+  background-color: rgb(132, 201, 29);
+}
+
+.publishContainer {
+  display: flex;
+  justify-content: center;
+}
