@@ -3,6 +3,7 @@ import PostOverviewTable from "@/components/posts/postOverviewTable";
 import PostService from "@/services/PostService";
 import { Post } from "@/types";
 import Head from "next/head";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 const Posts: React.FC = () => {
   const [posts, setPosts] = useState<Array<Post>>();
@@ -34,6 +35,9 @@ const Posts: React.FC = () => {
             <PostOverviewTable posts={posts} />
           </section>
         )}
+        <Link href="/create">
+          <button>Create new post</button>
+        </Link>
       </main>
     </>
   );
