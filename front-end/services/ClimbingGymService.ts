@@ -20,9 +20,19 @@ const createClimbingGym = async (gymData: ClimbingGym) => {
   return await response.json();
 };
 
-const PostService = {
-  getAllClimbingGyms,
-  createClimbingGym,
+const getClimbingGymByName = async (gymName: string) => {
+  return await fetch(process.env.NEXT_PUBLIC_API_URL + `/gyms/${gymName}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 };
 
-export default PostService;
+const ClimbingGymService = {
+  getAllClimbingGyms,
+  createClimbingGym,
+  getClimbingGymByName,
+};
+
+export default ClimbingGymService;

@@ -8,7 +8,14 @@ const createClimbingGym = (gymData: { location: string; gymName: string }): Clim
     return climbingGymDb.createClimbingGym(newClimbingGym);
 };
 
+const getClimbingGymByName = (gymName: string): ClimbingGym => {
+    const gym = climbingGymDb.getClimbingGymByName({ gymName });
+    if (!gym) throw new Error(`Gym with name ${gymName} does not exist.`);
+    return gym;
+};
+
 export default {
     getAllClimbingGyms,
     createClimbingGym,
+    getClimbingGymByName,
 };

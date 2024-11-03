@@ -28,51 +28,34 @@
  *            gym:
  *              $ref: '#/components/schemas/ClimbingGym'
  *              description: Location gym.
- *      Post:
- *          type: object
- *          properties:
- *            id:
- *              type: number
- *              format: int64
- *            title:
- *              type: string
- *              description: Post title.
- *            comment:
- *              type: string
- *              description: Comment under post.
- *            date:
- *              type: string
- *              format: date
- *              description: Date of post.
- *            boulder:
- *              $ref: '#/components/schemas/BoulderProblem'
- *              description: Boulder associated with the post.
  */
 import express, { NextFunction, Request, Response } from 'express';
-import PostService from '../service/postService';
-import { PostInput } from '../types';
+import ClimbingGymService from '../service/climbingGymService';
+import { BoulderProblemInput, ClimbingGymInput } from '../types';
+import climbingGymService from '../service/climbingGymService';
+import boulderProblemService from '../service/boulderProblemService';
 
-const postRouter = express.Router();
+const boulderProblemRouter = express.Router();
 
 /**
  * @swagger
- * /posts:
+ * /boulders:
  *   get:
- *     summary: Get a list of all posts.
+ *     summary: Get a list of all boulders.
  *     responses:
  *       200:
- *         description: A list of posts.
+ *         description: A list of boulders.
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                  $ref: '#/components/schemas/Post'
+ *                  $ref: '#/components/schemas/BoulderProblem'
  */
-postRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+boulderProblemRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const posts = await PostService.getAllPosts();
-        res.status(200).json(posts);
+        const boulders = await boulderProblemService.getAllBoulderProblems();
+        res.status(200).json(boulders);
     } catch (error) {
         next(error);
     }
@@ -80,33 +63,33 @@ postRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
 
 /**
  * @swagger
- * /posts:
+ * /boulders:
  *   post:
- *     summary: Create a new post.
+ *     summary: Create a new boulder.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Post'
+ *             $ref: '#/components/schemas/BoulderProblem'
  *     responses:
  *       201:
- *         description: Post created successfully.
+ *         description: BoulderProblem created successfully.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Post'
+ *               $ref: '#/components/schemas/BoulderProblem'
  *       400:
  *         description: Invalid input data.
  */
-postRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+boulderProblemRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const postData: PostInput = req.body;
-        const newPost = await PostService.createPost(postData);
-        res.status(201).json(newPost);
+        const boulderData: BoulderProblemInput = req.body;
+        const newBoulderProblem = await boulderProblemService.createBoulderProblem(boulderData);
+        res.status(201).json(newBoulderProblem);
     } catch (error) {
         next(error);
     }
 });
 
-export { postRouter };
+export { boulderProblemRouter };

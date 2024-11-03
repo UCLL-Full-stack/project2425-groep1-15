@@ -8,7 +8,7 @@ export class ClimbingGym {
             throw new Error('Location cannot be empty.');
         }
         if (!this.isNotEmpty(climbingGym.gymName)) {
-            throw new Error('Location cannot be empty.');
+            throw new Error('GymName cannot be empty.');
         }
 
         this.id = climbingGym.id;

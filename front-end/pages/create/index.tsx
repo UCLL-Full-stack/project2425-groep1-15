@@ -1,12 +1,13 @@
 import Header from "@/components/header";
 import PostOverviewTable from "@/components/posts/postOverviewTable";
 import PostService from "@/services/PostService";
-import { ClimbingGym, Post } from "@/types";
+import { BoulderProblem, ClimbingGym, Post } from "@/types";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import postStyle from "../../styles/Posts.module.css";
 import createStyle from "../../styles/Create.module.css";
 import ClimbingGymService from "@/services/ClimbingGymService";
+import BoulderService from "@/services/BoulderProblemService";
 
 const Posts: React.FC = () => {
   const [title, setTitle] = useState("");
@@ -22,30 +23,34 @@ const Posts: React.FC = () => {
     const newComment = (document.getElementById("comment") as HTMLInputElement)
       .value;
 
-    const newGymName = (document.getElementById("gymName") as HTMLInputElement)
+    const gym = (document.getElementById("gymName") as HTMLInputElement).value;
+    const grade = (document.getElementById("grade") as HTMLInputElement).value;
+    const location = (document.getElementById("location") as HTMLInputElement)
       .value;
-    const newLocation = (
-      document.getElementById("location") as HTMLInputElement
-    ).value;
 
     setTitle(newTitle);
     setComment(newComment);
-    setgymName(newGymName);
-    setLocation(newLocation);
+    setgymName(gym);
+
+    const newGym: ClimbingGym = {
+      gymName: gym,
+      location: location,
+    };
+
+    const newBoulder: BoulderProblem = {
+      grade: grade,
+      gym: newGym,
+    };
 
     const newPost: Post = {
       title: newTitle,
       comment: newComment,
-      date,
+      date: date,
+      boulder: newBoulder,
     };
-
-    const newClimbingGym: ClimbingGym = {
-      location: newLocation,
-      gymName: newGymName,
-    };
-
+    await ClimbingGymService.createClimbingGym(newGym);
+    await BoulderService.createBoulderProblem(newBoulder);
     await PostService.createPost(newPost);
-    await ClimbingGymService.createClimbingGym(newClimbingGym);
   };
 
   return (
@@ -71,6 +76,12 @@ const Posts: React.FC = () => {
             type="text"
             id="comment"
             placeholder="Comment"
+          />
+          <input
+            className={createStyle.input}
+            type="text"
+            id="grade"
+            placeholder="Grade"
           />
           <input
             className={createStyle.input}

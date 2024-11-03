@@ -8,6 +8,7 @@ import { userRouter } from './controller/user.routes';
 import { postRouter } from './controller/post.routes';
 import { achievementRouter } from './controller/achievement.routes';
 import { climbingGymRouter } from './controller/climbingGym.routes';
+import { boulderProblemRouter } from './controller/boulderProblem.routes';
 
 const app = express();
 dotenv.config();
@@ -26,6 +27,7 @@ app.use('/users', userRouter);
 app.use('/posts', postRouter);
 app.use('/achievements', achievementRouter);
 app.use('/gyms', climbingGymRouter);
+app.use('/boulders', boulderProblemRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Courses API is running...' });

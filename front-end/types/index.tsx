@@ -3,6 +3,7 @@ type Post = {
   title: string;
   comment: string;
   date: Date;
+  boulder: BoulderProblem;
 };
 
 type User = {
@@ -29,6 +30,7 @@ type Achievement = {
 type BoulderProblem = {
   id?: number;
   grade: string;
+  gym: ClimbingGym;
 };
 
 export type { Post, User, Achievement, BoulderProblem, ClimbingGym };

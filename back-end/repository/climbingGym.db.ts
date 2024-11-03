@@ -22,7 +22,12 @@ const createClimbingGym = (gym: ClimbingGym): ClimbingGym => {
     return newClimbingGym;
 };
 
+const getClimbingGymByName = ({ gymName }: { gymName: string }): ClimbingGym | null => {
+    return climbingGyms.find((gym) => gym.getGymName() === gymName) || null;
+};
+
 export default {
     getAllClimbingGyms,
     createClimbingGym,
+    getClimbingGymByName,
 };

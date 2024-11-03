@@ -1,10 +1,19 @@
+import { BoulderProblem } from './boulderProblem';
+
 export class Post {
     private id?: number;
     private title: string;
     private comment: string;
     private date: Date;
+    private boulder: BoulderProblem;
 
-    constructor(post: { id?: number; title: string; comment: string; date: Date }) {
+    constructor(post: {
+        id?: number;
+        title: string;
+        comment: string;
+        date: Date;
+        boulder: BoulderProblem;
+    }) {
         if (!this.isNotEmpty(post.title)) {
             throw new Error('Title cannot be empty.');
         }
@@ -17,6 +26,7 @@ export class Post {
         this.title = post.title;
         this.comment = post.comment;
         this.date = post.date;
+        this.boulder = post.boulder;
     }
 
     private isNotEmpty(input: string): boolean {
@@ -37,5 +47,9 @@ export class Post {
 
     getDate(): Date {
         return this.date;
+    }
+
+    getBoulder(): BoulderProblem {
+        return this.boulder;
     }
 }
