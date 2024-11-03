@@ -8,16 +8,20 @@ import postStyle from "../../styles/Posts.module.css";
 import createStyle from "../../styles/Create.module.css";
 import ClimbingGymService from "@/services/ClimbingGymService";
 import BoulderService from "@/services/BoulderProblemService";
+import Link from "next/link";
+import router from "next/router";
 
 const Posts: React.FC = () => {
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
   const [gymName, setgymName] = useState("");
   const [Location, setLocation] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const date = new Date();
 
   const handlePublish = async () => {
+    setErrorMessage("");
     const newTitle = (document.getElementById("title") as HTMLInputElement)
       .value;
     const newComment = (document.getElementById("comment") as HTMLInputElement)
@@ -28,29 +32,42 @@ const Posts: React.FC = () => {
     const location = (document.getElementById("location") as HTMLInputElement)
       .value;
 
+    if (!newTitle || !newComment || !gym || !grade || !location) {
+      setErrorMessage("Please fill in all fields before publishing.");
+      return; // Exit the function if any fields are missing
+    }
+
     setTitle(newTitle);
     setComment(newComment);
     setgymName(gym);
 
-    const newGym: ClimbingGym = {
-      gymName: gym,
-      location: location,
-    };
+    try {
+      const newGym: ClimbingGym = {
+        gymName: gym,
+        location: location,
+      };
 
-    const newBoulder: BoulderProblem = {
-      grade: grade,
-      gym: newGym,
-    };
+      const newBoulder: BoulderProblem = {
+        grade: grade,
+        gym: newGym,
+      };
 
-    const newPost: Post = {
-      title: newTitle,
-      comment: newComment,
-      date: date,
-      boulder: newBoulder,
-    };
-    await ClimbingGymService.createClimbingGym(newGym);
-    await BoulderService.createBoulderProblem(newBoulder);
-    await PostService.createPost(newPost);
+      const newPost: Post = {
+        title: newTitle,
+        comment: newComment,
+        date: date,
+        boulder: newBoulder,
+      };
+      await ClimbingGymService.createClimbingGym(newGym);
+      await BoulderService.createBoulderProblem(newBoulder);
+      await PostService.createPost(newPost);
+
+      router.push("/posts");
+    } catch (error: any) {
+      setErrorMessage(
+        "An error occurred while creating the post. Please try again."
+      );
+    }
   };
 
   return (
@@ -64,7 +81,9 @@ const Posts: React.FC = () => {
       <Header></Header>
       <main>
         <h1 className={postStyle.title}>Create new post</h1>
+
         <div className={createStyle.fields}>
+          {errorMessage && <p className={createStyle.error}>{errorMessage}</p>}
           <input
             className={createStyle.input}
             type="text"
