@@ -91,28 +91,36 @@ const Posts: React.FC = () => {
             placeholder="Title"
           />
           <input
+            className={createStyle.inputPicture}
+            type="text"
+            id="picture"
+            placeholder="Picture (Coming)"
+          />
+          <div className={createStyle.location}>
+            <input
+              className={createStyle.inputLocation}
+              type="text"
+              id="gymName"
+              placeholder="Gym Name"
+            />
+            <input
+              className={createStyle.inputLocation}
+              type="text"
+              id="location"
+              placeholder="Location"
+            />
+            <input
+              className={createStyle.inputLocation}
+              type="text"
+              id="grade"
+              placeholder="Grade"
+            />
+          </div>
+          <input
             className={createStyle.input}
             type="text"
             id="comment"
             placeholder="Comment"
-          />
-          <input
-            className={createStyle.input}
-            type="text"
-            id="grade"
-            placeholder="Grade"
-          />
-          <input
-            className={createStyle.input}
-            type="text"
-            id="gymName"
-            placeholder="Gym Name"
-          />
-          <input
-            className={createStyle.input}
-            type="text"
-            id="location"
-            placeholder="Location"
           />
         </div>
         <div className={createStyle.publishContainer}>
