@@ -34,7 +34,7 @@ const Posts: React.FC = () => {
 
     if (!newTitle || !newComment || !gym || !grade || !location) {
       setErrorMessage("Please fill in all fields before publishing.");
-      return; // Exit the function if any fields are missing
+      return;
     }
 
     setTitle(newTitle);
