@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+    id Int @id @default(autoincrement())
+    title String
+    comment String
+    date DateTime
+    boulder BoulderProblem?
+
+}
+
+model User {
+    id Int @id @default(autoincrement())
+    name String
+    email String
+    password String
+    numPosts Int
+}
+
+model ClimbingGym {
+    id Int @id @default(autoincrement())
+    location String
+    gymName String
+    boulderProblems BoulderProblem[]
+}
+model BoulderProblem {
+    id Int @id @default(autoincrement())
+    grade String
+    gym ClimbingGym @relation(fields: [climbingGymId],references: [id])
+    post Post @relation(fields: [postId],references: [id])
+    postId Int @unique
+    climbingGymId Int
+}
+
+model Achievement {
+    id Int @id @default(autoincrement())
+    title String
+    description String
+    difficulty String
+}
+
