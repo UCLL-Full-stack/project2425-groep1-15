@@ -35,7 +35,7 @@ model BoulderProblem {
     id Int @id @default(autoincrement())
     grade String
     gym ClimbingGym @relation(fields: [climbingGymId],references: [id])
-    post Post[]
+    posts Post[]
     climbingGymId Int
 }
 

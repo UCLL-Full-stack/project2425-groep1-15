@@ -8,7 +8,7 @@ import { ClimbingGym } from '../../model/climbingGym';
 
 let createPostMock: jest.Mock;
 
-let mockPostDbCreatePost: jest.SpyInstance<Post, [Post], any>;
+let mockPostDbCreatePost: jest.SpyInstance<Promise<Post>, [Post], any>;
 
 beforeEach(() => {
     mockPostDbCreatePost = jest.spyOn(postDb, 'createPost');

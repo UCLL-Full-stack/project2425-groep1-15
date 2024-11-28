@@ -5,7 +5,7 @@ import userService from '../../service/userService';
 
 let createUserMock: jest.Mock;
 
-let mockUserDbCreateUser: jest.SpyInstance<User, [User], any>;
+let mockUserDbCreateUser: jest.SpyInstance<Promise<User>, [User], any>;
 
 beforeEach(() => {
     mockUserDbCreateUser = jest.spyOn(userDb, 'createUser');
