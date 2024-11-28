@@ -1,9 +1,9 @@
 import { User } from '../model/user';
 import userDb from '../repository/user.db';
 
-const getAllUsers = (): User[] => userDb.getAllUsers();
+const getAllUsers = async (): Promise<User[]> => userDb.getAllUsers();
 
-const createUser = (user: User): User => {
+const createUser = async (user: User): Promise<User> => {
     if (userDb.getUserByEmail(user.getEmail()) != null) {
         throw new Error(`User with this email already exists.`);
     }
@@ -13,7 +13,7 @@ const createUser = (user: User): User => {
         password: user.getPassword(),
         numPosts: user.getNumposts(),
     });
-    return userDb.createUser(newUser);
+    return await userDb.createUser(newUser);
 };
 
 export default { getAllUsers, createUser };

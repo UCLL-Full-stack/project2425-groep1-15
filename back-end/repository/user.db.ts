@@ -1,32 +1,47 @@
 import { User } from '../model/user';
 import { set } from 'date-fns';
+import database from './database';
 
 const start = set(new Date(), { hours: 8, minutes: 30 });
 
-const users = [
-    new User({
-        name: 'Joren',
-        email: 'Joren.VanLaer@gmail.com',
-        password: 'badPasswrd',
-        numPosts: 3,
-    }),
-    new User({
-        name: 'Nathan',
-        email: 'Nathan.DeKlerck@gmail.com',
-        password: 'badPasswrd',
-        numPosts: 5,
-    }),
-];
+const getAllUsers = async (): Promise<User[]> => {
+    try {
+        const userPrisma = await database.user.findMany({});
+        return userPrisma.map((userPrisma) => User.from(userPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+const createUser = async (user: User): Promise<User> => {
+    try {
+        const userPrisma = await database.user.create({
+            data: {
+                name: user.getName(),
+                email: user.getEmail(),
+                password: user.getPassword(),
+                numPosts: user.getNumposts(),
+            },
+        });
 
-const getAllUsers = (): User[] => users;
-
-const createUser = (user: User): User => {
-    users.push(user);
-    return user;
+        return User.from(userPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 };
 
-const getUserByEmail = (email: string): User | null => {
-    return users.find((user) => user.getEmail() === email) || null;
+const getUserByEmail = async (email: string): Promise<User | null> => {
+    try {
+        const userPrisma = await database.user.findUnique({
+            where: { email },
+        });
+
+        return userPrisma ? User.from(userPrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 };
 
 export default {
