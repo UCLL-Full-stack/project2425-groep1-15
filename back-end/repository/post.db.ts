@@ -6,6 +6,7 @@ import database from './database';
 
 const getAllPosts = async (): Promise<Post[]> => {
     try {
+        console.log('1');
         const postPrisma = await database.post.findMany({
             include: {
                 boulder: {
@@ -15,6 +16,7 @@ const getAllPosts = async (): Promise<Post[]> => {
                 },
             },
         });
+        console.log('2');
 
         return postPrisma.map((postPrisma) => Post.from(postPrisma));
     } catch (error) {

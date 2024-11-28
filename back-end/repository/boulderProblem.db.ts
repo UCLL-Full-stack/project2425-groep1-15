@@ -1,5 +1,6 @@
 import { BoulderProblem } from '../model/boulderProblem';
 import { ClimbingGym } from '../model/climbingGym';
+import database from './database';
 
 const climbingGyms = [
     new ClimbingGym({
@@ -34,7 +35,27 @@ const createBoulderProblem = (boulder: BoulderProblem): BoulderProblem => {
     return newBoulderProblem;
 };
 
+const getBoulderById = async (id: number): Promise<BoulderProblem | null> => {
+    try {
+        const boulderPrisma = await database.boulderProblem.findUnique({
+            where: { id },
+            include: {
+                gym: true,
+            },
+        });
+
+        if (boulderPrisma) {
+            return BoulderProblem.from(boulderPrisma);
+        }
+        return null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 export default {
     getAllBoulderProblems,
     createBoulderProblem,
+    getBoulderById,
 };
