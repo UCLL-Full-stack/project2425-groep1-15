@@ -1,4 +1,6 @@
 import { ClimbingGym } from './climbingGym';
+import { BoulderProblem as BoulderPrisma } from '@prisma/client';
+import { ClimbingGym as ClimbingGymPrisma } from '@prisma/client';
 
 export class BoulderProblem {
     private id?: number;
@@ -29,5 +31,19 @@ export class BoulderProblem {
 
     getGym(): ClimbingGym {
         return this.gym;
+    }
+
+    static from({
+        id,
+        grade,
+        gym,
+    }: BoulderPrisma & {
+        gym: ClimbingGymPrisma;
+    }) {
+        return new BoulderProblem({
+            id,
+            grade,
+            gym: ClimbingGym.from(gym),
+        });
     }
 }

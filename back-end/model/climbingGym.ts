@@ -1,3 +1,5 @@
+import { ClimbingGym as ClimbingGymPrisma } from '@prisma/client';
+
 export class ClimbingGym {
     private id?: number;
     private location: string;
@@ -30,5 +32,13 @@ export class ClimbingGym {
 
     getGymName(): string {
         return this.gymName;
+    }
+
+    static from({ id, location, gymName }: ClimbingGymPrisma) {
+        return new ClimbingGym({
+            id,
+            location,
+            gymName,
+        });
     }
 }

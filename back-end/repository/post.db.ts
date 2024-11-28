@@ -2,60 +2,57 @@ import { BoulderProblem } from '../model/boulderProblem';
 import { ClimbingGym } from '../model/climbingGym';
 import { Post } from '../model/post';
 import { set } from 'date-fns';
+import database from './database';
 
-const date1 = set(new Date(), { hours: 0, minutes: 0 });
+const getAllPosts = async (): Promise<Post[]> => {
+    try {
+        const postPrisma = await database.post.findMany({
+            include: {
+                boulder: {
+                    include: {
+                        gym: true,
+                    },
+                },
+            },
+        });
 
-const climbingGyms = [
-    new ClimbingGym({
-        location: 'Herent',
-        gymName: 'Boulder One',
-    }),
-    new ClimbingGym({
-        location: 'Leuven',
-        gymName: 'Monkeys',
-    }),
-];
+        return postPrisma.map((postPrisma) => Post.from(postPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
 
-const boulderProblems = [
-    new BoulderProblem({
-        grade: 'V5',
-        gym: climbingGyms[0],
-    }),
-    new BoulderProblem({
-        grade: 'V7',
-        gym: climbingGyms[1],
-    }),
-];
+const createPost = async (post: Post): Promise<Post> => {
+    try {
+        const postPrisma = await database.post.create({
+            data: {
+                title: post.getTitle(),
+                comment: post.getComment(),
+                date: post.getDate(),
+                boulder: {
+                    connect: {
+                        id: post.getBoulder().getId(),
+                    },
+                },
+            },
+            include: {
+                boulder: {
+                    include: {
+                        gym: true,
+                    },
+                },
+            },
+        });
 
-const posts = [
-    new Post({
-        title: 'first V5',
-        comment: 'this is the first V5 I have ever done',
-        date: date1,
-        boulder: boulderProblems[0],
-    }),
-    new Post({
-        title: 'first boulder ever',
-        comment: 'this is the first boulder problem I have ever done',
-        date: date1,
-        boulder: boulderProblems[1],
-    }),
-];
-
-const getAllposts = (): Post[] => posts;
-
-const createPost = (post: Post): Post => {
-    const newPost = new Post({
-        title: post.getTitle(),
-        comment: post.getComment(),
-        date: post.getDate(),
-        boulder: post.getBoulder(),
-    });
-    posts.push(newPost);
-    return newPost;
+        return Post.from(postPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 };
 
 export default {
-    getAllposts,
+    getAllPosts,
     createPost,
 };
