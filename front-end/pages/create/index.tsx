@@ -15,35 +15,38 @@ const Posts: React.FC = () => {
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
   const [gymName, setgymName] = useState("");
-  const [Location, setLocation] = useState("");
+  const [grade, setGrade] = useState("");
+  const [location, setLocation] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const date = new Date();
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setSelectedFile(event.target.files[0]);
+    }
+  };
+
   const handlePublish = async () => {
     setErrorMessage("");
-    const newTitle = (document.getElementById("title") as HTMLInputElement)
-      .value;
-    const newComment = (document.getElementById("comment") as HTMLInputElement)
-      .value;
+    setTitle((document.getElementById("title") as HTMLInputElement).value);
+    setComment((document.getElementById("comment") as HTMLInputElement).value);
 
-    const gym = (document.getElementById("gymName") as HTMLInputElement).value;
-    const grade = (document.getElementById("grade") as HTMLInputElement).value;
-    const location = (document.getElementById("location") as HTMLInputElement)
-      .value;
+    setgymName((document.getElementById("gymName") as HTMLInputElement).value);
+    setGrade((document.getElementById("grade") as HTMLInputElement).value);
+    setLocation(
+      (document.getElementById("location") as HTMLInputElement).value
+    );
 
-    if (!newTitle || !newComment || !gym || !grade || !location) {
-      setErrorMessage("Please fill in all fields before publishing.");
+    if (!title || !comment || !gymName || !grade || !location) {
+      setErrorMessage("Please fill in all fields correctly before publishing.");
       return;
     }
 
-    setTitle(newTitle);
-    setComment(newComment);
-    setgymName(gym);
-
     try {
       const newGym: ClimbingGym = {
-        gymName: gym,
+        gymName: gymName,
         location: location,
       };
 
@@ -53,11 +56,12 @@ const Posts: React.FC = () => {
       };
 
       const newPost: Post = {
-        title: newTitle,
-        comment: newComment,
+        title: title,
+        comment: comment,
         date: date,
         boulder: newBoulder,
       };
+
       await ClimbingGymService.createClimbingGym(newGym);
       await BoulderService.createBoulderProblem(newBoulder);
       await PostService.createPost(newPost);
@@ -90,12 +94,9 @@ const Posts: React.FC = () => {
             id="title"
             placeholder="Title"
           />
-          <input
-            className={createStyle.inputPicture}
-            type="text"
-            id="picture"
-            placeholder="Picture (Coming)"
-          />
+          <label className={createStyle.inputPicture}>
+            <input type="file" accept="image/*" onChange={handleFileChange} />
+          </label>
           <div className={createStyle.location}>
             <input
               className={createStyle.inputLocation}

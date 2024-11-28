@@ -18,9 +18,7 @@ export default function Home() {
       </Head>
       <Header />
       <main>
-        <body>
-          <h1 className={postStyle.title}>Home</h1>
-        </body>
+        <h1 className={postStyle.title}>Home</h1>
       </main>
     </>
   );
