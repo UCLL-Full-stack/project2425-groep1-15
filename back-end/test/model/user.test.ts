@@ -55,5 +55,5 @@ test('given: invalid posts for user, when: user is created, then: error is throw
             password: 'password',
             numPosts: -3,
         });
-    }).toThrow('Number of posts cannot be a negative number.');
+    }).toThrow('Number of posts cannot be a negative number');
 });

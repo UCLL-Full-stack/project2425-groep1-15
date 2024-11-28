@@ -19,7 +19,7 @@ export class Achievement {
         }
 
         if (!this.checkdifficulty(achievement.difficulty)) {
-            throw new Error('difficulty has to be easy, medium, hard or extreme.');
+            throw new Error('Difficulty has to be easy, medium, hard or extreme.');
         }
         this.id = achievement.id;
         this.title = achievement.title;

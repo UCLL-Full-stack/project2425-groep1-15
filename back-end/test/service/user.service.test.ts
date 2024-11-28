@@ -43,7 +43,7 @@ test('given a user with existing email, when createUser is called, then an error
     expect(() => {
         userService.createUser(user1);
         userService.createUser(user2);
-    }).toThrowError(`User with this email already exists.`);
+    }).toThrow(`User with this email already exists.`);
 
     expect(mockUserDbCreateUser).toHaveBeenCalledTimes(1);
 });
