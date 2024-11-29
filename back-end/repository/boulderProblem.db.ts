@@ -2,37 +2,42 @@ import { BoulderProblem } from '../model/boulderProblem';
 import { ClimbingGym } from '../model/climbingGym';
 import database from './database';
 
-const climbingGyms = [
-    new ClimbingGym({
-        location: 'Herent',
-        gymName: 'Boulder One',
-    }),
-    new ClimbingGym({
-        location: 'Leuven',
-        gymName: 'Monkeys',
-    }),
-];
+const getAllBoulderProblems = async (): Promise<BoulderProblem[]> => {
+    try {
+        const boulderPrisma = await database.boulderProblem.findMany({
+            include: {
+                gym: true,
+            },
+        });
+        return boulderPrisma.map((boulderPrisma) => BoulderProblem.from(boulderPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
 
-const boulderProblems = [
-    new BoulderProblem({
-        grade: 'V5',
-        gym: climbingGyms[0],
-    }),
-    new BoulderProblem({
-        grade: 'V7',
-        gym: climbingGyms[1],
-    }),
-];
-
-const getAllBoulderProblems = (): BoulderProblem[] => boulderProblems;
-
-const createBoulderProblem = (boulder: BoulderProblem): BoulderProblem => {
-    const newBoulderProblem = new BoulderProblem({
-        grade: boulder.getGrade(),
-        gym: boulder.getGym(),
-    });
-    boulderProblems.push(newBoulderProblem);
-    return newBoulderProblem;
+const createBoulderProblem = async (boulderProblem: BoulderProblem): Promise<BoulderProblem> => {
+    try {
+        const gym = boulderProblem.getGym();
+        const boulderProblemPrisma = await database.boulderProblem.create({
+            data: {
+                grade: boulderProblem.getGrade(),
+                gym: {
+                    create: {
+                        location: gym.getLocation(),
+                        gymName: gym.getGymName(),
+                    },
+                },
+            },
+            include: {
+                gym: true,
+            },
+        });
+        return BoulderProblem.from(boulderProblemPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 };
 
 const getBoulderById = async (id: number): Promise<BoulderProblem | null> => {

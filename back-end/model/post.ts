@@ -54,6 +54,7 @@ export class Post {
     getBoulder(): BoulderProblem {
         return this.boulder;
     }
+
     static from({
         id,
         title,

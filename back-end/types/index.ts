@@ -1,12 +1,9 @@
-import { BoulderProblem } from '../model/boulderProblem';
-import { ClimbingGym } from '../model/climbingGym';
-
 type PostInput = {
     id?: number;
     title: string;
     comment: string;
     date: Date;
-    boulder: BoulderProblem;
+    boulder: BoulderProblemInput;
 };
 
 type UserInput = {
@@ -33,7 +30,7 @@ type AchievementInput = {
 type BoulderProblemInput = {
     id?: number;
     grade: string;
-    gym: ClimbingGym;
+    gym: ClimbingGymInput;
 };
 
 export { PostInput, UserInput, AchievementInput, BoulderProblemInput, ClimbingGymInput };
