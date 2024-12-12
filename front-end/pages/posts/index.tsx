@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import PostStyles from "../../styles/Posts.module.css";
 import Styles from "../../styles/Home.module.css";
+import OverViewTemp from "@/components/posts/OverViewTemp";
 
 const Posts: React.FC = () => {
   const [posts, setPosts] = useState<Array<Post>>();

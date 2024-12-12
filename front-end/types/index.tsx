@@ -8,10 +8,10 @@ type Post = {
 
 type User = {
   id?: number;
-  name: string;
-  email: string;
-  password: string;
-  numPosts: number;
+  name?: string;
+  email?: string;
+  password?: string;
+  numPosts?: number;
 };
 
 type ClimbingGym = {
@@ -33,4 +33,16 @@ type BoulderProblem = {
   gym: ClimbingGym;
 };
 
-export type { Post, User, Achievement, BoulderProblem, ClimbingGym };
+type StatusMessage = {
+  message: string;
+  type: "error" | "success";
+};
+
+export type {
+  Post,
+  User,
+  Achievement,
+  BoulderProblem,
+  ClimbingGym,
+  StatusMessage,
+};
