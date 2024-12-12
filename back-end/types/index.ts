@@ -36,4 +36,18 @@ type BoulderProblemInput = {
 
 type Role = 'user' | 'owner' | 'admin';
 
-export { PostInput, UserInput, AchievementInput, BoulderProblemInput, ClimbingGymInput, Role };
+type AuthenticationResponse = {
+    token: string;
+    email: string;
+    role: string;
+};
+
+export {
+    PostInput,
+    UserInput,
+    AchievementInput,
+    BoulderProblemInput,
+    ClimbingGymInput,
+    Role,
+    AuthenticationResponse,
+};
