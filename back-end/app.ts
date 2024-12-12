@@ -9,6 +9,7 @@ import { postRouter } from './controller/post.routes';
 import { achievementRouter } from './controller/achievement.routes';
 import { climbingGymRouter } from './controller/climbingGym.routes';
 import { boulderProblemRouter } from './controller/boulderProblem.routes';
+import { imageRouter } from './controller/image.routes';
 
 const app = express();
 dotenv.config();
@@ -55,6 +56,8 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         res.status(400).json({ status: 'application error', message: err.message });
     }
 });
+
+app.use('/images', imageRouter);
 
 app.listen(port || 3000, () => {
     console.log(`Courses API is running on port ${port}.`);

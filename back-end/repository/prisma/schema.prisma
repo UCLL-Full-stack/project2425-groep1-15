@@ -47,3 +47,9 @@ model Achievement {
     difficulty String
 }
 
+model Image {
+  id        Int      @id @default(autoincrement())
+  fileName  String
+  path  String
+}
+
