@@ -10,6 +10,7 @@ import ClimbingGymService from "@/services/ClimbingGymService";
 import BoulderService from "@/services/BoulderProblemService";
 import Link from "next/link";
 import router from "next/router";
+import { text } from "stream/consumers";
 
 const Posts: React.FC = () => {
   const [title, setTitle] = useState("");
@@ -28,8 +29,7 @@ const Posts: React.FC = () => {
     }
   };
 
-  const handlePublish = async () => {
-    setErrorMessage("");
+  const setStates = () => {
     setTitle((document.getElementById("title") as HTMLInputElement).value);
     setComment((document.getElementById("comment") as HTMLInputElement).value);
 
@@ -38,7 +38,10 @@ const Posts: React.FC = () => {
     setLocation(
       (document.getElementById("location") as HTMLInputElement).value
     );
+  };
 
+  const handlePublish = async () => {
+    setErrorMessage("");
     if (!title || !comment || !gymName || !grade || !location) {
       setErrorMessage("Please fill in all fields correctly before publishing.");
       return;
@@ -93,6 +96,7 @@ const Posts: React.FC = () => {
             type="text"
             id="title"
             placeholder="Title"
+            onChange={(e) => setTitle(e.target.value)}
           />
           <label className={createStyle.inputPicture}>
             <input type="file" accept="image/*" onChange={handleFileChange} />
@@ -103,18 +107,21 @@ const Posts: React.FC = () => {
               type="text"
               id="gymName"
               placeholder="Gym Name"
+              onChange={(e) => setgymName(e.target.value)}
             />
             <input
               className={createStyle.inputLocation}
               type="text"
               id="location"
               placeholder="Location"
+              onChange={(e) => setLocation(e.target.value)}
             />
             <input
               className={createStyle.inputLocation}
               type="text"
               id="grade"
               placeholder="Grade"
+              onChange={(e) => setGrade(e.target.value)}
             />
           </div>
           <input
@@ -122,6 +129,7 @@ const Posts: React.FC = () => {
             type="text"
             id="comment"
             placeholder="Comment"
+            onChange={(e) => setComment(e.target.value)}
           />
         </div>
         <div className={createStyle.publishContainer}>
