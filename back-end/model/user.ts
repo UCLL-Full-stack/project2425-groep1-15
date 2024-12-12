@@ -1,4 +1,5 @@
 import { User as UserPrisma } from '@prisma/client';
+import { Role } from '../types';
 
 export class User {
     private id?: number;
@@ -6,6 +7,7 @@ export class User {
     private email: string;
     private password: string;
     private numPosts: number;
+    private role: Role;
 
     constructor(user: {
         id?: number;
@@ -13,6 +15,7 @@ export class User {
         email: string;
         password: string;
         numPosts: number;
+        role?: Role;
     }) {
         if (!this.isNotEmpty(user.name)) {
             throw new Error('Name cannot be empty.');
@@ -35,6 +38,7 @@ export class User {
         this.email = user.email;
         this.password = user.password;
         this.numPosts = user.numPosts;
+        this.role = user.role || 'user';
     }
 
     private isNotEmpty(input: string): boolean {
@@ -76,13 +80,18 @@ export class User {
     getNumposts(): number {
         return this.numPosts;
     }
-    static from({ id, name, email, password, numPosts }: UserPrisma) {
+
+    getRole(): Role {
+        return this.role;
+    }
+    static from({ id, name, email, password, numPosts, role }: UserPrisma) {
         return new User({
             id,
             name,
             email,
             password,
             numPosts,
+            role: role as Role,
         });
     }
 }
