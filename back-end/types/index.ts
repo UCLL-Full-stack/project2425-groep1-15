@@ -15,6 +15,7 @@ type UserInput = {
     email: string;
     password: string;
     numPosts: number;
+    role?: Role;
 };
 
 type ClimbingGymInput = {
@@ -36,4 +37,6 @@ type BoulderProblemInput = {
     gym: ClimbingGym;
 };
 
-export { PostInput, UserInput, AchievementInput, BoulderProblemInput, ClimbingGymInput };
+type Role = 'user' | 'owner' | 'admin';
+
+export { PostInput, UserInput, AchievementInput, BoulderProblemInput, ClimbingGymInput, Role };
