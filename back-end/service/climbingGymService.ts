@@ -1,21 +1,22 @@
 import { ClimbingGym } from '../model/climbingGym';
 import climbingGymDb from '../repository/climbingGym.db';
+import { ClimbingGymInput } from '../types';
 
-const getAllClimbingGyms = (): ClimbingGym[] => climbingGymDb.getAllClimbingGyms();
+const getAllClimbingGyms = async (): Promise<ClimbingGym[]> => climbingGymDb.getAllClimbingGyms();
 
-const createClimbingGym = (gymData: { location: string; gymName: string }): ClimbingGym => {
-    const newClimbingGym = new ClimbingGym(gymData);
-    return climbingGymDb.createClimbingGym(newClimbingGym);
+const createClimbingGym = async ({ location, gymName }: ClimbingGymInput): Promise<ClimbingGym> => {
+    const climbingGym = new ClimbingGym({ location, gymName });
+    return await climbingGymDb.createClimbingGym(climbingGym);
 };
 
-const getClimbingGymByName = (gymName: string): ClimbingGym => {
-    const gym = climbingGymDb.getClimbingGymByName({ gymName });
-    if (!gym) throw new Error(`Gym with name ${gymName} does not exist.`);
+const getClimbingGymById = async (id: number): Promise<ClimbingGym> => {
+    const gym = await climbingGymDb.getClimbingGymById({ id });
+    if (!gym) throw new Error(`Gym with name ${id} does not exist.`);
     return gym;
 };
 
 export default {
     getAllClimbingGyms,
     createClimbingGym,
-    getClimbingGymByName,
+    getClimbingGymById,
 };

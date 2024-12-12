@@ -6,7 +6,6 @@ import database from './database';
 
 const getAllPosts = async (): Promise<Post[]> => {
     try {
-        console.log('1');
         const postPrisma = await database.post.findMany({
             include: {
                 boulder: {
@@ -33,20 +32,13 @@ const createPost = async (post: Post): Promise<Post> => {
                 comment: post.getComment(),
                 date: post.getDate(),
                 boulder: {
-                    connect: {
-                        id: post.getBoulder().getId(),
-                    },
+                    connect: { id: post.getBoulder().getId() },
                 },
             },
             include: {
-                boulder: {
-                    include: {
-                        gym: true,
-                    },
-                },
+                boulder: { include: { gym: true } },
             },
         });
-
         return Post.from(postPrisma);
     } catch (error) {
         console.error(error);
