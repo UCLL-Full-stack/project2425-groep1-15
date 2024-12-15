@@ -4,6 +4,13 @@ type PostInput = {
     comment: string;
     date: Date;
     boulder: BoulderProblemInput;
+    image: ImageInput;
+};
+
+type ImageInput = {
+    id?: number;
+    fileName: string;
+    path: string;
 };
 
 type UserInput = {

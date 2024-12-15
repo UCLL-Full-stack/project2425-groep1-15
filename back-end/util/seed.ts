@@ -3,10 +3,13 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { set } from 'date-fns';
+import path from 'path';
 
 const prisma = new PrismaClient();
 
 const date1 = set(new Date(), { hours: 0, minutes: 0 });
+
+const baseDir = path.resolve(__dirname, '../front-end/public/pictures');
 
 const main = async () => {
     await prisma.user.deleteMany();
@@ -58,6 +61,20 @@ const main = async () => {
         },
     });
 
+    const image1 = await prisma.image.create({
+        data: {
+            fileName: 'Image1',
+            path: '/pictures/boulder.jpg',
+        },
+    });
+
+    const image2 = await prisma.image.create({
+        data: {
+            fileName: 'Image2',
+            path: '/pictures/bird.jpg',
+        },
+    });
+
     const post1 = await prisma.post.create({
         data: {
             title: 'Eerste Post',
@@ -65,6 +82,9 @@ const main = async () => {
             date: date1,
             boulder: {
                 connect: { id: broccoliPlant.id },
+            },
+            image: {
+                connect: { id: image1.id },
             },
         },
     });
@@ -76,6 +96,9 @@ const main = async () => {
             date: date1,
             boulder: {
                 connect: { id: broccoliPlant.id },
+            },
+            image: {
+                connect: { id: image2.id },
             },
         },
     });

@@ -9,7 +9,6 @@
 
 .header {
   padding: 0.75rem;
-  margin-bottom: 0.75rem;
   border-bottom: 1px solid;
   background-image: linear-gradient(to bottom, #343a40, #1d2124);
 }
@@ -19,9 +18,10 @@
   display: flex;
   justify-content: center;
   margin-bottom: 0.5rem;
-  color: rgba(247, 55, 55, 0.634);
-  text-decoration: none;
+  color: rgba(255, 0, 0, 0.634);
+  text-decoration: solid;
   font-family: Georgia, "Times New Roman", Times, serif;
+  font-weight: bold;
 }
 
 .nav {

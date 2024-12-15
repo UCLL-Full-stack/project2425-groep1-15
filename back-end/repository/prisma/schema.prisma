@@ -14,7 +14,8 @@ model Post {
     date DateTime
     boulder BoulderProblem @relation(fields: [boulderId],references: [id])
     boulderId Int
-
+    image Image @relation(fields: [imageId],references: [id])
+    imageId Int @unique
 }
 
 model User {
@@ -48,8 +49,9 @@ model Achievement {
 }
 
 model Image {
-  id      Int    @id @default(autoincrement())
-  filename String
-  path    String
+  id        Int      @id @default(autoincrement())
+  fileName  String
+  path  String
+  post Post?
 }
 

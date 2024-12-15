@@ -1,6 +1,8 @@
 import Header from "@/components/header";
+import ProfileComponent from "@/components/users/Profile";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+
 const Profile: React.FC = () => {
   return (
     <>
@@ -11,7 +13,11 @@ const Profile: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header></Header>
-      <main></main>
+      <main>
+        <section>
+          <ProfileComponent />
+        </section>
+      </main>
     </>
   );
 };

@@ -10,6 +10,7 @@
     "bootstrap": "5.2.3",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.7",
+    "formidable": "^2.1.2",
     "i18next": "^23.7.6",
     "link": "^2.1.1",
     "next": "^14.2.16",
@@ -22,6 +23,7 @@
     "use-interval": "^1.4.0"
   },
   "devDependencies": {
+    "@types/formidable": "^3.4.5",
     "@types/node": "18.15.0",
     "@types/react-datepicker": "^4.15.0",
     "autoprefixer": "^10.4.16",

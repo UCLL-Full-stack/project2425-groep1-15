@@ -14,6 +14,7 @@ const main = async () => {
     await prisma.boulderProblem.deleteMany();
     await prisma.climbingGym.deleteMany();
     await prisma.achievement.deleteMany();
+    await prisma.image.deleteMany();
 };
 
 (async () => {

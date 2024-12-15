@@ -1,7 +1,7 @@
 import Header from "@/components/header";
 import PostOverviewTable from "@/components/posts/postOverviewTable";
 import PostService from "@/services/PostService";
-import { BoulderProblem, ClimbingGym, Post } from "@/types";
+import { BoulderProblem, ClimbingGym, Post, Image } from "@/types";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import postStyle from "../../styles/Posts.module.css";
@@ -42,7 +42,14 @@ const Posts: React.FC = () => {
 
   const handlePublish = async () => {
     setErrorMessage("");
-    if (!title || !comment || !gymName || !grade || !location) {
+    if (
+      !title ||
+      !comment ||
+      !gymName ||
+      !grade ||
+      !location ||
+      !selectedFile
+    ) {
       setErrorMessage("Please fill in all fields correctly before publishing.");
       return;
     }
@@ -58,12 +65,34 @@ const Posts: React.FC = () => {
         gym: newGym,
       };
 
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      const uploadResponse = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error("File upload failed.");
+      }
+
+      const { filename } = await uploadResponse.json();
+
+      const newImage: Image = {
+        fileName: selectedFile.name,
+        path: filename,
+      };
+
       const newPost: Post = {
         title: title,
         comment: comment,
         date: date,
         boulder: newBoulder,
+        image: newImage,
       };
+
+      console.log(newPost);
 
       await ClimbingGymService.createClimbingGym(newGym);
       await BoulderService.createBoulderProblem(newBoulder);
@@ -87,9 +116,8 @@ const Posts: React.FC = () => {
       </Head>
       <Header></Header>
       <main>
-        <h1 className={postStyle.title}>Create new post</h1>
-
         <div className={createStyle.fields}>
+          <h1 className={createStyle.title}>New post</h1>
           {errorMessage && <p className={createStyle.error}>{errorMessage}</p>}
           <input
             className={createStyle.input}
@@ -125,17 +153,20 @@ const Posts: React.FC = () => {
             />
           </div>
           <input
-            className={createStyle.input}
+            className={createStyle.comment}
             type="text"
             id="comment"
             placeholder="Comment"
             onChange={(e) => setComment(e.target.value)}
           />
-        </div>
-        <div className={createStyle.publishContainer}>
-          <button className={createStyle.publishButton} onClick={handlePublish}>
-            publish
-          </button>
+          <div className={createStyle.publishContainer}>
+            <button
+              className={createStyle.publishButton}
+              onClick={handlePublish}
+            >
+              publish
+            </button>
+          </div>
         </div>
       </main>
     </>

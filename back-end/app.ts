@@ -9,6 +9,8 @@ import { postRouter } from './controller/post.routes';
 import { achievementRouter } from './controller/achievement.routes';
 import { climbingGymRouter } from './controller/climbingGym.routes';
 import { boulderProblemRouter } from './controller/boulderProblem.routes';
+import { imageRouter } from './controller/image.routes';
+import path from 'path';
 
 const app = express();
 dotenv.config();
@@ -33,6 +35,8 @@ app.get('/status', (req, res) => {
     res.json({ message: 'Courses API is running...' });
 });
 
+app.use('/public', express.static(path.join(__dirname, '../front-end/public')));
+
 const swaggerOpts = {
     definition: {
         openapi: '3.0.0',
@@ -55,6 +59,8 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         res.status(400).json({ status: 'application error', message: err.message });
     }
 });
+
+app.use('/images', imageRouter);
 
 app.listen(port || 3000, () => {
     console.log(`Courses API is running on port ${port}.`);

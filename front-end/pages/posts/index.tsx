@@ -31,16 +31,16 @@ const Posts: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header></Header>
-      <main>
+      <main className={PostStyles.mainPosts}>
         <h1 className={PostStyles.title}>Posts</h1>
         <div className={PostStyles.tableBody}>
-          <h2 className={PostStyles.createButton}>Statistics (TBA)</h2>
+          <h2 className={PostStyles.statistics}>Statistics (TBA)</h2>
           {posts && (
-            <section className={PostStyles.tableSection}>
-              <PostOverviewTable posts={posts} />
+            <section className={PostStyles.postSection}>
+              <OverViewTemp posts={posts} />
             </section>
           )}
-          <Link href="/create">
+          <Link href="/create" className={PostStyles.createSection}>
             <button className={PostStyles.createButton}>Create new post</button>
           </Link>
         </div>

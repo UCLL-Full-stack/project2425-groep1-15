@@ -4,6 +4,13 @@ type Post = {
   comment: string;
   date: Date;
   boulder: BoulderProblem;
+  image: Image;
+};
+
+type Image = {
+  id?: number;
+  fileName: string;
+  path: string;
 };
 
 type User = {
@@ -45,4 +52,5 @@ export type {
   BoulderProblem,
   ClimbingGym,
   StatusMessage,
+  Image,
 };

@@ -13,9 +13,9 @@ const getAllPosts = async (): Promise<Post[]> => {
                         gym: true,
                     },
                 },
+                image: true,
             },
         });
-        console.log('2');
 
         return postPrisma.map((postPrisma) => Post.from(postPrisma));
     } catch (error) {
@@ -34,9 +34,11 @@ const createPost = async (post: Post): Promise<Post> => {
                 boulder: {
                     connect: { id: post.getBoulder().getId() },
                 },
+                image: { connect: { id: post.getImage().getId() } },
             },
             include: {
                 boulder: { include: { gym: true } },
+                image: true,
             },
         });
         return Post.from(postPrisma);

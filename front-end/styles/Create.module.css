@@ -1,24 +1,43 @@
-.input {
-  font-size: 2.5rem;
-  margin: 1rem 0 1rem 0;
-}
-
 .fields {
   display: flex;
   flex-direction: column;
   margin: 1rem 10rem 0 10rem;
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 30rem;
+  justify-self: center;
+  box-shadow: 10px 10px;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0;
+  padding: 1rem 0 0 0;
 }
 
 .publishButton {
-  font-size: 2rem;
-  display: flex;
-  margin-top: 2rem;
-  padding: 1rem;
+  padding: 1.5rem;
+  text-decoration: solid;
+  color: black;
+  font-size: 1rem;
+  font-weight: bold;
   border-radius: 1rem;
+  box-shadow: 5px 5px 5px;
 }
 
 .publishButton:hover {
   background-color: rgb(132, 201, 29);
+  cursor: pointer;
+}
+
+.publishButton:active {
+  transform: translateY(4px);
+  box-shadow: 2px 2px 5px;
 }
 
 .publishContainer {
@@ -39,12 +58,15 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  justify-items: center;
 }
 
 .inputLocation {
-  font-size: 2.5rem;
-  margin: 1rem 0 1rem 0;
-  width: 20rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 8rem;
+  height: 2rem;
+  border-radius: 0.2rem;
 }
 
 .inputPicture {
@@ -61,4 +83,23 @@
   padding: 0 0 0 1rem;
   color: #787474;
   font-weight: bold;
+  border-radius: 0.3rem;
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+}
+
+.input {
+  border-radius: 0.2rem;
+  padding: 0.3rem;
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 1rem 0 1rem 0;
+}
+
+.comment {
+  border-radius: 0.2rem;
+  padding: 0.3rem;
+  font-size: 2.5rem;
+  margin: 1rem 0 1rem 0;
 }

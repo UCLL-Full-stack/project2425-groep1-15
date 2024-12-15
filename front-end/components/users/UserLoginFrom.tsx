@@ -3,6 +3,7 @@ import { StatusMessage } from "@/types";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import LoginStyles from "../../styles/Login.module.css";
 
 const UserLoginForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -73,57 +74,46 @@ const UserLoginForm: React.FC = () => {
 
   return (
     <>
-      <h3>Log In</h3>
-      {statusMessages && (
-        <div>
-          <ul>
-            {statusMessages.map(({ message, type }, index) => (
-              <li
-                key={index}
-                className={classNames({
-                  "text-red-800": type === "error",
-                  "text-green-800": type === "success",
-                })}
-              >
-                {message}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="emailInput" className="block mb-2 text-sm font-medium">
-          Email
-        </label>
-        <div>
-          <input
-            id="emailInput"
-            type="text"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-          {emailError && <div className="test-red-800"> {emailError} </div>}
-        </div>
+      <div className={LoginStyles.page}>
+        <h3 className={LoginStyles.title}>Log In</h3>
 
-        <label
-          htmlFor="passwordInput"
-          className="block mb-2 text-sm font-medium"
-        >
-          Password
-        </label>
-        <div>
-          <input
-            id="passwordInput"
-            type="text"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-          {passwordError && (
-            <div className="text-red-800"> {passwordError} </div>
-          )}
-        </div>
-        <button type="submit">Submit</button>
-      </form>
+        <form onSubmit={handleSubmit} className={LoginStyles.form}>
+          <label htmlFor="emailInput" className={LoginStyles.field}>
+            Email
+          </label>
+          <div className={LoginStyles.input}>
+            <input
+              id="emailInput"
+              type="text"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              className={LoginStyles.inputText}
+            />
+            {emailError && (
+              <div className={LoginStyles.error}> {emailError} </div>
+            )}
+          </div>
+
+          <label htmlFor="passwordInput" className={LoginStyles.field}>
+            Password
+          </label>
+          <div className={LoginStyles.input}>
+            <input
+              id="passwordInput"
+              type="text"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              className={LoginStyles.inputText}
+            />
+            {passwordError && (
+              <div className={LoginStyles.error}> {passwordError} </div>
+            )}
+          </div>
+          <button type="submit" className={LoginStyles.submit}>
+            Submit
+          </button>
+        </form>
+      </div>
     </>
   );
 };
