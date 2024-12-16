@@ -139,4 +139,14 @@ postRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
     }
 });
 
+postRouter.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const postData: PostInput = req.body;
+        const newPost = await PostService.editPost(postData, Number(req.params.id));
+        res.status(201).json(newPost);
+    } catch (error) {
+        next(error);
+    }
+});
+
 export { postRouter };

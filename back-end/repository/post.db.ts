@@ -64,8 +64,37 @@ const getPostById = async ({ id }: { id: number }): Promise<Post | null> => {
     }
 };
 
+const updatePost = async (existingPostId: number, newPost: Post): Promise<Post> => {
+    try {
+        const PostPrisma = await database.post.update({
+            where: { id: existingPostId },
+            data: {
+                title: newPost.getTitle(),
+                comment: newPost.getComment(),
+                date: newPost.getDate(),
+                boulder: {
+                    connect: { id: newPost.getBoulder().getId() },
+                },
+                image: {
+                    connect: { id: newPost.getImage().getId() },
+                },
+            },
+            include: {
+                boulder: { include: { gym: true } },
+                image: true,
+            },
+        });
+
+        return Post.from(PostPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 export default {
     getAllPosts,
     createPost,
     getPostById,
+    updatePost,
 };
