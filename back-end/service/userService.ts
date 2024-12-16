@@ -6,9 +6,9 @@ import { generateJwtToken } from '../util/jwt';
 
 const getAllUsers = async (): Promise<User[]> => userDb.getAllUsers();
 
-const getUserById = async (id: number): Promise<User> => {
-    const user = await userDb.getUserById({ id });
-    if (!user) throw new Error(`User with id ${id} does not exist.`);
+const getUserByEmail = async (email: string): Promise<User | null> => {
+    const user = await userDb.getUserByEmail(email);
+    if (!user) throw new Error(`User with email ${email} does not exist.`);
     return user;
 };
 
@@ -45,4 +45,4 @@ const authenticate = async ({ email, password }: UserInput): Promise<Authenticat
         role: user.getRole(),
     };
 };
-export default { getAllUsers, createUser, authenticate, getUserById };
+export default { getAllUsers, createUser, authenticate, getUserByEmail };

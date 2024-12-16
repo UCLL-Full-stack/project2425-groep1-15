@@ -139,16 +139,16 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
 
 /**
  * @swagger
- * /users/{id}:
+ * /users/{email}:
  *  get:
- *      summary: Get a user by id.
+ *      summary: Get a user by email.
  *      parameters:
  *          - in: path
- *            name: id
+ *            name: email
  *            schema:
- *              type: integer
+ *              type: string
  *              required: true
- *              description: The user id.
+ *              description: The user email.
  *      responses:
  *          200:
  *              description: A user object.
@@ -157,9 +157,9 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
  *                      schema:
  *                          $ref: '#/components/schemas/User'
  */
-userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.get('/:email', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await userService.getUserById(Number(req.params.id));
+        const user = await userService.getUserByEmail(String(req.params.email));
         res.status(200).json(user);
     } catch (error) {
         next(error);
