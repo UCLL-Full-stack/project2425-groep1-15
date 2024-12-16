@@ -20,7 +20,6 @@ const createUser = async (user: User): Promise<User> => {
                 name: user.getName(),
                 email: user.getEmail(),
                 password: user.getPassword(),
-                numPosts: user.getNumposts(),
             },
         });
 

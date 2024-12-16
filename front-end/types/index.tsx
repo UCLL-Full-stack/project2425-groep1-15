@@ -5,6 +5,7 @@ type Post = {
   date: Date;
   boulder: BoulderProblem;
   image: Image;
+  user: User;
 };
 
 type Image = {

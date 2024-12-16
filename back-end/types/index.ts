@@ -5,6 +5,7 @@ type PostInput = {
     date: Date;
     boulder: BoulderProblemInput;
     image: ImageInput;
+    user: UserInput;
 };
 
 type ImageInput = {

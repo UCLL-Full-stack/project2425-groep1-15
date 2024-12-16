@@ -7,6 +7,7 @@ import boulderProblemDb from '../repository/boulderProblem.db';
 import postDb from '../repository/post.db';
 import { PostInput } from '../types';
 import imageDb from '../repository/image.db';
+import userDb from '../repository/user.db';
 
 const getAllPosts = async (): Promise<Post[]> => await postDb.getAllPosts();
 
@@ -22,6 +23,7 @@ const createPost = async ({
     date,
     boulder: boulderInput,
     image: imageInput,
+    user: userInput,
 }: PostInput): Promise<Post> => {
     const newboulder = new BoulderProblem({
         grade: boulderInput.grade,
@@ -36,10 +38,17 @@ const createPost = async ({
         path: imageInput.path,
     });
 
+    const userEmail = userInput.email;
+
+    const user = await userDb.getUserByEmail(userEmail);
+    if (!user) {
+        throw new Error(`User with email ${userEmail} does not exist`);
+    }
+
     const boulder = await boulderProblemDb.createBoulderProblem(newboulder);
     const image = await imageDb.createImage(newImage);
 
-    const newPost = new Post({ title, comment, date, boulder, image });
+    const newPost = new Post({ title, comment, date, boulder, image, user });
     return await postDb.createPost(newPost);
 };
 
