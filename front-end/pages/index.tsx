@@ -45,8 +45,8 @@ const Home: React.FC = () => {
             <h1 className={postStyle.title}>Home</h1>
           ) : (
             <p>
-              Please log in <Link href="../login">here</Link> to view your
-              profile.
+              Please log in <Link href="../login">here</Link> to view your home
+              page.
             </p>
           )}
         </section>

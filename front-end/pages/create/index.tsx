@@ -221,8 +221,7 @@ const Posts: React.FC = () => {
             </div>
           ) : (
             <p>
-              Please log in <Link href="../login">here</Link> to view your
-              profile.
+              Please log in <Link href="../login">here</Link> to create a post.
             </p>
           )}
         </section>
