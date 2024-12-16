@@ -14,19 +14,16 @@ const Posts: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   const getPosts = async () => {
-    const response = await PostService.getAllPosts();
-    const json = await response.json();
-    setPosts(json);
-  };
-
-  useEffect(() => {
-    getPosts();
     const userData = sessionStorage.getItem("loggedInUser");
 
     if (userData) {
       try {
         const parsedData = JSON.parse(userData);
         setIsLoggedIn(!!parsedData.token);
+        const token = parsedData.token;
+        const response = await PostService.getAllPosts(token);
+        const json = await response.json();
+        setPosts(json);
       } catch (error) {
         console.error("Error parsing session storage data:", error);
         setIsLoggedIn(false);
@@ -34,6 +31,10 @@ const Posts: React.FC = () => {
     } else {
       setIsLoggedIn(false);
     }
+  };
+
+  useEffect(() => {
+    getPosts();
   }, []);
 
   return (

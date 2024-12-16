@@ -5,6 +5,7 @@ type Post = {
   date: Date;
   boulder: BoulderProblem;
   image: Image;
+  user: User;
 };
 
 type Image = {
@@ -18,7 +19,6 @@ type User = {
   name?: string;
   email?: string;
   password?: string;
-  numPosts?: number;
 };
 
 type ClimbingGym = {

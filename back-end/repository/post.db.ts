@@ -14,6 +14,7 @@ const getAllPosts = async (): Promise<Post[]> => {
                     },
                 },
                 image: true,
+                user: true,
             },
         });
 
@@ -35,10 +36,12 @@ const createPost = async (post: Post): Promise<Post> => {
                     connect: { id: post.getBoulder().getId() },
                 },
                 image: { connect: { id: post.getImage().getId() } },
+                user: { connect: { id: post.getUser().getId() } },
             },
             include: {
                 boulder: { include: { gym: true } },
                 image: true,
+                user: true,
             },
         });
         return Post.from(postPrisma);
@@ -55,6 +58,7 @@ const getPostById = async ({ id }: { id: number }): Promise<Post | null> => {
             include: {
                 image: true,
                 boulder: { include: { gym: true } },
+                user: true,
             },
         });
         return postPrisma ? Post.from(postPrisma) : null;

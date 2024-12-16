@@ -1,4 +1,4 @@
-import { User as UserPrisma } from '@prisma/client';
+import { Post, User as UserPrisma } from '@prisma/client';
 import { Role } from '../types';
 
 export class User {
@@ -6,17 +6,9 @@ export class User {
     private name: string;
     private email: string;
     private password: string;
-    private numPosts: number;
     private role: Role;
 
-    constructor(user: {
-        id?: number;
-        name: string;
-        email: string;
-        password: string;
-        numPosts: number;
-        role?: Role;
-    }) {
+    constructor(user: { id?: number; name: string; email: string; password: string; role?: Role }) {
         if (!this.isNotEmpty(user.name)) {
             throw new Error('Name cannot be empty.');
         }
@@ -29,15 +21,10 @@ export class User {
             throw new Error('Password cannot be empty.');
         }
 
-        if (!this.isValidNumPosts(user.numPosts)) {
-            throw new Error('Number of posts cannot be a negative number');
-        }
-
         this.id = user.id;
         this.name = user.name;
         this.email = user.email;
         this.password = user.password;
-        this.numPosts = user.numPosts;
         this.role = user.role || 'user';
     }
 
@@ -57,10 +44,6 @@ export class User {
         );
     }
 
-    private isValidNumPosts(numPosts: number): boolean {
-        return numPosts >= 0;
-    }
-
     getId(): number | undefined {
         return this.id;
     }
@@ -77,20 +60,15 @@ export class User {
         return this.password;
     }
 
-    getNumposts(): number {
-        return this.numPosts;
-    }
-
     getRole(): Role {
         return this.role;
     }
-    static from({ id, name, email, password, numPosts, role }: UserPrisma) {
+    static from({ id, name, email, password, role }: UserPrisma) {
         return new User({
             id,
             name,
             email,
             password,
-            numPosts,
             role: role as Role,
         });
     }

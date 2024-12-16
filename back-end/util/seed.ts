@@ -23,7 +23,6 @@ const main = async () => {
             name: 'Joren',
             email: 'Joren.VanLaer@gmail.com',
             password: await bcrypt.hash('p', 12),
-            numPosts: 3,
         },
     });
     const nathan = await prisma.user.create({
@@ -31,7 +30,6 @@ const main = async () => {
             name: 'Nathan',
             email: 'Nathan.DeKlerck@gmail.com',
             password: await bcrypt.hash('p', 12),
-            numPosts: 5,
         },
     });
 
@@ -86,6 +84,9 @@ const main = async () => {
             image: {
                 connect: { id: image1.id },
             },
+            user: {
+                connect: { id: joren.id },
+            },
         },
     });
 
@@ -99,6 +100,9 @@ const main = async () => {
             },
             image: {
                 connect: { id: image2.id },
+            },
+            user: {
+                connect: { id: nathan.id },
             },
         },
     });

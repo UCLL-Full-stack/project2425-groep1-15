@@ -1,9 +1,11 @@
 import { BoulderProblem } from './boulderProblem';
 import { Image } from './image';
+import { User } from './user';
 import {
     ClimbingGym as ClimbingGymPrisma,
     Post as PostPrisma,
     Image as ImagePrisma,
+    User as UserPrisma,
 } from '@prisma/client';
 import { BoulderProblem as BoulderPrisma } from '@prisma/client';
 
@@ -14,6 +16,7 @@ export class Post {
     private date: Date;
     private boulder: BoulderProblem;
     private image: Image;
+    private user: User;
 
     constructor(post: {
         id?: number;
@@ -22,6 +25,7 @@ export class Post {
         date: Date;
         boulder: BoulderProblem;
         image: Image;
+        user: User;
     }) {
         if (!this.isNotEmpty(post.title)) {
             throw new Error('Title cannot be empty.');
@@ -37,6 +41,7 @@ export class Post {
         this.date = post.date;
         this.boulder = post.boulder;
         this.image = post.image;
+        this.user = post.user;
     }
 
     private isNotEmpty(input: string): boolean {
@@ -67,6 +72,10 @@ export class Post {
         return this.image;
     }
 
+    getUser(): User {
+        return this.user;
+    }
+
     static from({
         id,
         title,
@@ -74,11 +83,13 @@ export class Post {
         date,
         boulder,
         image,
+        user,
     }: PostPrisma & {
         boulder: BoulderPrisma & {
             gym: ClimbingGymPrisma;
         };
         image: ImagePrisma;
+        user: UserPrisma;
     }) {
         return new Post({
             id,
@@ -87,6 +98,7 @@ export class Post {
             date,
             boulder: BoulderProblem.from(boulder),
             image: Image.from(image),
+            user: User.from(user),
         });
     }
 }

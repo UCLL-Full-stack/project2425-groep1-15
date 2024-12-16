@@ -12,10 +12,12 @@ model Post {
     title String
     comment String
     date DateTime
-    boulder BoulderProblem @relation(fields: [boulderId],references: [id])
+    boulder BoulderProblem @relation(fields: [boulderId], references: [id])
     boulderId Int
     image Image @relation(fields: [imageId],references: [id])
     imageId Int @unique
+    user User @relation(fields: [userId], references: [id])
+    userId Int
 }
 
 model User {
@@ -23,7 +25,7 @@ model User {
     name String
     email String @unique
     password String
-    numPosts Int
+    posts Post[]
     role String @default("user")
 }
 

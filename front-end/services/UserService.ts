@@ -10,8 +10,28 @@ const loginUser = (user: User) => {
   });
 };
 
+const getUserByEmail = async (email: string): Promise<User | null> => {
+  const response = await fetch(
+    process.env.NEXT_PUBLIC_API_URL + `/users/${email}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch user with email: ${email}`);
+  }
+
+  const user: User = await response.json();
+  return user;
+};
+
 const UserService = {
   loginUser,
+  getUserByEmail,
 };
 
 export default UserService;
