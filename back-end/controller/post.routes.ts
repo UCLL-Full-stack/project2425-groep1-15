@@ -51,6 +51,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import PostService from '../service/postService';
 import { PostInput } from '../types';
+import postService from '../service/postService';
 
 const postRouter = express.Router();
 
@@ -104,6 +105,35 @@ postRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
         const postData: PostInput = req.body;
         const newPost = await PostService.createPost(postData);
         res.status(201).json(newPost);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /posts/{id}:
+ *  get:
+ *      summary: Get a post by id.
+ *      parameters:
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: integer
+ *              required: true
+ *              description: The post id.
+ *      responses:
+ *          200:
+ *              description: A post object.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Post'
+ */
+postRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const post = await postService.getPostById(Number(req.params.id));
+        res.status(200).json(post);
     } catch (error) {
         next(error);
     }

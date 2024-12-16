@@ -3,6 +3,7 @@ import { Post } from "../../types/index";
 import PostStyles from "../../styles/Posts.module.css";
 import Logo from "../Logo";
 import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
   posts: Array<Post>;
@@ -23,7 +24,9 @@ const PostOverviewTable: React.FC<Props> = ({ posts }) => {
               height={100}
             />
             <h3 className={PostStyles.postTitle}>{post.title}</h3>
-            <button className={PostStyles.edit}>Edit</button>
+            <Link href="/edit">
+              <button className={PostStyles.edit}>Edit</button>
+            </Link>
           </div>
           <Image
             className={PostStyles.postImage}

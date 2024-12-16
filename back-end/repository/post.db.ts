@@ -48,7 +48,24 @@ const createPost = async (post: Post): Promise<Post> => {
     }
 };
 
+const getPostById = async ({ id }: { id: number }): Promise<Post | null> => {
+    try {
+        const postPrisma = await database.post.findUnique({
+            where: { id },
+            include: {
+                image: true,
+                boulder: { include: { gym: true } },
+            },
+        });
+        return postPrisma ? Post.from(postPrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 export default {
     getAllPosts,
     createPost,
+    getPostById,
 };

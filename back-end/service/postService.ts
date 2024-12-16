@@ -10,6 +10,12 @@ import imageDb from '../repository/image.db';
 
 const getAllPosts = async (): Promise<Post[]> => await postDb.getAllPosts();
 
+const getPostById = async (id: number): Promise<Post> => {
+    const post = await postDb.getPostById({ id });
+    if (!post) throw new Error(`Post with id ${id} does not exist.`);
+    return post;
+};
+
 const createPost = async ({
     title,
     comment,
@@ -37,4 +43,4 @@ const createPost = async ({
     return await postDb.createPost(newPost);
 };
 
-export default { getAllPosts, createPost };
+export default { getAllPosts, createPost, getPostById };

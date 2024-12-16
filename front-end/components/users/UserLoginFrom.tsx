@@ -100,7 +100,7 @@ const UserLoginForm: React.FC = () => {
           <div className={LoginStyles.input}>
             <input
               id="passwordInput"
-              type="text"
+              type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               className={LoginStyles.inputText}
