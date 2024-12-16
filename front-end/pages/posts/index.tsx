@@ -11,6 +11,7 @@ import OverViewTemp from "@/components/posts/OverViewTemp";
 
 const Posts: React.FC = () => {
   const [posts, setPosts] = useState<Array<Post>>();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   const getPosts = async () => {
     const response = await PostService.getAllPosts();
@@ -20,6 +21,19 @@ const Posts: React.FC = () => {
 
   useEffect(() => {
     getPosts();
+    const userData = sessionStorage.getItem("loggedInUser");
+
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+        setIsLoggedIn(!!parsedData.token);
+      } catch (error) {
+        console.error("Error parsing session storage data:", error);
+        setIsLoggedIn(false);
+      }
+    } else {
+      setIsLoggedIn(false);
+    }
   }, []);
 
   return (
@@ -32,18 +46,31 @@ const Posts: React.FC = () => {
       </Head>
       <Header></Header>
       <main className={PostStyles.mainPosts}>
-        <h1 className={PostStyles.title}>Posts</h1>
-        <div className={PostStyles.tableBody}>
-          <h2 className={PostStyles.statistics}>Statistics (TBA)</h2>
-          {posts && (
-            <section className={PostStyles.postSection}>
-              <OverViewTemp posts={posts} />
-            </section>
-          )}
-          <Link href="/create" className={PostStyles.createSection}>
-            <button className={PostStyles.createButton}>Create new post</button>
-          </Link>
-        </div>
+        {isLoggedIn === null ? (
+          <p>Loading...</p>
+        ) : isLoggedIn ? (
+          <div>
+            <h1 className={PostStyles.title}>Posts</h1>
+            <div className={PostStyles.tableBody}>
+              <h2 className={PostStyles.statistics}>Statistics (TBA)</h2>
+              {posts && (
+                <section className={PostStyles.postSection}>
+                  <OverViewTemp posts={posts} />
+                </section>
+              )}
+              <Link href="/create" className={PostStyles.createSection}>
+                <button className={PostStyles.createButton}>
+                  Create new post
+                </button>
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <p>
+            Please log in <Link href="../login">here</Link> to view your
+            profile.
+          </p>
+        )}
       </main>
     </>
   );

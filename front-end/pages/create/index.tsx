@@ -20,6 +20,7 @@ const Posts: React.FC = () => {
   const [location, setLocation] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   const date = new Date();
 
@@ -106,6 +107,22 @@ const Posts: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const userData = sessionStorage.getItem("loggedInUser");
+
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+        setIsLoggedIn(!!parsedData.token);
+      } catch (error) {
+        console.error("Error parsing session storage data:", error);
+        setIsLoggedIn(false);
+      }
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -116,58 +133,75 @@ const Posts: React.FC = () => {
       </Head>
       <Header></Header>
       <main>
-        <div className={createStyle.fields}>
-          <h1 className={createStyle.title}>New post</h1>
-          {errorMessage && <p className={createStyle.error}>{errorMessage}</p>}
-          <input
-            className={createStyle.input}
-            type="text"
-            id="title"
-            placeholder="Title"
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <label className={createStyle.inputPicture}>
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-          </label>
-          <div className={createStyle.location}>
-            <input
-              className={createStyle.inputLocation}
-              type="text"
-              id="gymName"
-              placeholder="Gym Name"
-              onChange={(e) => setgymName(e.target.value)}
-            />
-            <input
-              className={createStyle.inputLocation}
-              type="text"
-              id="location"
-              placeholder="Location"
-              onChange={(e) => setLocation(e.target.value)}
-            />
-            <input
-              className={createStyle.inputLocation}
-              type="text"
-              id="grade"
-              placeholder="Grade"
-              onChange={(e) => setGrade(e.target.value)}
-            />
-          </div>
-          <input
-            className={createStyle.comment}
-            type="text"
-            id="comment"
-            placeholder="Comment"
-            onChange={(e) => setComment(e.target.value)}
-          />
-          <div className={createStyle.publishContainer}>
-            <button
-              className={createStyle.publishButton}
-              onClick={handlePublish}
-            >
-              publish
-            </button>
-          </div>
-        </div>
+        <section>
+          {isLoggedIn === null ? (
+            <p>Loading...</p>
+          ) : isLoggedIn ? (
+            <div className={createStyle.fields}>
+              <h1 className={createStyle.title}>New post</h1>
+              {errorMessage && (
+                <p className={createStyle.error}>{errorMessage}</p>
+              )}
+              <input
+                className={createStyle.input}
+                type="text"
+                id="title"
+                placeholder="Title"
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <label className={createStyle.inputPicture}>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+              </label>
+              <div className={createStyle.location}>
+                <input
+                  className={createStyle.inputLocation}
+                  type="text"
+                  id="gymName"
+                  placeholder="Gym Name"
+                  onChange={(e) => setgymName(e.target.value)}
+                />
+                <input
+                  className={createStyle.inputLocation}
+                  type="text"
+                  id="location"
+                  placeholder="Location"
+                  onChange={(e) => setLocation(e.target.value)}
+                />
+                <input
+                  className={createStyle.inputLocation}
+                  type="text"
+                  id="grade"
+                  placeholder="Grade"
+                  onChange={(e) => setGrade(e.target.value)}
+                />
+              </div>
+              <input
+                className={createStyle.comment}
+                type="text"
+                id="comment"
+                placeholder="Comment"
+                onChange={(e) => setComment(e.target.value)}
+              />
+              <div className={createStyle.publishContainer}>
+                <button
+                  className={createStyle.publishButton}
+                  onClick={handlePublish}
+                >
+                  publish
+                </button>
+              </div>
+            </div>
+          ) : (
+            <p>
+              Please log in <Link href="../login">here</Link> to view your
+              profile.
+            </p>
+          )}
+        </section>
       </main>
     </>
   );

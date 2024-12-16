@@ -4,10 +4,30 @@ import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import Header from "@/components/header";
 import postStyle from "../styles/Posts.module.css";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+const Home: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const userData = sessionStorage.getItem("loggedInUser");
+
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+        setIsLoggedIn(!!parsedData.token);
+      } catch (error) {
+        console.error("Error parsing session storage data:", error);
+        setIsLoggedIn(false);
+      }
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -18,8 +38,21 @@ export default function Home() {
       </Head>
       <Header />
       <main>
-        <h1 className={postStyle.title}>Home</h1>
+        <section>
+          {isLoggedIn === null ? (
+            <p>Loading...</p>
+          ) : isLoggedIn ? (
+            <h1 className={postStyle.title}>Home</h1>
+          ) : (
+            <p>
+              Please log in <Link href="../login">here</Link> to view your
+              profile.
+            </p>
+          )}
+        </section>
       </main>
     </>
   );
-}
+};
+
+export default Home;
