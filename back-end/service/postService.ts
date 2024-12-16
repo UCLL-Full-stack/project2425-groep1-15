@@ -52,4 +52,6 @@ const createPost = async ({
     return await postDb.createPost(newPost);
 };
 
+// test
+
 export default { getAllPosts, createPost, getPostById };
