@@ -52,28 +52,6 @@ const createPost = async ({
     return await postDb.createPost(newPost);
 };
 
-const editPost = async (
-    { title, comment, date, boulder: boulderInput, image: imageInput }: PostInput,
-    id: number
-): Promise<Post> => {
-    const newboulder = new BoulderProblem({
-        grade: boulderInput.grade,
-        gym: new ClimbingGym({
-            location: boulderInput.gym.location,
-            gymName: boulderInput.gym.gymName,
-        }),
-    });
+// test
 
-    const newImage = new Image({
-        fileName: imageInput.fileName,
-        path: imageInput.path,
-    });
-
-    const boulder = await boulderProblemDb.createBoulderProblem(newboulder);
-    const image = await imageDb.createImage(newImage);
-
-    const newPost = new Post({ title, comment, date, boulder, image });
-    return await postDb.updatePost(id, newPost);
-};
-
-export default { getAllPosts, createPost, getPostById, editPost };
+export default { getAllPosts, createPost, getPostById };
