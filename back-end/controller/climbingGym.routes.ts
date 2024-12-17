@@ -82,4 +82,17 @@ climbingGymRouter.post('/', async (req: Request, res: Response, next: NextFuncti
     }
 });
 
+climbingGymRouter.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const climbingGymData: ClimbingGymInput = req.body;
+        const newClimbingGym = await climbingGymService.editClimbingGym(
+            climbingGymData,
+            Number(req.params.id)
+        );
+        res.status(200).json(newClimbingGym);
+    } catch (error) {
+        next(error);
+    }
+});
+
 export { climbingGymRouter };

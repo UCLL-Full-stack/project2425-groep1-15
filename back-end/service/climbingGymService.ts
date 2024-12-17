@@ -15,8 +15,25 @@ const getClimbingGymById = async (id: number): Promise<ClimbingGym> => {
     return gym;
 };
 
+const editClimbingGym = async (
+    { location, gymName }: ClimbingGymInput,
+    id: number
+): Promise<ClimbingGym> => {
+    const oldClimbingGym = await getClimbingGymById(id);
+    const newLocation = location || oldClimbingGym.getLocation();
+    const newgymName = gymName || oldClimbingGym.getGymName();
+
+    const newClimbingGym = new ClimbingGym({
+        location: newLocation,
+        gymName: newgymName,
+    });
+
+    return await climbingGymDb.updateClimbingGym(id, newClimbingGym);
+};
+
 export default {
     getAllClimbingGyms,
     createClimbingGym,
     getClimbingGymById,
+    editClimbingGym,
 };

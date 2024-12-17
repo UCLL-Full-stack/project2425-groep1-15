@@ -58,6 +58,49 @@ const createPost = async ({
     return await postDb.createPost(newPost);
 };
 
-// test
+const editPost = async (
+    { title, comment, date, boulder: boulderInput, image: imageInput, user: userInput }: PostInput,
+    id: number
+): Promise<Post> => {
+    const oldPost = await getPostById(id);
+    const newTitle = title || oldPost.getTitle();
+    const newComment = comment || oldPost.getComment();
+    const newDate = date || oldPost.getDate();
 
-export default { getAllPosts, createPost, getPostById, getPostsByUser };
+    const newImage = imageInput
+        ? new Image({
+              fileName: imageInput.fileName || oldPost.getImage().getFileName(),
+              path: imageInput.path || oldPost.getImage().getPath(),
+          })
+        : oldPost.getImage();
+
+    const userEmail = userInput?.email || oldPost.getUser().getEmail();
+    const user = await userDb.getUserByEmail(userEmail);
+    if (!user) {
+        throw new Error(`User with email ${userEmail} does not exist`);
+    }
+
+    const boulderId = oldPost.getBoulder().getId();
+    if (!boulderId) {
+        throw new Error(`boulder must exist`);
+    }
+    const boulder = await boulderProblemDb.getBoulderById(boulderId);
+    if (!boulder) {
+        throw new Error(`boulder must exist`);
+    }
+
+    const image = await imageDb.createImage(newImage);
+
+    const newPost = new Post({
+        id: oldPost.getId(),
+        title: newTitle,
+        comment: newComment,
+        date: newDate,
+        boulder,
+        image,
+        user,
+    });
+    return await postDb.updatePost(id, newPost);
+};
+
+export default { getAllPosts, createPost, getPostById, editPost, getPostsByUser };

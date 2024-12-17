@@ -11,10 +11,10 @@ import BoulderService from "@/services/BoulderProblemService";
 import Link from "next/link";
 import router from "next/router";
 import { text } from "stream/consumers";
-import UserService from "@/services/UserService";
 import CreatePosts from "@/components/posts/createPost";
+import EditPost from "@/components/posts/editPost";
 
-const Posts: React.FC = () => {
+const EditPostPage: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const Posts: React.FC = () => {
   return (
     <>
       <Head>
-        <title>posts</title>
+        <title>Edit Post</title>
         <meta name="description" content="Courses app" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -47,7 +47,7 @@ const Posts: React.FC = () => {
           {isLoggedIn === null ? (
             <p>Loading...</p>
           ) : isLoggedIn ? (
-            <CreatePosts />
+            <EditPost />
           ) : (
             <p>
               Please log in <Link href="../login">here</Link> to create a post.
@@ -59,4 +59,4 @@ const Posts: React.FC = () => {
   );
 };
 
-export default Posts;
+export default EditPostPage;

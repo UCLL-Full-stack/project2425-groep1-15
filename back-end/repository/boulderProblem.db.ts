@@ -59,8 +59,34 @@ const getBoulderById = async (id: number): Promise<BoulderProblem | null> => {
     }
 };
 
+const updateBoulderProblem = async (
+    existingBoulderProblemId: number,
+    newBoulderProblem: BoulderProblem
+): Promise<BoulderProblem> => {
+    try {
+        const boulderPrisma = await database.boulderProblem.update({
+            where: { id: existingBoulderProblemId },
+            data: {
+                grade: newBoulderProblem.getGrade(),
+                gym: {
+                    connect: { id: newBoulderProblem.getGym().getId() },
+                },
+            },
+            include: {
+                gym: true,
+            },
+        });
+
+        return BoulderProblem.from(boulderPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 export default {
     getAllBoulderProblems,
     createBoulderProblem,
     getBoulderById,
+    updateBoulderProblem,
 };

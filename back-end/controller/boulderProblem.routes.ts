@@ -92,4 +92,17 @@ boulderProblemRouter.post('/', async (req: Request, res: Response, next: NextFun
     }
 });
 
+boulderProblemRouter.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const boulderProblemData: BoulderProblemInput = req.body;
+        const newBoulderProblem = await boulderProblemService.editBoulderProblem(
+            boulderProblemData,
+            Number(req.params.id)
+        );
+        res.status(200).json(newBoulderProblem);
+    } catch (error) {
+        next(error);
+    }
+});
+
 export { boulderProblemRouter };

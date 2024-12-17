@@ -49,8 +49,29 @@ const getClimbingGymById = async ({ id }: { id: number }): Promise<ClimbingGym |
     }
 };
 
+const updateClimbingGym = async (
+    existingClimbingGymId: number,
+    newClimbingGym: ClimbingGym
+): Promise<ClimbingGym> => {
+    try {
+        const climbingGymPrisma = await database.climbingGym.update({
+            where: { id: existingClimbingGymId },
+            data: {
+                location: newClimbingGym.getLocation(),
+                gymName: newClimbingGym.getGymName(),
+            },
+        });
+
+        return ClimbingGym.from(climbingGymPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 export default {
     getAllClimbingGyms,
     createClimbingGym,
     getClimbingGymById,
+    updateClimbingGym,
 };
