@@ -34,10 +34,24 @@ const editPost = async (postData: Post, token: string) => {
   return await response.json();
 };
 
+const getPostsByUserEmail = async (email: string) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/posts/user/${email}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return await response.json();
+};
+
 const PostService = {
   getAllPosts,
   createPost,
   editPost,
+  getPostsByUserEmail,
 };
 
 export default PostService;

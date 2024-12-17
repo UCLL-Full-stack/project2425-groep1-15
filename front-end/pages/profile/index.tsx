@@ -1,11 +1,28 @@
 import Header from "@/components/header";
 import ProfileComponent from "@/components/users/Profile";
+import UserService from "@/services/UserService";
+import { User } from "@/types";
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Profile: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+
+  const getUser = async () => {
+    const userData = sessionStorage.getItem("loggedInUser");
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+        const userEmail = parsedData.email;
+        const token = parsedData.token;
+        setUser(await UserService.getUserByEmail(userEmail));
+      } catch (error) {
+        console.error("Error parsing session storage data:", error);
+      }
+    }
+  };
 
   useEffect(() => {
     const userData = sessionStorage.getItem("loggedInUser");
@@ -14,6 +31,7 @@ const Profile: React.FC = () => {
       try {
         const parsedData = JSON.parse(userData);
         setIsLoggedIn(!!parsedData.token);
+        getUser();
       } catch (error) {
         console.error("Error parsing session storage data:", error);
         setIsLoggedIn(false);
@@ -36,8 +54,8 @@ const Profile: React.FC = () => {
         <section>
           {isLoggedIn === null ? (
             <p>Loading...</p>
-          ) : isLoggedIn ? (
-            <ProfileComponent />
+          ) : isLoggedIn && user ? (
+            <ProfileComponent user={user} />
           ) : (
             <p>
               Please log in <Link href="../login">here</Link> to view your

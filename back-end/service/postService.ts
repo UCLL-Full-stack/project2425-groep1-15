@@ -8,6 +8,7 @@ import postDb from '../repository/post.db';
 import { PostInput } from '../types';
 import imageDb from '../repository/image.db';
 import userDb from '../repository/user.db';
+import { User } from '../model/user';
 
 const getAllPosts = async (): Promise<Post[]> => await postDb.getAllPosts();
 
@@ -15,6 +16,11 @@ const getPostById = async (id: number): Promise<Post> => {
     const post = await postDb.getPostById({ id });
     if (!post) throw new Error(`Post with id ${id} does not exist.`);
     return post;
+};
+
+const getPostsByUser = async (user: User): Promise<Post[]> => {
+    const posts = await postDb.getPostsByUser({ user });
+    return posts;
 };
 
 const createPost = async ({
@@ -54,4 +60,4 @@ const createPost = async ({
 
 // test
 
-export default { getAllPosts, createPost, getPostById };
+export default { getAllPosts, createPost, getPostById, getPostsByUser };

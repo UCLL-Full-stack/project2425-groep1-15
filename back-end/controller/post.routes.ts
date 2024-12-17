@@ -52,6 +52,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import PostService from '../service/postService';
 import { PostInput } from '../types';
 import postService from '../service/postService';
+import userDb from '../repository/user.db';
 
 const postRouter = express.Router();
 
@@ -134,6 +135,40 @@ postRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
     try {
         const post = await postService.getPostById(Number(req.params.id));
         res.status(200).json(post);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /posts/user/{userEmail}:
+ *  get:
+ *      summary: Get posts by user.
+ *      parameters:
+ *          - in: body
+ *            name: user
+ *            schema:
+ *              type: integer
+ *              required: true
+ *              description: The posts user.
+ *      responses:
+ *          200:
+ *              description: A list of post objects.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Post'
+ */
+postRouter.get('/user/:userEmail', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = await userDb.getUserByEmail(String(req.params.userEmail));
+        if (!user) {
+            throw new Error(`User with email ${req.params.userEmail} does not exist.`);
+        }
+        const posts = await postService.getPostsByUser(user);
+
+        res.status(200).json(posts);
     } catch (error) {
         next(error);
     }

@@ -3,6 +3,7 @@ import { ClimbingGym } from '../model/climbingGym';
 import { Post } from '../model/post';
 import { set } from 'date-fns';
 import database from './database';
+import { User } from '../model/user';
 
 const getAllPosts = async (): Promise<Post[]> => {
     try {
@@ -68,8 +69,26 @@ const getPostById = async ({ id }: { id: number }): Promise<Post | null> => {
     }
 };
 
+const getPostsByUser = async ({ user }: { user: User }): Promise<Post[]> => {
+    try {
+        const postPrisma = await database.post.findMany({
+            where: { userId: user.getId() },
+            include: {
+                image: true,
+                boulder: { include: { gym: true } },
+                user: true,
+            },
+        });
+        return postPrisma.map((postPrisma) => Post.from(postPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 export default {
     getAllPosts,
     createPost,
     getPostById,
+    getPostsByUser,
 };
