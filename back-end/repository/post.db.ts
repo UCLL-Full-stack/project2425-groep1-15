@@ -82,10 +82,14 @@ const updatePost = async (existingPostId: number, newPost: Post): Promise<Post> 
                 image: {
                     connect: { id: newPost.getImage().getId() },
                 },
+                user: {
+                    connect: { id: newPost.getUser().getId() },
+                },
             },
             include: {
                 boulder: { include: { gym: true } },
                 image: true,
+                user: true,
             },
         });
 

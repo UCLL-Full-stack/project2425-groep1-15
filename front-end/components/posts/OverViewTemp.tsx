@@ -24,7 +24,7 @@ const PostOverviewTable: React.FC<Props> = ({ posts }) => {
               height={100}
             />
             <h3 className={PostStyles.postTitle}>{post.title}</h3>
-            <Link href="/edit">
+            <Link href={`/edit/${post.id}`}>
               <button className={PostStyles.edit}>Edit</button>
             </Link>
           </div>

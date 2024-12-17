@@ -11,6 +11,7 @@ import BoulderService from "@/services/BoulderProblemService";
 import Link from "next/link";
 import router from "next/router";
 import { text } from "stream/consumers";
+import UserService from "@/services/UserService";
 
 const CreatePosts: React.FC = () => {
   const [title, setTitle] = useState("");
@@ -20,6 +21,7 @@ const CreatePosts: React.FC = () => {
   const [location, setLocation] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   const date = new Date();
 
@@ -84,27 +86,66 @@ const CreatePosts: React.FC = () => {
         path: filename,
       };
 
-      const newPost: Post = {
-        title: title,
-        comment: comment,
-        date: date,
-        boulder: newBoulder,
-        image: newImage,
-      };
+      const userData = sessionStorage.getItem("loggedInUser");
 
-      console.log(newPost);
+      if (userData) {
+        try {
+          const parsedData = JSON.parse(userData);
+          setIsLoggedIn(!!parsedData.token);
+          const token = parsedData.token;
 
-      await ClimbingGymService.createClimbingGym(newGym);
-      await BoulderService.createBoulderProblem(newBoulder);
-      await PostService.createPost(newPost);
+          const existingUser = await UserService.getUserByEmail(
+            parsedData.email
+          );
+          if (!existingUser) {
+            throw new Error("User does not exist.");
+          }
 
-      router.push("/posts");
+          const newPost: Post = {
+            title: title,
+            comment: comment,
+            date: date,
+            boulder: newBoulder,
+            image: newImage,
+            user: existingUser,
+          };
+
+          console.log(newPost);
+
+          await ClimbingGymService.createClimbingGym(newGym, token);
+          await BoulderService.createBoulderProblem(newBoulder, token);
+          await PostService.createPost(newPost, token);
+
+          router.push("/posts");
+        } catch (error) {
+          console.error("Error parsing session storage data:", error);
+          setIsLoggedIn(false);
+        }
+      } else {
+        setIsLoggedIn(false);
+      }
     } catch (error: any) {
       setErrorMessage(
         "An error occurred while creating the post. Please try again."
       );
     }
   };
+
+  useEffect(() => {
+    const userData = sessionStorage.getItem("loggedInUser");
+
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+        setIsLoggedIn(!!parsedData.token);
+      } catch (error) {
+        console.error("Error parsing session storage data:", error);
+        setIsLoggedIn(false);
+      }
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
   return (
     <>
