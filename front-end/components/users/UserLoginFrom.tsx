@@ -1,8 +1,8 @@
 import UserService from "@/services/UserService";
-import { StatusMessage } from "@/types";
+import { StatusMessage, User } from "@/types";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginStyles from "../../styles/Login.module.css";
 
 const UserLoginForm: React.FC = () => {
@@ -12,6 +12,8 @@ const UserLoginForm: React.FC = () => {
   const [emailError, setEmailError] = useState<String | null>(null);
   const [passwordError, setPasswordError] = useState<String | null>(null);
   const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const clearErrors = () => {
     setEmailError(null);
@@ -72,6 +74,12 @@ const UserLoginForm: React.FC = () => {
     }, 2000);
   };
 
+  useEffect(() => {
+    setUsers([
+      { name: "Joren", email: "Joren.VanLaer@gmail.com", password: "p" },
+      { name: "Nathan", email: "Nathan.DeKlerck@gmail.com", password: "p" },
+    ]);
+  }, []);
   return (
     <>
       <div className={LoginStyles.page}>
@@ -114,6 +122,37 @@ const UserLoginForm: React.FC = () => {
           </button>
         </form>
       </div>
+      <table className={LoginStyles.table}>
+        <thead className={LoginStyles.tableHead}>
+          <tr className={LoginStyles.tableHead}>
+            <th className={LoginStyles.tableHead} scope="col">
+              Name
+            </th>
+            <th className={LoginStyles.tableHead} scope="col">
+              Email
+            </th>
+            <th className={LoginStyles.tableHead} scope="col">
+              Password
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user, index) => (
+            <tr
+              className={LoginStyles.tr}
+              key={index}
+              onClick={() => {
+                setSelectedUser(user);
+              }}
+              role="button"
+            >
+              <td className={LoginStyles.td}>{user.name}</td>
+              <td className={LoginStyles.td}>{user.email}</td>
+              <td className={LoginStyles.td}>{user.password}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 };

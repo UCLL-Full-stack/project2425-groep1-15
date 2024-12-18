@@ -21,6 +21,7 @@ type UserInput = {
     password: string;
     numPosts: number;
     role?: Role;
+    achievements: AchievementInput[];
 };
 
 type ClimbingGymInput = {

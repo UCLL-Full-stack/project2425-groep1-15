@@ -59,3 +59,35 @@
 .inputText {
   padding: 0.5rem;
 }
+
+.table {
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  justify-self: center;
+  margin-top: 3rem;
+  border-collapse: collapse;
+  box-shadow: 10px 10px;
+}
+
+.tableHead {
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  padding: 1rem;
+  border-collapse: collapse;
+}
+
+.tr {
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  padding: 1rem;
+}
+
+.td {
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  padding: 1rem;
+}

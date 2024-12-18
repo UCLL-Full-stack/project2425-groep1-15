@@ -6,6 +6,7 @@ import {
     Post as PostPrisma,
     Image as ImagePrisma,
     User as UserPrisma,
+    Achievement as AchievementPrisma,
 } from '@prisma/client';
 import { BoulderProblem as BoulderPrisma } from '@prisma/client';
 
@@ -89,7 +90,9 @@ export class Post {
             gym: ClimbingGymPrisma;
         };
         image: ImagePrisma;
-        user: UserPrisma;
+        user: UserPrisma & {
+            achievements: AchievementPrisma[];
+        };
     }) {
         return new Post({
             id,

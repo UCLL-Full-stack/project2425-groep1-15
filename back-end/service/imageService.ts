@@ -12,4 +12,25 @@ const getImageById = async (id: number): Promise<Image> => {
         throw new Error('no image found');
     }
 };
-export default { getImageById };
+
+const getImageByPath = async (path: string): Promise<Image[]> => {
+    try {
+        const images = await imageDb.getImagesByPath(path);
+        if (!images) {
+            throw new Error('Image not found');
+        }
+        return images;
+    } catch (error) {
+        throw new Error('no image found');
+    }
+};
+
+const createImage = async (data: { fileName: string; path: string }): Promise<Image> => {
+    try {
+        const newImage = new Image(data);
+        return await imageDb.createImage(newImage);
+    } catch (error) {
+        throw new Error('Error creating image');
+    }
+};
+export default { getImageById, getImageByPath, createImage };

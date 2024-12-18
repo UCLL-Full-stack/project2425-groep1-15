@@ -18,11 +18,43 @@ const main = async () => {
     await prisma.climbingGym.deleteMany();
     await prisma.achievement.deleteMany();
 
+    const achievement1 = await prisma.achievement.create({
+        data: {
+            title: 'First Post Uploaded',
+            description: 'You uploaded your first post, congratulations!',
+            difficulty: 'easy',
+        },
+    });
+
+    const achievement2 = await prisma.achievement.create({
+        data: {
+            title: 'On A Roll!',
+            description: 'You uploaded 3 posts in one day! WOW',
+            difficulty: 'hard',
+        },
+    });
+
     const joren = await prisma.user.create({
         data: {
             name: 'Joren',
             email: 'Joren.VanLaer@gmail.com',
             password: await bcrypt.hash('p', 12),
+            achievements: {
+                connect: {
+                    id: achievement1.id,
+                },
+            },
+        },
+    });
+
+    await prisma.user.update({
+        where: { id: joren.id },
+        data: {
+            achievements: {
+                connect: {
+                    id: achievement2.id,
+                },
+            },
         },
     });
     const nathan = await prisma.user.create({
@@ -104,14 +136,6 @@ const main = async () => {
             user: {
                 connect: { id: nathan.id },
             },
-        },
-    });
-
-    const achievement1 = await prisma.achievement.create({
-        data: {
-            title: 'Eerste achievement',
-            description: 'Dit is de eerste achievement',
-            difficulty: 'extreem',
         },
     });
 };

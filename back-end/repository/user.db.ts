@@ -6,7 +6,11 @@ const start = set(new Date(), { hours: 8, minutes: 30 });
 
 const getAllUsers = async (): Promise<User[]> => {
     try {
-        const userPrisma = await database.user.findMany({});
+        const userPrisma = await database.user.findMany({
+            include: {
+                achievements: true,
+            },
+        });
         return userPrisma.map((userPrisma) => User.from(userPrisma));
     } catch (error) {
         console.error(error);
@@ -20,6 +24,12 @@ const createUser = async (user: User): Promise<User> => {
                 name: user.getName(),
                 email: user.getEmail(),
                 password: user.getPassword(),
+                achievements: {
+                    connect: user.getAchievements().map((ach) => ({ id: ach.getId() })),
+                },
+            },
+            include: {
+                achievements: true,
             },
         });
 
@@ -34,6 +44,9 @@ const getUserByEmail = async (email: string): Promise<User | null> => {
     try {
         const userPrisma = await database.user.findUnique({
             where: { email },
+            include: {
+                achievements: true,
+            },
         });
 
         return userPrisma ? User.from(userPrisma) : null;

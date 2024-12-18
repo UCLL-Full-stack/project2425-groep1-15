@@ -19,6 +19,7 @@ type User = {
   name?: string;
   email?: string;
   password?: string;
+  achievements?: Achievement[];
 };
 
 type ClimbingGym = {
