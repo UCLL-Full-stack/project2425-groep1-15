@@ -10,11 +10,12 @@ const loginUser = (user: User) => {
   });
 };
 
-const getAllUsers = async (): Promise<User[]> => {
+const getAllUsers = async (token: string): Promise<User[]> => {
   const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -22,13 +23,17 @@ const getAllUsers = async (): Promise<User[]> => {
   return users;
 };
 
-const getUserByEmail = async (email: string): Promise<User | null> => {
+const getUserByEmail = async (
+  email: string,
+  token: string
+): Promise<User | null> => {
   const response = await fetch(
     process.env.NEXT_PUBLIC_API_URL + `/users/${email}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     }
   );

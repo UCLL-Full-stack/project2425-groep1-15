@@ -28,7 +28,7 @@ const Posts: React.FC = () => {
         const parsedData = JSON.parse(userData);
         const userEmail = parsedData.email;
         const token = parsedData.token;
-        setUser(await UserService.getUserByEmail(userEmail));
+        setUser(await UserService.getUserByEmail(userEmail, token));
       } catch (error) {
         console.error("Error parsing session storage data:", error);
       }

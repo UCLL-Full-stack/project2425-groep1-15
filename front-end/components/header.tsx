@@ -42,7 +42,7 @@ const Header: React.FC = () => {
           {t("header.profile")}
         </Link>
         {isLoggedIn === null ? (
-          <p>{t("header.loading")}</p>
+          <p>{t("general.loading")}</p>
         ) : isLoggedIn ? (
           <a href="/login" onClick={handleLogout} className={styles.link}>
             {t("header.logout")}
