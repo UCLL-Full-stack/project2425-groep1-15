@@ -22,7 +22,7 @@ const EditPost: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  useEffect(() => {
+  const handelLogin = () => {
     const userData = sessionStorage.getItem("loggedInUser");
 
     if (userData) {
@@ -52,6 +52,9 @@ const EditPost: React.FC = () => {
         console.error("Error parsing session storage data:", error);
       }
     }
+  };
+  useEffect(() => {
+    handelLogin();
   }, []);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {

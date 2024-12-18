@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Post } from "../../types/index";
+import { Post, User } from "../../types/index";
 import PostStyles from "../../styles/Posts.module.css";
 import Logo from "../Logo";
 import Image from "next/image";
@@ -8,12 +8,14 @@ import { useTranslation } from "next-i18next";
 
 type Props = {
   posts: Array<Post>;
+  user: User;
 };
 
-const PostOverviewTable: React.FC<Props> = ({ posts }) => {
+const PostOverviewTable: React.FC<Props> = ({ posts, user }) => {
   const { t } = useTranslation();
 
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+
   return (
     <>
       {posts.map((post, index) => (
@@ -27,11 +29,13 @@ const PostOverviewTable: React.FC<Props> = ({ posts }) => {
               height={100}
             />
             <h3 className={PostStyles.postTitle}>{post.title}</h3>
-            <Link href={`/edit/${post.id}`}>
-              <button className={PostStyles.edit}>
-                {t("posts.editButton")}
-              </button>
-            </Link>
+            {post.user.email === user.email && (
+              <Link href={`/edit/${post.id}`}>
+                <button className={PostStyles.edit}>
+                  {t("posts.editButton")}
+                </button>
+              </Link>
+            )}
           </div>
           <Image
             className={PostStyles.postImage}

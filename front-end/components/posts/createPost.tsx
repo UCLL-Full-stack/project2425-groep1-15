@@ -13,6 +13,7 @@ import router from "next/router";
 import { text } from "stream/consumers";
 import UserService from "@/services/UserService";
 import ImageService from "@/services/ImageService";
+import { useTranslation } from "next-i18next";
 
 const CreatePosts: React.FC = () => {
   const { t } = useTranslation();
@@ -129,7 +130,8 @@ const CreatePosts: React.FC = () => {
           const token = parsedData.token;
 
           const existingUser = await UserService.getUserByEmail(
-            parsedData.email
+            parsedData.email,
+            parsedData.token
           );
           if (!existingUser) {
             throw new Error("User does not exist.");

@@ -13,6 +13,7 @@ import UserService from "@/services/UserService";
 import { useTranslation } from "next-i18next";
 import { GetServerSidePropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { parse } from "path";
 
 const Posts: React.FC = () => {
   const { t } = useTranslation();
@@ -92,9 +93,9 @@ const Posts: React.FC = () => {
               <div className={PostStyles.createSection}>
                 {user && <AchievementSection user={user} />}
               </div>
-              {posts && (
+              {posts && user && (
                 <section className={PostStyles.postSection}>
-                  <OverViewTemp posts={posts} />
+                  <OverViewTemp posts={posts} user={user} />
                 </section>
               )}
               <Link href="/create" className={PostStyles.createSection}>
