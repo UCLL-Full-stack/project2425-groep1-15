@@ -57,6 +57,11 @@
   },
   "profile": {
     "title": "Perfil",
-    "aantalPosts": "Número de publicaciones:"
+    "AantalPosts": "Número de publicaciones:",
+    "LaatstePrestatie": "Último logro:",
+    "NoAchievementsYet": "Aún no hay logros",
+    "startDate": "fecha de inicio",
+    "LastBoulder": "Última roca:",
+    "NoBouldersAvailable": "No hay rocas disponibles"
   }
 }

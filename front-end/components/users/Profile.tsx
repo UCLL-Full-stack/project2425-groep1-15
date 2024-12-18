@@ -39,7 +39,7 @@ const Profile: React.FC<Props> = ({ user }) => {
     <>
       <div className={profileStyles.profilePage}>
         <div className={profileStyles.top}>
-          <h3 className={profileStyles.title}>Profile</h3>
+          <h3 className={profileStyles.title}>{t("profile.title")}</h3>
           <div className={profileStyles.UsernameAndPfp}>
             <p className={profileStyles.username}>{user.name}</p>
             <img
@@ -53,20 +53,24 @@ const Profile: React.FC<Props> = ({ user }) => {
         </div>
         <div className={profileStyles.bottom}>
           <div className={profileStyles.PostsAndAchievementAndDate}>
-            <p className={profileStyles.numPosts}>Aantal Posts: {numPosts}</p>
+            <p className={profileStyles.numPosts}>
+              {t("profile.AantalPosts")} {numPosts}
+            </p>
             <p className={profileStyles.prestatie}>
-              Laatste Prestatie:{" "}
+              {t("profile.LaatstePrestatie")}{" "}
               {user.achievements && user.achievements.length > 0
                 ? user.achievements[0].title
-                : "No achievements yet"}
+                : t("profile.NoAchievementsYet")}
             </p>
 
             <p className={profileStyles.startDatum}>
-              StartDatum: User.StartDate? (of startDate eerste Post)
+              {t("profile.startDate")} User.StartDate?
             </p>
           </div>
           <div className={profileStyles.boulderSection}>
-            <p className={profileStyles.lastBoulder}>Laatste boulder:</p>
+            <p className={profileStyles.lastBoulder}>
+              {t("profile.LastBoulder")}
+            </p>
             {latestPost && latestPost.boulder ? (
               <>
                 <p>
@@ -79,7 +83,7 @@ const Profile: React.FC<Props> = ({ user }) => {
                 />
               </>
             ) : (
-              <p>No boulders available</p>
+              <p>{t("profile.NoBouldersAvailable")}</p>
             )}
           </div>
         </div>
