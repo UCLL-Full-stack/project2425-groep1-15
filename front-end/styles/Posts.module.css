@@ -44,6 +44,7 @@
   font-weight: bold;
   border-radius: 1rem;
   box-shadow: 5px 5px 5px;
+  width: 10rem;
 }
 
 .createButton:hover {
@@ -94,13 +95,16 @@
 }
 
 .postImage {
-  height: 18rem;
-  width: 46rem;
+  height: 100%;
+  width: auto;
+  max-height: 18rem;
+  max-width: 46rem;
   align-self: center;
   border-color: black;
   border-style: solid;
   border-width: 1px;
   border-radius: 1rem;
+  object-fit: contain;
 }
 
 .CommentAndGrade {
