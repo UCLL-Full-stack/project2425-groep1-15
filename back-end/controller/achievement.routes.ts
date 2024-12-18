@@ -27,6 +27,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import AchievementService from '../service/achievementService';
 import achievementService from '../service/achievementService';
 import { AchievementInput } from '../types';
+import userDb from '../repository/user.db';
 
 const achievementRouter = express.Router();
 
@@ -53,6 +54,43 @@ achievementRouter.get('/', async (req: Request, res: Response, next: NextFunctio
         next(error);
     }
 });
+
+// /**
+//  * @swagger
+//  * /achievements/user/{userEmail}:
+//  *  get:
+//  *      summary: Get achievements by user.
+//  *      parameters:
+//  *          - in: body
+//  *            name: userEmail
+//  *            schema:
+//  *              type: integer
+//  *              required: true
+//  *              description: The achievements user.
+//  *      responses:
+//  *          200:
+//  *              description: A list of achievement objects.
+//  *              content:
+//  *                  application/json:
+//  *                      schema:
+//  *                          $ref: '#/components/schemas/Achievement'
+//  */
+// achievementRouter.get(
+//     '/user/:userEmail',
+//     async (req: Request, res: Response, next: NextFunction) => {
+//         try {
+//             const user = await userDb.getUserByEmail(String(req.params.userEmail));
+//             if (!user) {
+//                 throw new Error(`User with email ${req.params.userEmail} does not exist.`);
+//             }
+//             const posts = await achievementService.getAchievementsByUser(user);
+
+//             res.status(200).json(posts);
+//         } catch (error) {
+//             next(error);
+//         }
+//     }
+// );
 
 /**
  * @swagger

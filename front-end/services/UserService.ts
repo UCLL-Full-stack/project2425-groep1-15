@@ -10,6 +10,18 @@ const loginUser = (user: User) => {
   });
 };
 
+const getAllUsers = async (): Promise<User[]> => {
+  const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const users: User[] = await response.json();
+  return users;
+};
+
 const getUserByEmail = async (email: string): Promise<User | null> => {
   const response = await fetch(
     process.env.NEXT_PUBLIC_API_URL + `/users/${email}`,
@@ -32,6 +44,7 @@ const getUserByEmail = async (email: string): Promise<User | null> => {
 const UserService = {
   loginUser,
   getUserByEmail,
+  getAllUsers,
 };
 
 export default UserService;

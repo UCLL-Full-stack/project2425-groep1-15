@@ -1,22 +1,39 @@
 import Header from "@/components/header";
 import PostOverviewTable from "@/components/posts/postOverviewTable";
 import PostService from "@/services/PostService";
-import { Post } from "@/types";
+import { Post, User } from "@/types";
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import PostStyles from "../../styles/Posts.module.css";
 import Styles from "../../styles/Home.module.css";
 import OverViewTemp from "@/components/posts/OverViewTemp";
+import AchievementSection from "@/components/achievements/achievementSection";
+import UserService from "@/services/UserService";
+import { useTranslation } from "next-i18next";
 import { GetServerSidePropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
 
 const Posts: React.FC = () => {
   const { t } = useTranslation();
 
   const [posts, setPosts] = useState<Array<Post>>();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+
+  const getUser = async () => {
+    const userData = sessionStorage.getItem("loggedInUser");
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+        const userEmail = parsedData.email;
+        const token = parsedData.token;
+        setUser(await UserService.getUserByEmail(userEmail));
+      } catch (error) {
+        console.error("Error parsing session storage data:", error);
+      }
+    }
+  };
 
   const getPosts = async () => {
     const userData = sessionStorage.getItem("loggedInUser");
@@ -39,6 +56,20 @@ const Posts: React.FC = () => {
   };
 
   useEffect(() => {
+    const userData = sessionStorage.getItem("loggedInUser");
+
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+        setIsLoggedIn(!!parsedData.token);
+        getUser();
+      } catch (error) {
+        console.error("Error parsing session storage data:", error);
+        setIsLoggedIn(false);
+      }
+    } else {
+      setIsLoggedIn(false);
+    }
     getPosts();
   }, []);
 
@@ -58,7 +89,9 @@ const Posts: React.FC = () => {
           <div>
             <h1 className={PostStyles.title}>{t("posts.title")}</h1>
             <div className={PostStyles.tableBody}>
-              <h2 className={PostStyles.statistics}>{t("posts.statistics")}</h2>
+              <div className={PostStyles.createSection}>
+                {user && <AchievementSection user={user} />}
+              </div>
               {posts && (
                 <section className={PostStyles.postSection}>
                   <OverViewTemp posts={posts} />

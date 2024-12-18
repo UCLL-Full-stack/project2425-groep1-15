@@ -1,5 +1,6 @@
-import { Post, User as UserPrisma } from '@prisma/client';
+import { Achievement as AchievementPrisma, Post, User as UserPrisma } from '@prisma/client';
 import { Role } from '../types';
+import { Achievement } from './achievement';
 
 export class User {
     private id?: number;
@@ -7,8 +8,16 @@ export class User {
     private email: string;
     private password: string;
     private role: Role;
+    private achievements: Achievement[];
 
-    constructor(user: { id?: number; name: string; email: string; password: string; role?: Role }) {
+    constructor(user: {
+        id?: number;
+        name: string;
+        email: string;
+        password: string;
+        role?: Role;
+        achievements: Achievement[];
+    }) {
         if (!this.isNotEmpty(user.name)) {
             throw new Error('Name cannot be empty.');
         }
@@ -26,6 +35,7 @@ export class User {
         this.email = user.email;
         this.password = user.password;
         this.role = user.role || 'user';
+        this.achievements = user.achievements;
     }
 
     private isNotEmpty(input: string): boolean {
@@ -63,13 +73,28 @@ export class User {
     getRole(): Role {
         return this.role;
     }
-    static from({ id, name, email, password, role }: UserPrisma) {
+
+    getAchievements(): Achievement[] {
+        return this.achievements;
+    }
+
+    static from({
+        id,
+        name,
+        email,
+        password,
+        role,
+        achievements,
+    }: UserPrisma & {
+        achievements: AchievementPrisma[];
+    }) {
         return new User({
             id,
             name,
             email,
             password,
             role: role as Role,
+            achievements: achievements.map((achievement) => Achievement.from(achievement)),
         });
     }
 }

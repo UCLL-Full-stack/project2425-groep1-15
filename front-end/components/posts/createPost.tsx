@@ -12,7 +12,7 @@ import Link from "next/link";
 import router from "next/router";
 import { text } from "stream/consumers";
 import UserService from "@/services/UserService";
-import { useTranslation } from "next-i18next";
+import ImageService from "@/services/ImageService";
 
 const CreatePosts: React.FC = () => {
   const { t } = useTranslation();
@@ -83,24 +83,42 @@ const CreatePosts: React.FC = () => {
         gym: newGym,
       };
 
-      const formData = new FormData();
-      formData.append("file", selectedFile);
+      const existingImages = await ImageService.getImagesByPath(
+        selectedFile.name
+      );
+      console.log(selectedFile.name);
+      console.log(existingImages);
 
-      const uploadResponse = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
+      let newImage: Image;
 
-      if (!uploadResponse.ok) {
-        throw new Error("File upload failed.");
+      if (existingImages.length > 0) {
+        console.log("length > 0");
+        newImage = {
+          fileName: selectedFile.name,
+          path: existingImages[0].path,
+        };
+        console.log(newImage);
+      } else {
+        console.log("length ====== 0");
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+
+        const uploadResponse = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error("File upload failed.");
+        }
+
+        const { filename } = await uploadResponse.json();
+
+        newImage = {
+          fileName: selectedFile.name,
+          path: filename,
+        };
       }
-
-      const { filename } = await uploadResponse.json();
-
-      const newImage: Image = {
-        fileName: selectedFile.name,
-        path: filename,
-      };
 
       const userData = sessionStorage.getItem("loggedInUser");
 

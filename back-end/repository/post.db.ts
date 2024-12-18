@@ -15,7 +15,7 @@ const getAllPosts = async (): Promise<Post[]> => {
                     },
                 },
                 image: true,
-                user: true,
+                user: { include: { achievements: true } },
             },
         });
 
@@ -42,7 +42,7 @@ const createPost = async (post: Post): Promise<Post> => {
             include: {
                 boulder: { include: { gym: true } },
                 image: true,
-                user: true,
+                user: { include: { achievements: true } },
             },
         });
         return Post.from(postPrisma);
@@ -59,7 +59,7 @@ const getPostById = async ({ id }: { id: number }): Promise<Post | null> => {
             include: {
                 image: true,
                 boulder: { include: { gym: true } },
-                user: true,
+                user: { include: { achievements: true } },
             },
         });
         return postPrisma ? Post.from(postPrisma) : null;
@@ -90,7 +90,7 @@ const updatePost = async (existingPostId: number, newPost: Post): Promise<Post> 
             include: {
                 boulder: { include: { gym: true } },
                 image: true,
-                user: true,
+                user: { include: { achievements: true } },
             },
         });
 
@@ -108,7 +108,7 @@ const getPostsByUser = async ({ user }: { user: User }): Promise<Post[]> => {
             include: {
                 image: true,
                 boulder: { include: { gym: true } },
-                user: true,
+                user: { include: { achievements: true } },
             },
         });
         return postPrisma.map((postPrisma) => Post.from(postPrisma));

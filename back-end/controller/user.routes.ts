@@ -52,6 +52,7 @@ import userService from '../service/userService';
 import { create } from 'domain';
 import { User } from '../model/user';
 import { UserInput } from '../types/index';
+import { Achievement } from '../model/achievement';
 
 const userRouter = express.Router();
 
@@ -98,9 +99,16 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  */
 userRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // Validate user data here if needed
         const userData: UserInput = req.body;
-        const newUser = new User(userData);
+        const newAchievements = userData.achievements.map((ach) =>
+            Achievement.from({ ...ach, id: ach.id ?? 0 })
+        );
+        const newUser = new User({
+            name: userData.name,
+            email: userData.email,
+            password: userData.password,
+            achievements: newAchievements,
+        });
         const createdUser = await userService.createUser(newUser);
         res.status(201).json(createdUser);
     } catch (error) {

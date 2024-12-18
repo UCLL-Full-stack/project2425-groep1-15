@@ -1,3 +1,5 @@
+import { Achievement as AchievementPrisma, Post, User as UserPrisma } from '@prisma/client';
+
 export class Achievement {
     private id?: number;
     private title: string;
@@ -49,5 +51,14 @@ export class Achievement {
 
     getDifficulty(): string {
         return this.difficulty;
+    }
+
+    static from({ id, title, description, difficulty }: AchievementPrisma) {
+        return new Achievement({
+            id,
+            title,
+            description,
+            difficulty,
+        });
     }
 }

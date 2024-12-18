@@ -1,29 +1,33 @@
 import { Achievement } from '../model/achievement';
 import { set } from 'date-fns';
+import database from './database';
+import { User } from '../model/user';
 
-const achievements = [
-    new Achievement({
-        title: 'baby steps',
-        description: 'complete a boulder problem',
-        difficulty: 'easy',
-    }),
-    new Achievement({
-        title: 'getting harder',
-        description: 'complete 5 different V6 boulder problems',
-        difficulty: 'hard',
-    }),
-];
+const getAllAchievements = async (): Promise<Achievement[]> => {
+    try {
+        const achievementPrisma = await database.achievement.findMany({});
 
-const getAllAchievements = (): Achievement[] => achievements;
+        return achievementPrisma.map((achievementPrisma) => Achievement.from(achievementPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
 
-const createAchievement = (achievement: Achievement): Achievement => {
-    const newAchievement = new Achievement({
-        title: achievement.getTitle(),
-        description: achievement.getDescription(),
-        difficulty: achievement.getDifficulty(),
-    });
-    achievements.push(newAchievement);
-    return newAchievement;
+const createAchievement = async (achievement: Achievement): Promise<Achievement> => {
+    try {
+        const achievementPrisma = await database.achievement.create({
+            data: {
+                title: achievement.getTitle(),
+                description: achievement.getDescription(),
+                difficulty: achievement.getDifficulty(),
+            },
+        });
+        return Achievement.from(achievementPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 };
 
 export default {

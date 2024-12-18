@@ -1,13 +1,10 @@
 import { Router } from 'express';
 import { Request, Response } from 'express';
 import multer from 'multer';
-import { PrismaClient } from '@prisma/client';
 import imageService from '../service/imageService';
 
-const prisma = new PrismaClient();
 const imageRouter = Router();
 
-// Configure multer storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/');
@@ -30,14 +27,14 @@ imageRouter.post('/upload', upload.single('image'), async (req: Request, res: Re
     }
 
     try {
-        const image = await prisma.image.create({
-            data: {
-                fileName: file.originalname,
-                path: file.path,
-            },
+        const newImage = await imageService.createImage({
+            fileName: file.originalname,
+            path: file.path,
         });
-        res.status(201).json(image);
+
+        res.status(201).json(newImage);
     } catch (error) {
+        console.error('Error uploading image:', error);
         res.status(500).json({ error: 'Error saving image to the database' });
     }
 });
@@ -50,6 +47,24 @@ imageRouter.get('/:id', async (req, res) => {
     }
     try {
         const image = await imageService.getImageById(imageId);
+        if (!image) {
+            return res.status(404).json({ error: 'Image not found' });
+        }
+        res.status(200).json(image);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching image' });
+    }
+});
+
+imageRouter.get('/path/:path', async (req, res) => {
+    const { path } = req.params;
+    const imagePath = String(path);
+    console.log(imagePath);
+    if (!imagePath) {
+        return res.status(400).json({ error: 'Invalid image path' });
+    }
+    try {
+        const image = await imageService.getImageByPath(imagePath);
         if (!image) {
             return res.status(404).json({ error: 'Image not found' });
         }

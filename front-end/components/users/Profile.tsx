@@ -1,6 +1,6 @@
 import PostService from "@/services/PostService";
 import profileStyles from "../../styles/Profile.module.css";
-import { Post, User } from "../../types/index";
+import { Achievement, Post, User } from "../../types/index";
 import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { GetServerSidePropsContext } from "next";
@@ -15,6 +15,8 @@ const Profile: React.FC<Props> = ({ user }) => {
 
   const [numPosts, setNumPosts] = useState<number>(0);
   const [latestPost, setLatestPost] = useState<Post | null>(null);
+  const [latestAchievement, setLatestAchievement] =
+    useState<Achievement | null>(user.achievements?.[0] || null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -53,7 +55,10 @@ const Profile: React.FC<Props> = ({ user }) => {
           <div className={profileStyles.PostsAndAchievementAndDate}>
             <p className={profileStyles.numPosts}>Aantal Posts: {numPosts}</p>
             <p className={profileStyles.prestatie}>
-              Beste Prestatie: Achievement?
+              Laatste Prestatie:{" "}
+              {user.achievements && user.achievements.length > 0
+                ? user.achievements[0].title
+                : "No achievements yet"}
             </p>
 
             <p className={profileStyles.startDatum}>

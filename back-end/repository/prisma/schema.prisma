@@ -27,6 +27,7 @@ model User {
     password String
     posts Post[]
     role String @default("user")
+    achievements Achievement[]
 }
 
 model ClimbingGym {
@@ -48,6 +49,7 @@ model Achievement {
     title String
     description String
     difficulty String
+    users User[]
 }
 
 model Image {
