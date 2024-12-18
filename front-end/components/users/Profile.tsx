@@ -2,12 +2,17 @@ import PostService from "@/services/PostService";
 import profileStyles from "../../styles/Profile.module.css";
 import { Post, User } from "../../types/index";
 import { useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
+import { GetServerSidePropsContext } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type Props = {
   user: User;
 };
 
 const Profile: React.FC<Props> = ({ user }) => {
+  const { t } = useTranslation();
+
   const [numPosts, setNumPosts] = useState<number>(0);
   const [latestPost, setLatestPost] = useState<Post | null>(null);
 

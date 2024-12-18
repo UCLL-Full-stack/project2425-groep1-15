@@ -13,8 +13,13 @@ import router from "next/router";
 import { text } from "stream/consumers";
 import CreatePosts from "@/components/posts/createPost";
 import EditPost from "@/components/posts/editPost";
+import { GetServerSidePropsContext } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 const EditPostPage: React.FC = () => {
+  const { t } = useTranslation();
+
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -45,18 +50,32 @@ const EditPostPage: React.FC = () => {
       <main>
         <section>
           {isLoggedIn === null ? (
-            <p>Loading...</p>
+            <p>{t("general.loading")}</p>
           ) : isLoggedIn ? (
             <EditPost />
           ) : (
             <p>
-              Please log in <Link href="../login">here</Link> to create a post.
+              {t("general.login1")}
+              <Link href="../login">{t("general.login2")}</Link>{" "}
+              {t("general.login3")}
             </p>
           )}
         </section>
       </main>
     </>
   );
+};
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const { locale } = context;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", ["common"])),
+    },
+  };
 };
 
 export default EditPostPage;

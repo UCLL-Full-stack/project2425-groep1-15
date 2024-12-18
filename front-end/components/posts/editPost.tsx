@@ -9,8 +9,11 @@ import UserService from "@/services/UserService";
 import ClimbingGymService from "@/services/ClimbingGymService";
 import BoulderService from "@/services/BoulderProblemService";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 
 const EditPost: React.FC = () => {
+  const { t } = useTranslation();
+
   const [post, setPost] = useState<Post | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -63,7 +66,7 @@ const EditPost: React.FC = () => {
     const postId = post.id;
 
     if (typeof postId !== "number") {
-      setErrorMessage("Invalid post ID");
+      setErrorMessage(t("posts.edit.error"));
       return;
     }
 
@@ -71,20 +74,29 @@ const EditPost: React.FC = () => {
     const boulderId = post.boulder.id;
 
     const updatedTitle =
-      (document.getElementById("title") as HTMLInputElement).value ||
-      post.title;
+      (document.getElementById(t("posts.edit.form.title")) as HTMLInputElement)
+        .value || post.title;
     const updatedComment =
-      (document.getElementById("comment") as HTMLInputElement).value ||
-      post.comment;
+      (
+        document.getElementById(
+          t("posts.edit.form.comment")
+        ) as HTMLInputElement
+      ).value || post.comment;
     const updatedGymName =
-      (document.getElementById("gymName") as HTMLInputElement).value ||
-      post.boulder.gym.gymName;
+      (
+        document.getElementById(
+          t("posts.edit.form.gymname")
+        ) as HTMLInputElement
+      ).value || post.boulder.gym.gymName;
     const updatedGrade =
-      (document.getElementById("grade") as HTMLInputElement).value ||
-      post.boulder.grade;
+      (document.getElementById(t("posts.edit.form.grade")) as HTMLInputElement)
+        .value || post.boulder.grade;
     const updatedLocation =
-      (document.getElementById("location") as HTMLInputElement).value ||
-      post.boulder.gym.location;
+      (
+        document.getElementById(
+          t("posts.edit.form.location")
+        ) as HTMLInputElement
+      ).value || post.boulder.gym.location;
 
     try {
       let updatedImage = post.image;
@@ -155,26 +167,27 @@ const EditPost: React.FC = () => {
   if (!isLoggedIn) {
     return (
       <p>
-        Please log in <Link href="../login">here</Link> to edit a post.
+        {t("general.login1")}
+        <Link href="../login">{t("general.login2")}</Link> {t("general.login3")}
       </p>
     );
   }
 
   if (!post) {
-    return <p>Loading post data...</p>;
+    return <p>{t("general.loading")}</p>;
   }
 
   return (
     <>
       <div className={createStyle.fields}>
-        <h1 className={createStyle.title}>Edit Post</h1>
+        <h1 className={createStyle.title}>{t("posts.edit.title")}</h1>
         {errorMessage && <p className={createStyle.error}>{errorMessage}</p>}
         <input
           className={createStyle.input}
           type="text"
           id="title"
           defaultValue={post.title}
-          placeholder="Title"
+          placeholder={t("posts.edit.form.title")}
         />
         <label className={createStyle.inputPicture}>
           <input type="file" accept="image/*" onChange={handleFileChange} />
@@ -185,21 +198,21 @@ const EditPost: React.FC = () => {
             type="text"
             id="gymName"
             defaultValue={post.boulder.gym.gymName}
-            placeholder="Gym Name"
+            placeholder={t("posts.edit.form.gymname")}
           />
           <input
             className={createStyle.inputLocation}
             type="text"
             id="location"
             defaultValue={post.boulder.gym.location}
-            placeholder="Location"
+            placeholder={t("posts.edit.form.location")}
           />
           <input
             className={createStyle.inputLocation}
             type="text"
             id="grade"
             defaultValue={post.boulder.grade}
-            placeholder="Grade"
+            placeholder={t("posts.edit.form.grade")}
           />
         </div>
         <input
@@ -207,11 +220,11 @@ const EditPost: React.FC = () => {
           type="text"
           id="comment"
           defaultValue={post.comment}
-          placeholder="Comment"
+          placeholder={t("posts.edit.form.comment")}
         />
         <div className={createStyle.publishContainer}>
           <button className={createStyle.publishButton} onClick={handleUpdate}>
-            Update Post
+            {t("posts.edit.form.grade")}
           </button>
         </div>
       </div>

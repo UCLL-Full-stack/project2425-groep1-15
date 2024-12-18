@@ -3,8 +3,13 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import UserLoginForm from "@/components/users/UserLoginFrom";
 import LoginStyles from "../../styles/Login.module.css";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { GetServerSidePropsContext } from "next/types";
 
 const Login: React.FC = () => {
+  const { t } = useTranslation();
+
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -26,7 +31,7 @@ const Login: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Login</title>
+        <title>{t("login.title")}</title>
         <meta name="description" content="Courses app" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -35,9 +40,9 @@ const Login: React.FC = () => {
       <main className={LoginStyles.loginMain}>
         <section>
           {isLoggedIn === null ? (
-            <p>Loading...</p>
+            <p>{t("general.loading")}</p>
           ) : isLoggedIn ? (
-            <p>You are already logged in.</p>
+            <p>{t("login.loggedId")}</p>
           ) : (
             <UserLoginForm />
           )}
@@ -45,6 +50,18 @@ const Login: React.FC = () => {
       </main>
     </>
   );
+};
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const { locale } = context;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", ["common"])),
+    },
+  };
 };
 
 export default Login;

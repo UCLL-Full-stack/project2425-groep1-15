@@ -1,0 +1,62 @@
+{
+  "general.loading": "cargando...",
+  "general.login1": "Por favor inicie sesión ",
+  "general.login2": "aquí",
+  "general.login3": " para ver su página de inicio.",
+  "header": {
+    "title": "Proyecto Pinch",
+    "posts": "publicaciones",
+    "profile": "perfil",
+    "logout": "cerrar sesión",
+    "login": "iniciar sesión"
+  },
+  "home": {
+    "title": "página de inicio",
+    "content": "Inicio"
+  },
+  "posts": {
+    "title": "Publicaciones",
+    "statistics": "estadísticas",
+    "createPost": "Crear nueva publicación",
+    "editButton": "editar",
+    "gym": "gimnasio:",
+
+    "edit": {
+      "title": "Editar publicación",
+      "error": "ID de publicación inválido",
+      "form": {
+        "title": "título",
+        "comment": "comentario",
+        "gymname": "nombre del gimnasio",
+        "grade": "calificación",
+        "location": "ubicación"
+      },
+      "updateButton": "Actualizar publicación"
+    },
+    "create": {
+      "title": "Nueva publicación",
+      "error1": "Por favor, complete todos los campos correctamente antes de publicar.",
+      "error2": "Ocurrió un error al crear la publicación. Por favor, intente de nuevo.",
+      "form": {
+        "title": "título",
+        "comment": "comentario",
+        "gymname": "nombre del gimnasio",
+        "grade": "calificación",
+        "location": "ubicación"
+      },
+      "publish": "publicar"
+    }
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "loggedIn": "Ya has iniciado sesión",
+    "incorrect": "Correo electrónico o contraseña incorrectos",
+    "email": "correo electrónico",
+    "password": "contraseña",
+    "submit": "enviar"
+  },
+  "profile": {
+    "title": "Perfil",
+    "aantalPosts": "Número de publicaciones:"
+  }
+}

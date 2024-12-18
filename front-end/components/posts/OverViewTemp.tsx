@@ -4,12 +4,15 @@ import PostStyles from "../../styles/Posts.module.css";
 import Logo from "../Logo";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 
 type Props = {
   posts: Array<Post>;
 };
 
 const PostOverviewTable: React.FC<Props> = ({ posts }) => {
+  const { t } = useTranslation();
+
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   return (
     <>
@@ -25,7 +28,9 @@ const PostOverviewTable: React.FC<Props> = ({ posts }) => {
             />
             <h3 className={PostStyles.postTitle}>{post.title}</h3>
             <Link href={`/edit/${post.id}`}>
-              <button className={PostStyles.edit}>Edit</button>
+              <button className={PostStyles.edit}>
+                {t("posts.editButton")}
+              </button>
             </Link>
           </div>
           <Image
@@ -41,7 +46,7 @@ const PostOverviewTable: React.FC<Props> = ({ posts }) => {
           </div>
           <div className={PostStyles.GymAndDate}>
             <p className={PostStyles.postGym}>
-              Gym: {post.boulder.gym.gymName}
+              {t("posts.gym")} {post.boulder.gym.gymName}
             </p>
             <p className={PostStyles.postDate}>
               {new Date(post.date).toLocaleDateString()}

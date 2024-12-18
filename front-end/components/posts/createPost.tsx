@@ -12,8 +12,11 @@ import Link from "next/link";
 import router from "next/router";
 import { text } from "stream/consumers";
 import UserService from "@/services/UserService";
+import { useTranslation } from "next-i18next";
 
 const CreatePosts: React.FC = () => {
+  const { t } = useTranslation();
+
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
   const [gymName, setgymName] = useState("");
@@ -32,13 +35,26 @@ const CreatePosts: React.FC = () => {
   };
 
   const setStates = () => {
-    setTitle((document.getElementById("title") as HTMLInputElement).value);
-    setComment((document.getElementById("comment") as HTMLInputElement).value);
+    setTitle(
+      (document.getElementById(t("posts.create.title")) as HTMLInputElement)
+        .value
+    );
+    setComment(
+      (document.getElementById(t("posts.create.comment")) as HTMLInputElement)
+        .value
+    );
 
-    setgymName((document.getElementById("gymName") as HTMLInputElement).value);
-    setGrade((document.getElementById("grade") as HTMLInputElement).value);
+    setgymName(
+      (document.getElementById(t("posts.create.gymname")) as HTMLInputElement)
+        .value
+    );
+    setGrade(
+      (document.getElementById(t("posts.create.grade")) as HTMLInputElement)
+        .value
+    );
     setLocation(
-      (document.getElementById("location") as HTMLInputElement).value
+      (document.getElementById(t("posts.create.location")) as HTMLInputElement)
+        .value
     );
   };
 
@@ -52,7 +68,7 @@ const CreatePosts: React.FC = () => {
       !location ||
       !selectedFile
     ) {
-      setErrorMessage("Please fill in all fields correctly before publishing.");
+      setErrorMessage(t("posts.create.error1"));
       return;
     }
 
@@ -125,9 +141,7 @@ const CreatePosts: React.FC = () => {
         setIsLoggedIn(false);
       }
     } catch (error: any) {
-      setErrorMessage(
-        "An error occurred while creating the post. Please try again."
-      );
+      setErrorMessage(t("posts.create.error2"));
     }
   };
 
@@ -150,13 +164,13 @@ const CreatePosts: React.FC = () => {
   return (
     <>
       <div className={createStyle.fields}>
-        <h1 className={createStyle.title}>New post</h1>
+        <h1 className={createStyle.title}>{t("posts.create.title")}</h1>
         {errorMessage && <p className={createStyle.error}>{errorMessage}</p>}
         <input
           className={createStyle.input}
           type="text"
           id="title"
-          placeholder="Title"
+          placeholder={t("posts.create.form.title")}
           onChange={(e) => setTitle(e.target.value)}
         />
         <label className={createStyle.inputPicture}>
@@ -167,21 +181,21 @@ const CreatePosts: React.FC = () => {
             className={createStyle.inputLocation}
             type="text"
             id="gymName"
-            placeholder="Gym Name"
+            placeholder={t("posts.create.form.gymname")}
             onChange={(e) => setgymName(e.target.value)}
           />
           <input
             className={createStyle.inputLocation}
             type="text"
             id="location"
-            placeholder="Location"
+            placeholder={t("posts.create.form.location")}
             onChange={(e) => setLocation(e.target.value)}
           />
           <input
             className={createStyle.inputLocation}
             type="text"
             id="grade"
-            placeholder="Grade"
+            placeholder={t("posts.create.form.grade")}
             onChange={(e) => setGrade(e.target.value)}
           />
         </div>
@@ -189,12 +203,12 @@ const CreatePosts: React.FC = () => {
           className={createStyle.comment}
           type="text"
           id="comment"
-          placeholder="Comment"
+          placeholder={t("posts.create.form.comment")}
           onChange={(e) => setComment(e.target.value)}
         />
         <div className={createStyle.publishContainer}>
           <button className={createStyle.publishButton} onClick={handlePublish}>
-            publish
+            {t("posts.create.publish")}
           </button>
         </div>
       </div>

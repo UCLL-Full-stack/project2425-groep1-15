@@ -4,8 +4,13 @@ import classNames from "classnames";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import LoginStyles from "../../styles/Login.module.css";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { GetServerSidePropsContext } from "next/types";
 
 const UserLoginForm: React.FC = () => {
+  const { t } = useTranslation();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -23,12 +28,12 @@ const UserLoginForm: React.FC = () => {
     let result = true;
 
     if (!email && email.trim() === "") {
-      setEmailError("Incorrect Password or Email");
+      setEmailError(t("login.incorrect"));
       result = false;
     }
 
     if (!password && password.trim() === "") {
-      setPasswordError("Incorrect Password or Email");
+      setPasswordError(t("login.incorrect"));
       result = false;
     }
 
@@ -75,11 +80,11 @@ const UserLoginForm: React.FC = () => {
   return (
     <>
       <div className={LoginStyles.page}>
-        <h3 className={LoginStyles.title}>Log In</h3>
+        <h3 className={LoginStyles.title}>{t("login.title")}</h3>
 
         <form onSubmit={handleSubmit} className={LoginStyles.form}>
           <label htmlFor="emailInput" className={LoginStyles.field}>
-            Email
+            {t("login.email")}
           </label>
           <div className={LoginStyles.input}>
             <input
@@ -95,7 +100,7 @@ const UserLoginForm: React.FC = () => {
           </div>
 
           <label htmlFor="passwordInput" className={LoginStyles.field}>
-            Password
+            {t("login.password")}
           </label>
           <div className={LoginStyles.input}>
             <input
@@ -110,7 +115,7 @@ const UserLoginForm: React.FC = () => {
             )}
           </div>
           <button type="submit" className={LoginStyles.submit}>
-            Submit
+            {t("login.submit")}
           </button>
         </form>
       </div>

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
+import Language from "./languages/languages";
 
 const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
@@ -25,28 +27,29 @@ const Header: React.FC = () => {
     setIsLoggedIn(false);
   };
 
+  const { t } = useTranslation();
+
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <Link href="/" className={styles.link}>
-          Home
-        </Link>
+        <Language />
+
         <Link href="/posts" className={styles.link}>
-          Posts
+          {t("header.posts")}
         </Link>
-        <a className={styles.title}> Project Pinch</a>
+        <a className={styles.title}> {t("header.title")}</a>
         <Link href="/profile" className={styles.link}>
-          Profile
+          {t("header.profile")}
         </Link>
         {isLoggedIn === null ? (
-          <p>Loading...</p>
+          <p>{t("header.loading")}</p>
         ) : isLoggedIn ? (
           <a href="/login" onClick={handleLogout} className={styles.link}>
-            Logout
+            {t("header.logout")}
           </a>
         ) : (
           <Link href="/login" className={styles.link}>
-            Log in
+            {t("header.login")}
           </Link>
         )}
       </nav>

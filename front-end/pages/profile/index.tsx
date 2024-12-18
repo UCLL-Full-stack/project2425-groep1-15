@@ -2,11 +2,16 @@ import Header from "@/components/header";
 import ProfileComponent from "@/components/users/Profile";
 import UserService from "@/services/UserService";
 import { User } from "@/types";
+import { GetServerSidePropsContext } from "next";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Profile: React.FC = () => {
+  const { t } = useTranslation();
+
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
@@ -44,7 +49,7 @@ const Profile: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Profile</title>
+        <title>{t("profile.title")}</title>
         <meta name="description" content="Courses app" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -53,19 +58,32 @@ const Profile: React.FC = () => {
       <main>
         <section>
           {isLoggedIn === null ? (
-            <p>Loading...</p>
+            <p>{t("general.loading")}</p>
           ) : isLoggedIn && user ? (
             <ProfileComponent user={user} />
           ) : (
             <p>
-              Please log in <Link href="../login">here</Link> to view your
-              profile.
+              {t("general.login1")}
+              <Link href="../login">{t("general.login2")}</Link>{" "}
+              {t("general.login3")}
             </p>
           )}
         </section>
       </main>
     </>
   );
+};
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const { locale } = context;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", ["common"])),
+    },
+  };
 };
 
 export default Profile;

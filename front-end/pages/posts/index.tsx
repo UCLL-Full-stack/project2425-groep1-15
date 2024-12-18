@@ -8,8 +8,13 @@ import { useEffect, useState } from "react";
 import PostStyles from "../../styles/Posts.module.css";
 import Styles from "../../styles/Home.module.css";
 import OverViewTemp from "@/components/posts/OverViewTemp";
+import { GetServerSidePropsContext } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 const Posts: React.FC = () => {
+  const { t } = useTranslation();
+
   const [posts, setPosts] = useState<Array<Post>>();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
@@ -40,7 +45,7 @@ const Posts: React.FC = () => {
   return (
     <>
       <Head>
-        <title>posts</title>
+        <title>{t("posts.title")}</title>
         <meta name="description" content="Courses app" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -48,12 +53,12 @@ const Posts: React.FC = () => {
       <Header></Header>
       <main className={PostStyles.mainPosts}>
         {isLoggedIn === null ? (
-          <p>Loading...</p>
+          <p>{t("general.loading")}</p>
         ) : isLoggedIn ? (
           <div>
-            <h1 className={PostStyles.title}>Posts</h1>
+            <h1 className={PostStyles.title}>{t("posts.title")}</h1>
             <div className={PostStyles.tableBody}>
-              <h2 className={PostStyles.statistics}>Statistics (TBA)</h2>
+              <h2 className={PostStyles.statistics}>{t("posts.statistics")}</h2>
               {posts && (
                 <section className={PostStyles.postSection}>
                   <OverViewTemp posts={posts} />
@@ -61,19 +66,33 @@ const Posts: React.FC = () => {
               )}
               <Link href="/create" className={PostStyles.createSection}>
                 <button className={PostStyles.createButton}>
-                  Create new post
+                  {t("posts.createPost")}
                 </button>
               </Link>
             </div>
           </div>
         ) : (
           <p>
-            Please log in <Link href="../login">here</Link> to view posts.
+            {t("general.login1")}
+            <Link href="../login">{t("general.login2")}</Link>{" "}
+            {t("general.login3")}
           </p>
         )}
       </main>
     </>
   );
+};
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const { locale } = context;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", ["common"])),
+    },
+  };
 };
 
 export default Posts;

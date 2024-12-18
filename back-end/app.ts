@@ -11,6 +11,7 @@ import { climbingGymRouter } from './controller/climbingGym.routes';
 import { boulderProblemRouter } from './controller/boulderProblem.routes';
 import { imageRouter } from './controller/image.routes';
 import path from 'path';
+import { expressjwt } from 'express-jwt';
 
 const app = express();
 dotenv.config();
@@ -21,6 +22,15 @@ app.use(
         origin: 'http://localhost:8080',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         credentials: true,
+    })
+);
+
+app.use(
+    expressjwt({
+        secret: process.env.JWT_SECRET || 'default_secret',
+        algorithms: ['HS256'],
+    }).unless({
+        path: ['/api-docs', /^\/api-docs\/.*/, '/users/login', '/users/signup', '/status'],
     })
 );
 app.use(bodyParser.json());

@@ -1,0 +1,61 @@
+{
+  "general.loading": "loading...",
+  "general.login1": "Please log in ",
+  "general.login2": "here",
+  "general.login3": " to view your homepage.",
+  "header": {
+    "title": "Project Pinch",
+    "posts": "posts",
+    "profile": "profile",
+    "logout": "logout",
+    "login": "log in"
+  },
+  "home": {
+    "title": "homepage",
+    "content": "Home"
+  },
+  "posts": {
+    "title": "Posts",
+    "statistics": "statistics",
+    "createPost": "Create new post",
+    "editButton": "edit",
+    "gym": "gym:",
+    "edit": {
+      "title": "Edit Post",
+      "error": "Invalid post ID",
+      "form": {
+        "title": "title",
+        "comment": "comment",
+        "gymname": "gymname",
+        "grade": "grade",
+        "location": "location"
+      },
+      "updateButton": "Update Post"
+    },
+    "create": {
+      "title": "New post",
+      "error1": "Please fill in all fields correctly before publishing.",
+      "error2": "An error occurred while creating the post. Please try again.",
+      "form": {
+        "title": "title",
+        "comment": "comment",
+        "gymname": "gymname",
+        "grade": "grade",
+        "location": "location"
+      },
+      "publish": "publish"
+    }
+  },
+  "login": {
+    "title": "Login",
+    "loggedIn": "You are already logged in",
+    "incorrect": "Incorrect Password or Email",
+    "email": "email",
+    "password": "password",
+    "submit": "submit"
+  },
+  "profile": {
+    "title": "Profile",
+    "aantalPosts": "Aantal Posts:"
+  }
+}
