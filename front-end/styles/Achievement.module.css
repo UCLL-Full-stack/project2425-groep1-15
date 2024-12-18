@@ -8,6 +8,7 @@
   justify-content: center;
   align-items: center;
   justify-items: center;
+  width: 10rem;
 }
 
 .title {
@@ -18,20 +19,18 @@
 }
 
 .achievement {
-  justify-content: center;
   justify-items: center;
-  align-items: center;
   padding: 0 2rem 0 2rem;
   border-color: black;
   border-style: solid;
   border-width: 1px;
   border-radius: 1rem;
   margin: 0 1rem 1rem 1rem;
-  width: 10rem;
 }
 
 .achievementTitle {
-  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;
 }
 
 .difficulty {
