@@ -72,7 +72,7 @@ const UserLoginForm: React.FC = () => {
     }
 
     setTimeout(() => {
-      router.push("/");
+      router.push("/posts");
     }, 2000);
   };
 

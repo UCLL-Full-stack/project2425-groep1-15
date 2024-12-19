@@ -19,50 +19,53 @@ const ProfileComponent: React.FC<ProfileProps> = ({
 
   return (
     <>
-      <div className={profileStyles.profilePage}>
-        <div className={profileStyles.top}>
-          <h3 className={profileStyles.title}>{t("profile.title")}</h3>
-          <div className={profileStyles.UsernameAndPfp}>
-            <p className={profileStyles.username}>{user.name}</p>
-            <img
-              src="/pictures/pfp.png"
-              alt="Profile Picture"
-              width={100}
-              height={100}
-              className={profileStyles.pfp}
-            ></img>
+      <div className={profileStyles.mainProfile}>
+        <div className={profileStyles.profilePage}>
+          <div className={profileStyles.top}>
+            <h3 className={profileStyles.title}>{t("profile.title")}</h3>
+            <div className={profileStyles.UsernameAndPfp}>
+              <p className={profileStyles.username}>{user.name}</p>
+              <img
+                src="/pictures/pfp.png"
+                alt="Profile Picture"
+                width={100}
+                height={100}
+                className={profileStyles.pfp}
+              ></img>
+            </div>
           </div>
-        </div>
-        <div className={profileStyles.bottom}>
-          <div className={profileStyles.PostsAndAchievementAndDate}>
-            <p className={profileStyles.numPosts}>
-              {t("profile.AantalPosts")}: {numPosts}
-            </p>
-            <p className={profileStyles.prestatie}>
-              {t("profile.LaatstePrestatie")}:{" "}
-              {user.achievements && user.achievements.length > 0
-                ? user.achievements[0].title
-                : "No achievements yet"}
-            </p>
-          </div>
-          <div className={profileStyles.boulderSection}>
-            <p className={profileStyles.lastBoulder}>
-              {t("profile.LastBoulder")}:
-            </p>
-            {latestPost && latestPost.boulder ? (
-              <>
-                <p>
-                  {latestPost.boulder.gym.gymName} - {latestPost.boulder.grade}
-                </p>
-                <img
-                  src={latestPost.image.path}
-                  alt="Laatste Boulder"
-                  className={profileStyles.boulder}
-                />
-              </>
-            ) : (
-              <p>{t("profile.NoBouldersAvailable")}</p>
-            )}
+          <div className={profileStyles.bottom}>
+            <div className={profileStyles.PostsAndAchievementAndDate}>
+              <p className={profileStyles.numPosts}>
+                {t("profile.AantalPosts")}: {numPosts}
+              </p>
+              <p className={profileStyles.prestatie}>
+                {t("profile.LaatstePrestatie")}:{" "}
+                {user.achievements && user.achievements.length > 0
+                  ? user.achievements[0].title
+                  : "No achievements yet"}
+              </p>
+            </div>
+            <div className={profileStyles.boulderSection}>
+              <p className={profileStyles.lastBoulder}>
+                {t("profile.LastBoulder")}:
+              </p>
+              {latestPost && latestPost.boulder ? (
+                <>
+                  <p>
+                    {latestPost.boulder.gym.gymName} -{" "}
+                    {latestPost.boulder.grade}
+                  </p>
+                  <img
+                    src={latestPost.image.path}
+                    alt="Laatste Boulder"
+                    className={profileStyles.boulder}
+                  />
+                </>
+              ) : (
+                <p>{t("profile.NoBouldersAvailable")}</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
