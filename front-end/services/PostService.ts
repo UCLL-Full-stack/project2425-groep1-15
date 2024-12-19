@@ -70,12 +70,27 @@ const getPostsByUserEmail = async (email: string, token: string) => {
   return await response.json();
 };
 
+const deletePost = async (id: number, token: string) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return await response.json();
+};
+
 const PostService = {
   getAllPosts,
   createPost,
   editPost,
   getPostsByUserEmail,
   getPostById,
+  deletePost,
 };
 
 export default PostService;

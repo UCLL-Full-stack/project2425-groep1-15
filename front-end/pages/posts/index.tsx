@@ -12,6 +12,8 @@ import { useTranslation } from "next-i18next";
 import { GetServerSidePropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import LoginStyles from "../../styles/Login.module.css";
+import PostOverviewTable from "@/components/posts/postOverview";
+import router from "next/router";
 
 const Posts: React.FC = () => {
   const { t } = useTranslation();
@@ -72,6 +74,15 @@ const Posts: React.FC = () => {
     getPosts();
   }, []);
 
+  const pushDelete = async (id: number) => {
+    const userData = sessionStorage.getItem("loggedInUser");
+    if (userData) {
+      const parsedData = JSON.parse(userData);
+
+      await PostService.deletePost(id, parsedData.token);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -93,7 +104,11 @@ const Posts: React.FC = () => {
               </div>
               {posts && user && (
                 <section className={PostStyles.postSection}>
-                  <OverViewTemp posts={posts} user={user} />
+                  <PostOverviewTable
+                    posts={posts}
+                    user={user}
+                    pushDelete={pushDelete}
+                  />
                 </section>
               )}
               <Link href="/create" className={PostStyles.createSection}>

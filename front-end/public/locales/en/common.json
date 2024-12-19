@@ -19,6 +19,7 @@
     "statistics": "statistics",
     "createPost": "Create new post",
     "editButton": "edit",
+    "deleteButton": "delete",
     "gym": "gym:",
     "edit": {
       "title": "Edit Post",

@@ -5,16 +5,32 @@ import Logo from "../Logo";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
+import PostService from "@/services/PostService";
 
 type Props = {
   posts: Array<Post>;
   user: User;
+  pushDelete: (id: number) => Promise<void>;
 };
 
-const PostOverviewTable: React.FC<Props> = ({ posts, user }) => {
+const PostOverviewTable: React.FC<Props> = ({ posts, user, pushDelete }) => {
   const { t } = useTranslation();
 
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleDelete = async (id: number | undefined) => {
+    if (!id) {
+      setErrorMessage(t("posts.create.error2"));
+      return;
+    }
+    setErrorMessage("");
+    try {
+      await pushDelete(id);
+    } catch (error) {
+      setErrorMessage(t("posts.create.error2"));
+    }
+  };
 
   return (
     <>
@@ -49,8 +65,18 @@ const PostOverviewTable: React.FC<Props> = ({ posts, user }) => {
               <Link href={`/edit/${post.id}`}>
                 <button className={PostStyles.edit}>
                   {t("posts.editButton")}
-                </button>
+                </button>{" "}
               </Link>
+            ) : (
+              <p className={PostStyles.edit}></p>
+            )}
+            {user.role == "admin" ? (
+              <button
+                className={PostStyles.edit}
+                onClick={() => handleDelete(post.id)}
+              >
+                {t("posts.deleteButton")}
+              </button>
             ) : (
               <p className={PostStyles.edit}></p>
             )}
