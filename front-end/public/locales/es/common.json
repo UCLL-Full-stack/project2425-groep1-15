@@ -2,7 +2,7 @@
   "general.loading": "cargando...",
   "general.login1": "Por favor inicie sesión ",
   "general.login2": "aquí",
-  "general.login3": " para ver su página de inicio.",
+  "general.login3": " para ver esta página.",
   "header": {
     "title": "Proyecto Pinch",
     "posts": "publicaciones",
@@ -51,8 +51,9 @@
   "login": {
     "title": "Iniciar sesión",
     "loggedIn": "Ya has iniciado sesión",
-    "incorrect": "Correo electrónico o contraseña incorrectos",
-    "email": "correo electrónico",
+    "incorrect": "El correo-e o contraseña incorrectos",
+    "success": "inicio de sesión exitoso",
+    "email": "el correo-e",
     "password": "contraseña",
     "submit": "enviar"
   },

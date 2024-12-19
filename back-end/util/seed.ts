@@ -37,7 +37,7 @@ const main = async () => {
     const joren = await prisma.user.create({
         data: {
             name: 'Joren',
-            email: 'Joren.VanLaer@gmail.com',
+            email: 'joren.vanlaer@gmail.com',
             password: await bcrypt.hash('Joren123', 12),
             achievements: {
                 connect: {
@@ -60,7 +60,7 @@ const main = async () => {
     const nathan = await prisma.user.create({
         data: {
             name: 'Nathan',
-            email: 'Nathan.DeKlerck@gmail.com',
+            email: 'nathan.deklerck@gmail.com',
             password: await bcrypt.hash('Nathan123', 12),
         },
     });
@@ -68,7 +68,7 @@ const main = async () => {
     const alexandre = await prisma.user.create({
         data: {
             name: 'Alexandre',
-            email: 'Alexandre.VanAerschot@gmail.com',
+            email: 'alexandre.vanaerschot@gmail.com',
             password: await bcrypt.hash('Alexandre123', 12),
             role: 'VIP',
         },
@@ -77,7 +77,7 @@ const main = async () => {
     const johan = await prisma.user.create({
         data: {
             name: 'Johan',
-            email: 'Johan.Pieck@gmail.com',
+            email: 'johan.pieck@gmail.com',
             password: await bcrypt.hash('Johan123', 12),
             role: 'admin',
         },

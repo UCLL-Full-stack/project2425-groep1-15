@@ -7,7 +7,7 @@ import { generateJwtToken } from '../util/jwt';
 const getAllUsers = async (): Promise<User[]> => userDb.getAllUsers();
 
 const getUserByEmail = async (email: string): Promise<User | null> => {
-    const user = await userDb.getUserByEmail(email);
+    const user = await userDb.getUserByEmail(email.trim().toLowerCase());
     if (!user) throw new Error(`User with email ${email} does not exist.`);
     return user;
 };
@@ -20,7 +20,7 @@ const createUser = async (user: User): Promise<User> => {
 
     const newUser = new User({
         name: user.getName(),
-        email: user.getEmail(),
+        email: user.getEmail().trim().toLowerCase(),
         password: hashedPassword,
         achievements: user.getAchievements(),
     });
@@ -29,7 +29,8 @@ const createUser = async (user: User): Promise<User> => {
 };
 
 const authenticate = async ({ email, password }: UserInput): Promise<AuthenticationResponse> => {
-    const user = await userDb.getUserByEmail(email);
+    const newEmail = email.trim().toLowerCase();
+    const user = await userDb.getUserByEmail(newEmail);
 
     if (!user) {
         throw new Error('no user with that email');
