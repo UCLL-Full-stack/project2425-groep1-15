@@ -78,8 +78,30 @@ const UserLoginForm: React.FC = () => {
 
   useEffect(() => {
     setUsers([
-      { name: "Joren", email: "Joren.VanLaer@gmail.com", password: "p" },
-      { name: "Nathan", email: "Nathan.DeKlerck@gmail.com", password: "p" },
+      {
+        name: "Joren",
+        email: "Joren.VanLaer@gmail.com",
+        password: "Joren123",
+        role: "user",
+      },
+      {
+        name: "Nathan",
+        email: "Nathan.DeKlerck@gmail.com",
+        password: "Nathan123",
+        role: "user",
+      },
+      {
+        name: "Alexandre",
+        email: "Alexandre.VanAerschot@gmail.com",
+        password: "Alexandre123",
+        role: "VIP",
+      },
+      {
+        name: "Johan",
+        email: "Johan.Pieck@gmail.com",
+        password: "Johan123",
+        role: "admin",
+      },
     ]);
   }, []);
   return (
@@ -136,6 +158,9 @@ const UserLoginForm: React.FC = () => {
             <th className={LoginStyles.tableHead} scope="col">
               Password
             </th>
+            <th className={LoginStyles.tableHead} scope="col">
+              role
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -151,6 +176,7 @@ const UserLoginForm: React.FC = () => {
               <td className={LoginStyles.td}>{user.name}</td>
               <td className={LoginStyles.td}>{user.email}</td>
               <td className={LoginStyles.td}>{user.password}</td>
+              <td className={LoginStyles.td}>{user.role}</td>
             </tr>
           ))}
         </tbody>

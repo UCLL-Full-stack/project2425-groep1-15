@@ -45,6 +45,10 @@ export class User {
         if (!this.isNotEmpty(user.password)) {
             throw new Error('Password cannot be empty.');
         }
+
+        if (user.role != 'user' && user.role != 'VIP' && user.role != 'admin') {
+            throw new Error('role has to be either user, VIP or admin');
+        }
     }
 
     private isNotEmpty(input: string): boolean {

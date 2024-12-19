@@ -60,6 +60,8 @@ const postRouter = express.Router();
  * @swagger
  * /posts:
  *   get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get a list of all posts.
  *     responses:
  *       200:

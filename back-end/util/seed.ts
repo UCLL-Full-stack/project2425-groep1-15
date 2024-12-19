@@ -12,11 +12,11 @@ const date1 = set(new Date(), { hours: 0, minutes: 0 });
 const baseDir = path.resolve(__dirname, '../front-end/public/pictures');
 
 const main = async () => {
-    await prisma.user.deleteMany();
     await prisma.post.deleteMany();
     await prisma.boulderProblem.deleteMany();
     await prisma.climbingGym.deleteMany();
     await prisma.achievement.deleteMany();
+    await prisma.user.deleteMany();
 
     const achievement1 = await prisma.achievement.create({
         data: {
@@ -38,7 +38,7 @@ const main = async () => {
         data: {
             name: 'Joren',
             email: 'Joren.VanLaer@gmail.com',
-            password: await bcrypt.hash('p', 12),
+            password: await bcrypt.hash('Joren123', 12),
             achievements: {
                 connect: {
                     id: achievement1.id,
@@ -61,7 +61,25 @@ const main = async () => {
         data: {
             name: 'Nathan',
             email: 'Nathan.DeKlerck@gmail.com',
-            password: await bcrypt.hash('p', 12),
+            password: await bcrypt.hash('Nathan123', 12),
+        },
+    });
+
+    const alexandre = await prisma.user.create({
+        data: {
+            name: 'Alexandre',
+            email: 'Alexandre.VanAerschot@gmail.com',
+            password: await bcrypt.hash('Alexandre123', 12),
+            role: 'VIP',
+        },
+    });
+
+    const johan = await prisma.user.create({
+        data: {
+            name: 'Johan',
+            email: 'Johan.Pieck@gmail.com',
+            password: await bcrypt.hash('Johan123', 12),
+            role: 'admin',
         },
     });
 
@@ -101,7 +119,7 @@ const main = async () => {
     const image2 = await prisma.image.create({
         data: {
             fileName: 'Image2',
-            path: '/pictures/bird.jpg',
+            path: '/pictures/indoorBoulder.jpg',
         },
     });
 
@@ -117,7 +135,7 @@ const main = async () => {
                 connect: { id: image1.id },
             },
             user: {
-                connect: { id: joren.id },
+                connect: { id: alexandre.id },
             },
         },
     });

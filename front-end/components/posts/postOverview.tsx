@@ -21,15 +21,30 @@ const PostOverviewTable: React.FC<Props> = ({ posts, user }) => {
       {posts.map((post, index) => (
         <div key={index} className={PostStyles.postContainer}>
           <div className={PostStyles.TitleAndEdit}>
-            <img
-              className={PostStyles.pfp}
-              src="/pictures/pfp.png"
-              alt="pfp"
-              width={100}
-              height={100}
-            />
-
-            <h3 className={PostStyles.postTitle}>{post.title}</h3>
+            <div className={PostStyles.pfpAndName}>
+              <img
+                className={PostStyles.pfp}
+                src="/pictures/pfp.png"
+                alt="pfp"
+                width={100}
+                height={100}
+              />
+              <p className={PostStyles.userName}>{post.user.name}</p>
+            </div>
+            <h3 className={PostStyles.postTitle}>
+              {post.user.role === "VIP" ? (
+                <Image
+                  className={PostStyles.vip}
+                  src={`/pictures/vip.png`}
+                  alt="TestImage"
+                  width={500}
+                  height={300}
+                />
+              ) : (
+                ""
+              )}{" "}
+              {post.title}
+            </h3>
             {post.user.email === user.email ? (
               <Link href={`/edit/${post.id}`}>
                 <button className={PostStyles.edit}>
