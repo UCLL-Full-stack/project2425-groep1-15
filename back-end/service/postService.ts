@@ -5,7 +5,7 @@ import { Image } from '../model/image';
 import { Post } from '../model/post';
 import boulderProblemDb from '../repository/boulderProblem.db';
 import postDb from '../repository/post.db';
-import { PostInput } from '../types';
+import { PostInput, Role } from '../types';
 import imageDb from '../repository/image.db';
 import userDb from '../repository/user.db';
 import { User } from '../model/user';
@@ -108,7 +108,10 @@ const editPost = async (
     return await postDb.updatePost(id, newPost);
 };
 
-const deletePostById = async (id: number) => {
+const deletePostById = async (id: number, role: string) => {
+    if (role != 'admin') {
+        throw new Error('you can only delete a post as an admin');
+    }
     const test = await postDb.getPostById({ id });
 
     if (!test) {

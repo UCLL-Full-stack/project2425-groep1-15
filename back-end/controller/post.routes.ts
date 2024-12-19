@@ -1,56 +1,56 @@
 /**
  * @swagger
- *   components:
- *    securitySchemes:
+ * components:
+ *   securitySchemes:
  *     bearerAuth:
- *      type: http
- *      scheme: bearer
- *      bearerFormat: JWT
- *    schemas:
- *      ClimbingGym:
- *          type: object
- *          properties:
- *            gymName:
- *              type: string
- *              description: Name of the climbing gym.
- *            location:
- *              type: string
- *              description: Location of the climbing gym.
- *      BoulderProblem:
- *          type: object
- *          properties:
- *            id:
- *              type: number
- *              format: int64
- *            grade:
- *              type: string
- *              description: Boulder grade.
- *            gym:
- *              $ref: '#/components/schemas/ClimbingGym'
- *              description: Location gym.
- *      Post:
- *          type: object
- *          properties:
- *            id:
- *              type: number
- *              format: int64
- *            title:
- *              type: string
- *              description: Post title.
- *            comment:
- *              type: string
- *              description: Comment under post.
- *            date:
- *              type: string
- *              format: date
- *              description: Date of post.
- *            boulder:
- *              $ref: '#/components/schemas/BoulderProblem'
- *              description: Boulder associated with the post.
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *   schemas:
+ *     ClimbingGym:
+ *       type: object
+ *       properties:
+ *         gymName:
+ *           type: string
+ *           description: Name of the climbing gym.
+ *         location:
+ *           type: string
+ *           description: Location of the climbing gym.
+ *     BoulderProblem:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: number
+ *           format: int64
+ *         grade:
+ *           type: string
+ *           description: Boulder grade.
+ *         gym:
+ *           $ref: '#/components/schemas/ClimbingGym'
+ *           description: Location gym.
+ *     Post:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: number
+ *           format: int64
+ *         title:
+ *           type: string
+ *           description: Post title.
+ *         comment:
+ *           type: string
+ *           description: Comment under post.
+ *         date:
+ *           type: string
+ *           format: date
+ *           description: Date of post.
+ *         boulder:
+ *           $ref: '#/components/schemas/BoulderProblem'
+ *           description: Boulder associated with the post.
  */
 import express, { NextFunction, Request, Response } from 'express';
 import PostService from '../service/postService';
-import { PostInput } from '../types';
+import { PostInput, Role } from '../types';
 import postService from '../service/postService';
 import userDb from '../repository/user.db';
 import postDb from '../repository/post.db';
@@ -119,24 +119,24 @@ postRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
 /**
  * @swagger
  * /posts/{id}:
- *  get:
+ *   get:
  *     security:
  *       - bearerAuth: []
- *      summary: Get a post by id.
- *      parameters:
- *          - in: path
- *            name: id
- *            schema:
- *              type: integer
- *              required: true
- *              description: The post id.
- *      responses:
- *          200:
- *              description: A post object.
- *              content:
- *                  application/json:
- *                      schema:
- *                          $ref: '#/components/schemas/Post'
+ *     summary: Get a post by id.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The post id.
+ *     responses:
+ *       200:
+ *         description: A post object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
  */
 postRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -146,6 +146,7 @@ postRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
         next(error);
     }
 });
+
 /**
  * @swagger
  * /posts/{id}:
@@ -178,7 +179,6 @@ postRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
  *       404:
  *         description: Post not found.
  */
-
 postRouter.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const postData: PostInput = req.body;
@@ -192,24 +192,24 @@ postRouter.put('/:id', async (req: Request, res: Response, next: NextFunction) =
 /**
  * @swagger
  * /posts/user/{userEmail}:
- *  get:
+ *   get:
  *     security:
  *       - bearerAuth: []
- *      summary: Get posts by user.
- *      parameters:
- *          - in: path
- *            name: email
- *            schema:
- *              type: string
- *              required: true
- *              description: The posts of a user.
- *      responses:
- *          200:
- *              description: A list of post objects.
- *              content:
- *                  application/json:
- *                      schema:
- *                          $ref: '#/components/schemas/Post'
+ *     summary: Get posts by user.
+ *     parameters:
+ *       - in: path
+ *         name: userEmail
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The posts of a user.
+ *     responses:
+ *       200:
+ *         description: A list of post objects.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
  */
 postRouter.get('/user/:userEmail', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -218,12 +218,12 @@ postRouter.get('/user/:userEmail', async (req: Request, res: Response, next: Nex
             throw new Error(`User with email ${req.params.userEmail} does not exist.`);
         }
         const posts = await postService.getPostsByUser(user);
-
         res.status(200).json(posts);
     } catch (error) {
         next(error);
     }
 });
+
 /**
  * @swagger
  * /posts/{id}:
@@ -246,12 +246,12 @@ postRouter.get('/user/:userEmail', async (req: Request, res: Response, next: Nex
  *       500:
  *         description: Server error, unable to delete post.
  */
-
 postRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        await postService.deletePostById(Number(req.params.id));
-
-        res.status(200).json({ message: 'Post deleted successfully' });
+        const request = req as Request & { auth: { role: string } };
+        const { role } = request.auth;
+        await postService.deletePostById(Number(req.params.id), role);
+        res.status(204).json({ message: 'Post deleted successfully' });
     } catch (error) {
         next(error);
     }
