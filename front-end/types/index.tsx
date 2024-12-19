@@ -20,6 +20,7 @@ type User = {
   email?: string;
   password?: string;
   achievements?: Achievement[];
+  role?: Role;
 };
 
 type ClimbingGym = {
@@ -46,6 +47,8 @@ type StatusMessage = {
   type: "error" | "success";
 };
 
+type Role = "user" | "VIP" | "admin";
+
 export type {
   Post,
   User,
@@ -54,4 +57,5 @@ export type {
   ClimbingGym,
   StatusMessage,
   Image,
+  Role,
 };

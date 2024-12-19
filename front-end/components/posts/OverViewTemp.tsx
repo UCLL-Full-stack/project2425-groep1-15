@@ -28,7 +28,20 @@ const PostOverviewTable: React.FC<Props> = ({ posts, user }) => {
               width={100}
               height={100}
             />
-            <h3 className={PostStyles.postTitle}>{post.title}</h3>
+            <h3 className={PostStyles.postTitle}>
+              {post.user.role === "VIP" ? (
+                <Image
+                  className={PostStyles.vip}
+                  src={`/pictures/vip.png`}
+                  alt="TestImage"
+                  width={500}
+                  height={300}
+                />
+              ) : (
+                ""
+              )}{" "}
+              {post.title}
+            </h3>
             {post.user.email === user.email && (
               <Link href={`/edit/${post.id}`}>
                 <button className={PostStyles.edit}>

@@ -43,7 +43,7 @@ type BoulderProblemInput = {
     gym: ClimbingGymInput;
 };
 
-type Role = 'user' | 'owner' | 'admin';
+type Role = 'user' | 'VIP' | 'admin';
 
 type AuthenticationResponse = {
     token: string;
