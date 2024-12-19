@@ -89,6 +89,8 @@
   border-radius: 5rem;
   width: 4rem;
   height: 4rem;
+  margin: 0;
+  padding: 0;
 }
 
 .vip {
@@ -106,10 +108,11 @@
 .TitleAndEdit {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
   align-items: center;
   padding-bottom: 1rem;
   width: 100%;
+  justify-content: center;
+  justify-items: center;
 }
 
 .postImage {
@@ -144,12 +147,37 @@
   margin: 1rem 0.5rem 0 0;
 }
 
+.delete {
+  font-size: 2rem;
+  width: auto;
+  height: 2rem;
+  padding: 0;
+  margin-right: 1rem;
+}
+
+.delete:hover {
+  cursor: pointer;
+}
+
+.emptyP {
+  padding: 0;
+  width: auto;
+  height: 2rem;
+  margin-right: 3rem;
+  margin-left: 4rem;
+}
+
 .edit {
-  margin: 1rem 0 0 4rem;
-  font-size: 1.5rem;
-  width: 5rem;
-  border-radius: 0.5rem;
-  box-shadow: 3px 3px 5px rgb(64, 64, 64);
+  padding: 0;
+  width: auto;
+  height: 2rem;
+  margin-right: 3rem;
+  margin-left: 2rem;
+}
+
+.editImage {
+  width: auto;
+  height: 2rem;
 }
 
 .edit:hover {
