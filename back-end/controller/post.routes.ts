@@ -54,6 +54,7 @@ import { PostInput, Role } from '../types';
 import postService from '../service/postService';
 import userDb from '../repository/user.db';
 import postDb from '../repository/post.db';
+import userService from '../service/userService';
 
 const postRouter = express.Router();
 
@@ -213,7 +214,7 @@ postRouter.put('/:id', async (req: Request, res: Response, next: NextFunction) =
  */
 postRouter.get('/user/:userEmail', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await userDb.getUserByEmail(String(req.params.userEmail));
+        const user = await userService.getUserByEmail(String(req.params.userEmail));
         if (!user) {
             throw new Error(`User with email ${req.params.userEmail} does not exist.`);
         }

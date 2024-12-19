@@ -125,6 +125,13 @@ const main = async () => {
         },
     });
 
+    const climbingpark = await prisma.climbingGym.create({
+        data: {
+            location: 'Tienen',
+            gymName: 'climbingpark',
+        },
+    });
+
     const boulderLeuven = await prisma.climbingGym.create({
         data: {
             location: 'Leuven',
@@ -144,6 +151,18 @@ const main = async () => {
         },
     });
 
+    const V13 = await prisma.boulderProblem.create({
+        data: {
+            grade: 'V13',
+            gym: {
+                connect: { id: climbingpark.id },
+            },
+            posts: {
+                create: [],
+            },
+        },
+    });
+
     const image1 = await prisma.image.create({
         data: {
             fileName: 'Image1',
@@ -155,6 +174,13 @@ const main = async () => {
         data: {
             fileName: 'Image2',
             path: '/pictures/indoorBoulder.jpg',
+        },
+    });
+
+    const image3 = await prisma.image.create({
+        data: {
+            fileName: 'Image3',
+            path: '/pictures/large.jpg',
         },
     });
 
@@ -188,6 +214,23 @@ const main = async () => {
             },
             user: {
                 connect: { id: nathan.id },
+            },
+        },
+    });
+
+    const post3 = await prisma.post.create({
+        data: {
+            title: 'eerste V13 ter wereld',
+            comment: 'Ik heb gedaan wat iedereen dacht onmogelijk te zijn.',
+            date: date1,
+            boulder: {
+                connect: { id: V13.id },
+            },
+            image: {
+                connect: { id: image3.id },
+            },
+            user: {
+                connect: { id: johan.id },
             },
         },
     });

@@ -67,6 +67,8 @@ const getPostsByUserEmail = async (email: string, token: string) => {
       },
     }
   );
+  console.log(response);
+
   return await response.json();
 };
 

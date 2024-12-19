@@ -44,6 +44,11 @@ const CreatePostComponent: React.FC<CreatePostProps> = ({ handlePublish }) => {
       setErrorMessage(t("posts.create.error1"));
       return;
     }
+    const gradePattern = /^V\d{1,2}$/;
+    if (!gradePattern.test(grade)) {
+      setErrorMessage(t("posts.create.gradeError"));
+      return;
+    }
     try {
       await handlePublish(
         title,

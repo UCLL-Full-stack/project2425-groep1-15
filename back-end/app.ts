@@ -12,6 +12,7 @@ import { boulderProblemRouter } from './controller/boulderProblem.routes';
 import { imageRouter } from './controller/image.routes';
 import path from 'path';
 import { expressjwt } from 'express-jwt';
+import helmet from 'helmet';
 
 const app = express();
 dotenv.config();
@@ -24,6 +25,8 @@ app.use(
         credentials: true,
     })
 );
+
+app.use(helmet());
 
 app.use(
     expressjwt({

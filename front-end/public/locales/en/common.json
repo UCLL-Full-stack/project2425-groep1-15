@@ -24,6 +24,7 @@
     "edit": {
       "title": "Edit Post",
       "error": "Invalid post ID",
+      "gradeError": "The grade must be a capital V followed by 1 or 2 numbers",
       "form": {
         "title": "title",
         "comment": "comment",
@@ -37,6 +38,7 @@
       "title": "New post",
       "error1": "Please fill in all fields correctly before publishing.",
       "error2": "An error occurred while creating the post. Please try again.",
+      "gradeError": "The grade must be a capital V followed by 1 or 2 numbers",
       "form": {
         "title": "title",
         "comment": "comment",

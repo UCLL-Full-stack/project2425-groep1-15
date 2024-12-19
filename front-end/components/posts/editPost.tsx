@@ -92,6 +92,12 @@ const EditPost: React.FC = () => {
       (document.getElementById("location") as HTMLInputElement).value ||
       post.boulder.gym.location;
 
+    const gradePattern = /^V\d{1,2}$/;
+    if (!gradePattern.test(updatedGrade)) {
+      setErrorMessage(t("posts.edit.gradeError"));
+      return;
+    }
+
     try {
       let updatedImage = post.image;
 

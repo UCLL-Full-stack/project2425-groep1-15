@@ -23,6 +23,10 @@ export class BoulderProblem {
         if (!boulderProblem.gym) {
             throw new Error('ClimbingGym cannot be empty.');
         }
+        const gradePattern = /^V\d{1,2}$/;
+        if (!gradePattern.test(boulderProblem.grade)) {
+            throw new Error('Grade must start with "v" followed by 1 or 2 numbers.');
+        }
     }
 
     private isNotEmpty(input: string): boolean {

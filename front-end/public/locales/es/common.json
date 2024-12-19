@@ -25,6 +25,7 @@
     "edit": {
       "title": "Editar publicación",
       "error": "ID de publicación inválido",
+      "gradeError": "El grado debe ser una V mayúscula seguida de 1 o 2 números",
       "form": {
         "title": "título",
         "comment": "comentario",
@@ -38,6 +39,7 @@
       "title": "Nueva publicación",
       "error1": "Por favor, complete todos los campos correctamente antes de publicar.",
       "error2": "Ocurrió un error al crear la publicación. Por favor, intente de nuevo.",
+      "gradeError": "El grado debe ser una V mayúscula seguida de 1 o 2 números",
       "form": {
         "title": "título",
         "comment": "comentario",
