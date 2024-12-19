@@ -11,6 +11,7 @@ import UserService from "@/services/UserService";
 import { useTranslation } from "next-i18next";
 import { GetServerSidePropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import LoginStyles from "../../styles/Login.module.css";
 
 const Posts: React.FC = () => {
   const { t } = useTranslation();
@@ -103,7 +104,7 @@ const Posts: React.FC = () => {
             </div>
           </div>
         ) : (
-          <p>
+          <p className={LoginStyles.notLoggedIn}>
             {t("general.login1")}
             <Link href="../login">{t("general.login2")}</Link>{" "}
             {t("general.login3")}

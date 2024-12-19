@@ -6,6 +6,7 @@ import EditPost from "@/components/posts/editPost";
 import { GetServerSidePropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
+import LoginStyles from "../../styles/Login.module.css";
 
 const EditPostPage: React.FC = () => {
   const { t } = useTranslation();
@@ -44,7 +45,7 @@ const EditPostPage: React.FC = () => {
           ) : isLoggedIn ? (
             <EditPost />
           ) : (
-            <p>
+            <p className={LoginStyles.notLoggedIn}>
               {t("general.login1")}
               <Link href="../login">{t("general.login2")}</Link>{" "}
               {t("general.login3")}

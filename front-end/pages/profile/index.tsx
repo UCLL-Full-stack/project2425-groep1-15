@@ -9,6 +9,8 @@ import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { GetServerSidePropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import LoginStyles from "../../styles/Login.module.css";
+import ProfileStyles from "../../styles/Profile.module.css";
 
 const ProfilePage: React.FC = () => {
   const { t } = useTranslation();
@@ -57,7 +59,7 @@ const ProfilePage: React.FC = () => {
       </Head>
       <Header />
 
-      <main>
+      <main className={ProfileStyles.mainProfile}>
         {isLoggedIn === null ? (
           <p>{t("general.loading")}</p>
         ) : isLoggedIn && user ? (
@@ -68,7 +70,7 @@ const ProfilePage: React.FC = () => {
             latestAchievement={latestAchievement}
           />
         ) : (
-          <p>
+          <p className={LoginStyles.notLoggedIn}>
             {t("general.login1")}
             <Link href="../login">{t("general.login2")}</Link>{" "}
             {t("general.login3")}

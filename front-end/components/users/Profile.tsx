@@ -44,10 +44,6 @@ const ProfileComponent: React.FC<ProfileProps> = ({
                 ? user.achievements[0].title
                 : "No achievements yet"}
             </p>
-
-            <p className={profileStyles.startDatum}>
-              {t("profile.startDate")}: User.StartDate?
-            </p>
           </div>
           <div className={profileStyles.boulderSection}>
             <p className={profileStyles.lastBoulder}>

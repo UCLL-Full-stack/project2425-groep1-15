@@ -91,3 +91,14 @@
   border-width: 2px;
   padding: 1rem;
 }
+
+.notLoggedIn {
+  font-size: 1.5rem;
+  color: rgb(255, 255, 255);
+  padding: 0 2rem 2rem 2rem;
+  align-self: center;
+  text-align: center;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+}

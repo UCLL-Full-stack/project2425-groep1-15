@@ -56,11 +56,11 @@
   },
   "profile": {
     "title": "Profile",
-    "AantalPosts": "Number Of Posts:",
-    "LaatstePrestatie": "Laatste Prestatie:",
+    "AantalPosts": "Number Of Posts",
+    "LaatstePrestatie": "Last Achievement",
     "NoAchievementsYet": "No achievements yet",
     "startDate": "startDate",
-    "LastBoulder": "Last Boulder:",
+    "LastBoulder": "Last Boulder",
     "NoBouldersAvailable": "No Boulders Available"
   }
 }

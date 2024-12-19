@@ -8,6 +8,7 @@
   box-shadow: 10px 10px 5px rgb(0, 0, 0);
   width: 80rem;
   justify-self: center;
+  background-color: rgb(188, 188, 188);
 }
 
 .top {
@@ -54,12 +55,6 @@
 }
 
 .prestatie {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-top: 0;
-}
-
-.startDatum {
   font-size: 2rem;
   font-weight: bold;
 }
