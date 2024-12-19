@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import LoginStyles from "../../styles/Login.module.css";
 import { useTranslation } from "next-i18next";
+import { error } from "console";
 
 const UserLoginForm: React.FC = () => {
   const { t } = useTranslation();
@@ -42,6 +43,8 @@ const UserLoginForm: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    clearErrors();
+
     if (!validate()) {
       return;
     }
@@ -52,7 +55,7 @@ const UserLoginForm: React.FC = () => {
     if (response.status === 200) {
       setStatusMessages([
         {
-          message: "login successful",
+          message: t("Login.success"),
           type: "success",
         },
       ]);
@@ -69,11 +72,17 @@ const UserLoginForm: React.FC = () => {
           numPosts: user.numPosts,
         })
       );
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
+    } else {
+      setStatusMessages([
+        {
+          message: t("login.incorrect"),
+          type: "error",
+        },
+      ]);
     }
-
-    setTimeout(() => {
-      router.push("/posts");
-    }, 2000);
   };
 
   useEffect(() => {
@@ -109,6 +118,10 @@ const UserLoginForm: React.FC = () => {
       <div className={LoginStyles.page}>
         <h3 className={LoginStyles.title}>{t("login.title")}</h3>
 
+        {statusMessages.length > 0 && statusMessages[0].type === "success" && (
+          <p>{statusMessages[0].message}</p>
+        )}
+
         <form onSubmit={handleSubmit} className={LoginStyles.form}>
           <label htmlFor="emailInput" className={LoginStyles.field}>
             {t("login.email")}
@@ -121,9 +134,6 @@ const UserLoginForm: React.FC = () => {
               onChange={(event) => setEmail(event.target.value)}
               className={LoginStyles.inputText}
             />
-            {emailError && (
-              <div className={LoginStyles.error}> {emailError} </div>
-            )}
           </div>
 
           <label htmlFor="passwordInput" className={LoginStyles.field}>
@@ -137,9 +147,13 @@ const UserLoginForm: React.FC = () => {
               onChange={(event) => setPassword(event.target.value)}
               className={LoginStyles.inputText}
             />
-            {passwordError && (
+            {(passwordError || emailError) && (
               <div className={LoginStyles.error}> {passwordError} </div>
             )}
+            {statusMessages.length > 0 &&
+              statusMessages[0].type === "error" && (
+                <p className={LoginStyles.error}>{statusMessages[0].message}</p>
+              )}
           </div>
           <button type="submit" className={LoginStyles.submit}>
             {t("login.submit")}

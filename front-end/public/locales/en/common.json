@@ -2,7 +2,7 @@
   "general.loading": "loading...",
   "general.login1": "Please log in ",
   "general.login2": "here",
-  "general.login3": " to view your homepage.",
+  "general.login3": " to view this page.",
   "header": {
     "title": "Project Pinch",
     "posts": "posts",
@@ -51,6 +51,7 @@
     "title": "Login",
     "loggedIn": "You are already logged in",
     "incorrect": "Incorrect Password or Email",
+    "success": "login success",
     "email": "email",
     "password": "password",
     "submit": "submit"
