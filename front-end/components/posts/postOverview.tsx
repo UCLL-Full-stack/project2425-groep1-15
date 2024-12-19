@@ -18,6 +18,7 @@ const PostOverviewTable: React.FC<Props> = ({ posts, user, pushDelete }) => {
 
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<number | null>(null);
 
   const handleDelete = async (id: number | undefined) => {
     if (!id) {
@@ -25,10 +26,13 @@ const PostOverviewTable: React.FC<Props> = ({ posts, user, pushDelete }) => {
       return;
     }
     setErrorMessage("");
+    setDeleting(id);
     try {
       await pushDelete(id);
     } catch (error) {
       setErrorMessage(t("posts.create.error2"));
+    } finally {
+      setDeleting(null);
     }
   };
 
@@ -62,29 +66,33 @@ const PostOverviewTable: React.FC<Props> = ({ posts, user, pushDelete }) => {
               {post.title}
             </h3>
             {post.user.email === user.email ? (
-              <Link href={`/edit/${post.id}`}>
-                <button className={PostStyles.edit}>
-                  {t("posts.editButton")}
-                </button>{" "}
+              <Link href={`/edit/${post.id}`} className={PostStyles.edit}>
+                <Image
+                  src="/pictures/edit.png"
+                  alt="Edit icon"
+                  width={50}
+                  height={50}
+                  className={PostStyles.editImage}
+                ></Image>
               </Link>
             ) : (
-              <p className={PostStyles.edit}></p>
+              <p className={PostStyles.emptyP}></p>
             )}
             {user.role == "admin" ? (
-              <button
-                className={PostStyles.edit}
+              <Image
+                src="/pictures/delete.png"
+                alt="Delete icon"
                 onClick={() => handleDelete(post.id)}
-              >
-                {t("posts.deleteButton")}
-              </button>
-            ) : (
-              <p className={PostStyles.edit}></p>
-            )}
+                width={50}
+                height={50}
+                className={PostStyles.delete}
+              ></Image>
+            ) : null}
           </div>
           <Image
             className={PostStyles.postImage}
             src={`${post.image.path}`}
-            alt="TestImage"
+            alt="Image of the Post"
             width={500}
             height={300}
           />

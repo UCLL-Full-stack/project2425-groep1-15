@@ -81,7 +81,17 @@ const deletePost = async (id: number, token: string) => {
       },
     }
   );
-  return await response.json();
+
+  if (!response.ok) {
+    throw new Error(`Failed to delete post with ID ${id}: ${response.status}`);
+  }
+
+  try {
+    const data = await response.json();
+    return data;
+  } catch {
+    return null;
+  }
 };
 
 const PostService = {
