@@ -53,6 +53,7 @@ import PostService from '../service/postService';
 import { PostInput } from '../types';
 import postService from '../service/postService';
 import userDb from '../repository/user.db';
+import postDb from '../repository/post.db';
 
 const postRouter = express.Router();
 
@@ -60,6 +61,8 @@ const postRouter = express.Router();
  * @swagger
  * /posts:
  *   get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get a list of all posts.
  *     responses:
  *       200:
@@ -84,6 +87,8 @@ postRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  * @swagger
  * /posts:
  *   post:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Create a new post.
  *     requestBody:
  *       required: true
@@ -115,6 +120,8 @@ postRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
  * @swagger
  * /posts/{id}:
  *  get:
+ *     security:
+ *       - bearerAuth: []
  *      summary: Get a post by id.
  *      parameters:
  *          - in: path
@@ -139,12 +146,44 @@ postRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
         next(error);
     }
 });
+/**
+ * @swagger
+ * /posts/{id}:
+ *   put:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Edit a post by id.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the post to edit.
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     responses:
+ *       200:
+ *         description: Post updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ *       400:
+ *         description: Invalid input data.
+ *       404:
+ *         description: Post not found.
+ */
 
 postRouter.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const postData: PostInput = req.body;
         const newPost = await PostService.editPost(postData, Number(req.params.id));
-        res.status(201).json(newPost);
+        res.status(200).json(newPost);
     } catch (error) {
         next(error);
     }
@@ -154,14 +193,16 @@ postRouter.put('/:id', async (req: Request, res: Response, next: NextFunction) =
  * @swagger
  * /posts/user/{userEmail}:
  *  get:
+ *     security:
+ *       - bearerAuth: []
  *      summary: Get posts by user.
  *      parameters:
- *          - in: body
- *            name: user
+ *          - in: path
+ *            name: email
  *            schema:
- *              type: integer
+ *              type: string
  *              required: true
- *              description: The posts user.
+ *              description: The posts of a user.
  *      responses:
  *          200:
  *              description: A list of post objects.
@@ -179,6 +220,38 @@ postRouter.get('/user/:userEmail', async (req: Request, res: Response, next: Nex
         const posts = await postService.getPostsByUser(user);
 
         res.status(200).json(posts);
+    } catch (error) {
+        next(error);
+    }
+});
+/**
+ * @swagger
+ * /posts/{id}:
+ *   delete:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Delete a post by id.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the post to delete.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       204:
+ *         description: Post deleted successfully.
+ *       404:
+ *         description: Post not found.
+ *       500:
+ *         description: Server error, unable to delete post.
+ */
+
+postRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await postService.deletePostById(Number(req.params.id));
+
+        res.status(200).json({ message: 'Post deleted successfully' });
     } catch (error) {
         next(error);
     }

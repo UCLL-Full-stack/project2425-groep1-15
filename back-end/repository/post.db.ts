@@ -118,10 +118,22 @@ const getPostsByUser = async ({ user }: { user: User }): Promise<Post[]> => {
     }
 };
 
+const deletePostById = async (id: number) => {
+    try {
+        const postPrisma = await database.post.delete({
+            where: { id: id },
+        });
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 export default {
     getAllPosts,
     createPost,
     getPostById,
     updatePost,
     getPostsByUser,
+    deletePostById,
 };
