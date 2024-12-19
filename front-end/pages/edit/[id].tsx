@@ -41,7 +41,7 @@ const EditPostPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Edit Post</title>
+        <title>{t("posts.edit.title")}</title>
         <meta name="description" content="Courses app" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />

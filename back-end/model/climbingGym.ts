@@ -6,16 +6,19 @@ export class ClimbingGym {
     private gymName: string;
 
     constructor(climbingGym: { id?: number; location: string; gymName: string }) {
+        this.validate(climbingGym);
+        this.id = climbingGym.id;
+        this.location = climbingGym.location;
+        this.gymName = climbingGym.gymName;
+    }
+
+    validate(climbingGym: { location: string; gymName: string }) {
         if (!this.isNotEmpty(climbingGym.location)) {
             throw new Error('Location cannot be empty.');
         }
         if (!this.isNotEmpty(climbingGym.gymName)) {
             throw new Error('GymName cannot be empty.');
         }
-
-        this.id = climbingGym.id;
-        this.location = climbingGym.location;
-        this.gymName = climbingGym.gymName;
     }
 
     private isNotEmpty(input: string): boolean {

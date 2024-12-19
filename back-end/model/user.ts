@@ -18,6 +18,22 @@ export class User {
         role?: Role;
         achievements: Achievement[];
     }) {
+        this.validate(user);
+        this.id = user.id;
+        this.name = user.name;
+        this.email = user.email;
+        this.password = user.password;
+        this.role = user.role || 'user';
+        this.achievements = user.achievements;
+    }
+
+    validate(user: {
+        name: string;
+        email: string;
+        password: string;
+        role?: Role;
+        achievements: Achievement[];
+    }) {
         if (!this.isNotEmpty(user.name)) {
             throw new Error('Name cannot be empty.');
         }
@@ -29,13 +45,6 @@ export class User {
         if (!this.isNotEmpty(user.password)) {
             throw new Error('Password cannot be empty.');
         }
-
-        this.id = user.id;
-        this.name = user.name;
-        this.email = user.email;
-        this.password = user.password;
-        this.role = user.role || 'user';
-        this.achievements = user.achievements;
     }
 
     private isNotEmpty(input: string): boolean {

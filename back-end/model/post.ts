@@ -28,13 +28,7 @@ export class Post {
         image: Image;
         user: User;
     }) {
-        if (!this.isNotEmpty(post.title)) {
-            throw new Error('Title cannot be empty.');
-        }
-
-        if (!this.isNotEmpty(post.comment)) {
-            throw new Error('Comment cannot be empty.');
-        }
+        this.validate(post);
 
         this.id = post.id;
         this.title = post.title;
@@ -43,6 +37,35 @@ export class Post {
         this.boulder = post.boulder;
         this.image = post.image;
         this.user = post.user;
+    }
+
+    validate(post: {
+        title: string;
+        comment: string;
+        date: Date;
+        boulder: BoulderProblem;
+        image: Image;
+        user: User;
+    }) {
+        if (!this.isNotEmpty(post.title)) {
+            throw new Error('Title cannot be empty.');
+        }
+
+        if (!this.isNotEmpty(post.comment)) {
+            throw new Error('Comment cannot be empty.');
+        }
+
+        if (!post.boulder) {
+            throw new Error('Boulderproblem cannot be empty.');
+        }
+
+        if (!post.image) {
+            throw new Error('image cannot be empty.');
+        }
+
+        if (!post.user) {
+            throw new Error('User cannot be empty.');
+        }
     }
 
     private isNotEmpty(input: string): boolean {
