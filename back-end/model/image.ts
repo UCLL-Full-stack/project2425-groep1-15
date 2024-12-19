@@ -7,15 +7,19 @@ export class Image {
     private path: string;
 
     constructor(image: { id?: number; fileName: string; path: string }) {
+        this.validate(image);
+        this.id = image.id;
+        this.fileName = image.fileName;
+        this.path = image.path;
+    }
+
+    validate(image: { fileName: string; path: string }) {
         if (!this.isNotEmpty(image.fileName)) {
             throw new Error('fileName cannot be empty.');
         }
         if (!this.isNotEmpty(image.path)) {
             throw new Error('path cannot be empty.');
         }
-        this.id = image.id;
-        this.fileName = image.fileName;
-        this.path = image.path;
     }
 
     private isNotEmpty(input: string): boolean {

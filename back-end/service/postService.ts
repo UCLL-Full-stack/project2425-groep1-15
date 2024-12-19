@@ -19,6 +19,11 @@ const getPostById = async (id: number): Promise<Post> => {
 };
 
 const getPostsByUser = async (user: User): Promise<Post[]> => {
+    const test = await userDb.getUserByEmail(user.getEmail());
+
+    if (!test) {
+        throw new Error('no user like that found');
+    }
     const posts = await postDb.getPostsByUser({ user });
     return posts;
 };
