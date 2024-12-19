@@ -77,29 +77,20 @@ const EditPost: React.FC = () => {
     const boulderId = post.boulder.id;
 
     const updatedTitle =
-      (document.getElementById(t("posts.edit.form.title")) as HTMLInputElement)
-        .value || post.title;
+      (document.getElementById("title") as HTMLInputElement).value ||
+      post.title;
     const updatedComment =
-      (
-        document.getElementById(
-          t("posts.edit.form.comment")
-        ) as HTMLInputElement
-      ).value || post.comment;
+      (document.getElementById("comment") as HTMLInputElement).value ||
+      post.comment;
     const updatedGymName =
-      (
-        document.getElementById(
-          t("posts.edit.form.gymname")
-        ) as HTMLInputElement
-      ).value || post.boulder.gym.gymName;
+      (document.getElementById("gymName") as HTMLInputElement).value ||
+      post.boulder.gym.gymName;
     const updatedGrade =
-      (document.getElementById(t("posts.edit.form.grade")) as HTMLInputElement)
-        .value || post.boulder.grade;
+      (document.getElementById("grade") as HTMLInputElement).value ||
+      post.boulder.grade;
     const updatedLocation =
-      (
-        document.getElementById(
-          t("posts.edit.form.location")
-        ) as HTMLInputElement
-      ).value || post.boulder.gym.location;
+      (document.getElementById("location") as HTMLInputElement).value ||
+      post.boulder.gym.location;
 
     try {
       let updatedImage = post.image;
@@ -227,7 +218,7 @@ const EditPost: React.FC = () => {
         />
         <div className={createStyle.publishContainer}>
           <button className={createStyle.publishButton} onClick={handleUpdate}>
-            {t("posts.edit.form.grade")}
+            {t("posts.edit.updateButton")}
           </button>
         </div>
       </div>

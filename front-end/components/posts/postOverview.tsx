@@ -29,12 +29,14 @@ const PostOverviewTable: React.FC<Props> = ({ posts, user }) => {
               height={100}
             />
             <h3 className={PostStyles.postTitle}>{post.title}</h3>
-            {post.user.email === user.email && (
+            {post.user.email === user.email ? (
               <Link href={`/edit/${post.id}`}>
                 <button className={PostStyles.edit}>
                   {t("posts.editButton")}
                 </button>
               </Link>
+            ) : (
+              <p className={PostStyles.edit}></p>
             )}
           </div>
           <Image
