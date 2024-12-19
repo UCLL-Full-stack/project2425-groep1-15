@@ -81,10 +81,11 @@
 }
 
 .boulder {
+  background-color: lightgray;
   height: 15rem;
   width: 30rem;
   border-radius: 1rem;
-
+  object-fit: contain;
   border-color: black;
   border-style: solid;
   border-width: 3px;
