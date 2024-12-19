@@ -1,3 +1,26 @@
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *   schemas:
+ *     Image:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: number
+ *           format: int64
+ *         fileName:
+ *           type: string
+ *           description: Name of image.
+ *         path:
+ *           type: string
+ *           description: The path to the image.
+ */
+
 import { Router } from 'express';
 import { Request, Response } from 'express';
 import multer from 'multer';
@@ -19,6 +42,35 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+/**
+ * @swagger
+ * /images/upload:
+ *   post:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Upload a new image.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: Image uploaded successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Image'
+ *       400:
+ *         description: Invalid input data or no file uploaded.
+ *       500:
+ *         description: Internal server error.
+ */
 imageRouter.post('/upload', upload.single('image'), async (req: Request, res: Response) => {
     const file = req.file;
 
