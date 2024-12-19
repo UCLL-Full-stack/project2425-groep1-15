@@ -42,7 +42,7 @@ const ProfileComponent: React.FC<ProfileProps> = ({
               <p className={profileStyles.prestatie}>
                 {t("profile.LaatstePrestatie")}:{" "}
                 {user.achievements && user.achievements.length > 0
-                  ? user.achievements[0].title
+                  ? user.achievements[user.achievements.length - 1].title
                   : "No achievements yet"}
               </p>
             </div>

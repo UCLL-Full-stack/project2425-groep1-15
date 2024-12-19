@@ -34,6 +34,14 @@ const main = async () => {
         },
     });
 
+    const achievement3 = await prisma.achievement.create({
+        data: {
+            title: 'I am the boss now',
+            description: 'You became the role of Admin',
+            difficulty: 'extreme',
+        },
+    });
+
     const joren = await prisma.user.create({
         data: {
             name: 'Joren',
@@ -80,6 +88,33 @@ const main = async () => {
             email: 'johan.pieck@gmail.com',
             password: await bcrypt.hash('Johan123', 12),
             role: 'admin',
+            achievements: {
+                connect: {
+                    id: achievement1.id,
+                },
+            },
+        },
+    });
+
+    await prisma.user.update({
+        where: { id: johan.id },
+        data: {
+            achievements: {
+                connect: {
+                    id: achievement2.id,
+                },
+            },
+        },
+    });
+
+    await prisma.user.update({
+        where: { id: johan.id },
+        data: {
+            achievements: {
+                connect: {
+                    id: achievement3.id,
+                },
+            },
         },
     });
 
