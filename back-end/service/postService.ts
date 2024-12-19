@@ -108,4 +108,13 @@ const editPost = async (
     return await postDb.updatePost(id, newPost);
 };
 
-export default { getAllPosts, createPost, getPostById, editPost, getPostsByUser };
+const deletePostById = async (id: number) => {
+    const test = await postDb.getPostById({ id });
+
+    if (!test) {
+        throw new Error('no post with that id exists');
+    }
+    await postDb.deletePostById(id);
+};
+
+export default { getAllPosts, createPost, getPostById, editPost, getPostsByUser, deletePostById };
