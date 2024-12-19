@@ -41,6 +41,8 @@ const boulderProblemRouter = express.Router();
  * @swagger
  * /boulders:
  *   get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get a list of all boulders.
  *     responses:
  *       200:
@@ -65,6 +67,8 @@ boulderProblemRouter.get('/', async (req: Request, res: Response, next: NextFunc
  * @swagger
  * /boulders:
  *   post:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Create a new boulder.
  *     requestBody:
  *       required: true

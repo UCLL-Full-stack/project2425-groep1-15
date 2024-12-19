@@ -31,6 +31,8 @@ const climbingGymRouter = express.Router();
  * @swagger
  * /gyms:
  *   get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get a list of all gyms.
  *     responses:
  *       200:
@@ -55,6 +57,8 @@ climbingGymRouter.get('/', async (req: Request, res: Response, next: NextFunctio
  * @swagger
  * /gyms:
  *   post:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Create a new gym.
  *     requestBody:
  *       required: true

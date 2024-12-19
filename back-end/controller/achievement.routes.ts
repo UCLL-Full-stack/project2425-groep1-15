@@ -35,6 +35,8 @@ const achievementRouter = express.Router();
  * @swagger
  * /achievements:
  *   get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get a list of all achievements.
  *     responses:
  *       200:
@@ -55,47 +57,12 @@ achievementRouter.get('/', async (req: Request, res: Response, next: NextFunctio
     }
 });
 
-// /**
-//  * @swagger
-//  * /achievements/user/{userEmail}:
-//  *  get:
-//  *      summary: Get achievements by user.
-//  *      parameters:
-//  *          - in: body
-//  *            name: userEmail
-//  *            schema:
-//  *              type: integer
-//  *              required: true
-//  *              description: The achievements user.
-//  *      responses:
-//  *          200:
-//  *              description: A list of achievement objects.
-//  *              content:
-//  *                  application/json:
-//  *                      schema:
-//  *                          $ref: '#/components/schemas/Achievement'
-//  */
-// achievementRouter.get(
-//     '/user/:userEmail',
-//     async (req: Request, res: Response, next: NextFunction) => {
-//         try {
-//             const user = await userDb.getUserByEmail(String(req.params.userEmail));
-//             if (!user) {
-//                 throw new Error(`User with email ${req.params.userEmail} does not exist.`);
-//             }
-//             const posts = await achievementService.getAchievementsByUser(user);
-
-//             res.status(200).json(posts);
-//         } catch (error) {
-//             next(error);
-//         }
-//     }
-// );
-
 /**
  * @swagger
  * /achievements:
  *   post:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Create a new achievement.
  *     requestBody:
  *       required: true

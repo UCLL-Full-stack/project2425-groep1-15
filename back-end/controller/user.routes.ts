@@ -60,6 +60,8 @@ const userRouter = express.Router();
  * @swagger
  * /users:
  *   get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get a list of all users.
  *     responses:
  *       200:
@@ -84,6 +86,8 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  * @swagger
  * /users:
  *   post:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Create a new user.
  *     requestBody:
  *       required: true
@@ -148,7 +152,9 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
 /**
  * @swagger
  * /users/{email}:
- *  get:
+ *   get:
+ *     security:
+ *       - bearerAuth: []
  *      summary: Get a user by email.
  *      parameters:
  *          - in: path
