@@ -70,7 +70,7 @@ const ProfilePage: React.FC = () => {
             latestAchievement={latestAchievement}
           />
         ) : (
-          <p className={LoginStyles.notLoggedIn}>
+          <p className={LoginStyles.notLoggedInProfile}>
             {t("general.login1")}
             <Link href="../login">{t("general.login2")}</Link>{" "}
             {t("general.login3")}

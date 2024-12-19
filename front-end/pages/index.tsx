@@ -9,8 +9,7 @@ import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { GetServerSidePropsContext } from "next/types";
-
-// const inter = Inter({ subsets: ["latin"] });
+import router from "next/router";
 
 const Home: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
@@ -29,6 +28,7 @@ const Home: React.FC = () => {
     } else {
       setIsLoggedIn(false);
     }
+    router.push("/posts");
   }, []);
 
   const { t } = useTranslation();

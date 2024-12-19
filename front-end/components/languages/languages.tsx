@@ -11,10 +11,10 @@ const Language: React.FC = () => {
   };
 
   return (
-    <div className="ml-6">
+    <div className={styles.languageButton}>
       <select
         id="language"
-        className="ml-2 p-1"
+        className={styles.languageButton}
         value={locale}
         onChange={handleLanguageChange}
       >
