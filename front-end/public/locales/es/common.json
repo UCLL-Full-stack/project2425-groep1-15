@@ -65,5 +65,8 @@
     "startDate": "fecha de inicio",
     "LastBoulder": "Última roca:",
     "NoBouldersAvailable": "No hay rocas disponibles"
+  },
+  "achievements": {
+    "title": "Logros"
   }
 }
