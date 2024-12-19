@@ -56,13 +56,14 @@ const editPost = async (
   return response.json();
 };
 
-const getPostsByUserEmail = async (email: string) => {
+const getPostsByUserEmail = async (email: string, token: string) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/posts/user/${email}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     }
   );

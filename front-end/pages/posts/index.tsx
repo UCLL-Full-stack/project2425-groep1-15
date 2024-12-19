@@ -1,19 +1,16 @@
 import Header from "@/components/header";
-import PostOverviewTable from "@/components/posts/postOverviewTable";
 import PostService from "@/services/PostService";
 import { Post, User } from "@/types";
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import PostStyles from "../../styles/Posts.module.css";
-import Styles from "../../styles/Home.module.css";
-import OverViewTemp from "@/components/posts/OverViewTemp";
+import OverViewTemp from "@/components/posts/postOverview";
 import AchievementSection from "@/components/achievements/achievementSection";
 import UserService from "@/services/UserService";
 import { useTranslation } from "next-i18next";
 import { GetServerSidePropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { parse } from "path";
 
 const Posts: React.FC = () => {
   const { t } = useTranslation();

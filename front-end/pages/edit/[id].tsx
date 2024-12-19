@@ -1,17 +1,7 @@
 import Header from "@/components/header";
-import PostOverviewTable from "@/components/posts/postOverviewTable";
-import PostService from "@/services/PostService";
-import { BoulderProblem, ClimbingGym, Post, Image } from "@/types";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import postStyle from "../../styles/Posts.module.css";
-import createStyle from "../../styles/Create.module.css";
-import ClimbingGymService from "@/services/ClimbingGymService";
-import BoulderService from "@/services/BoulderProblemService";
 import Link from "next/link";
-import router from "next/router";
-import { text } from "stream/consumers";
-import CreatePosts from "@/components/posts/createPost";
 import EditPost from "@/components/posts/editPost";
 import { GetServerSidePropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";

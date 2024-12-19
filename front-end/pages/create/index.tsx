@@ -1,26 +1,13 @@
-import Header from "@/components/header";
-import PostOverviewTable from "@/components/posts/postOverviewTable";
-import PostService from "@/services/PostService";
-import { BoulderProblem, ClimbingGym, Post, Image } from "@/types";
-import Head from "next/head";
 import { useEffect, useState } from "react";
-import postStyle from "../../styles/Posts.module.css";
-import createStyle from "../../styles/Create.module.css";
-import ClimbingGymService from "@/services/ClimbingGymService";
-import BoulderService from "@/services/BoulderProblemService";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
-import router from "next/router";
-import { text } from "stream/consumers";
-import UserService from "@/services/UserService";
-import CreatePosts from "@/components/posts/createPost";
-import { t } from "i18next";
+import CreatePostPage from "@/components/posts/ceatePostPage";
+import Header from "@/components/header";
 import { GetServerSidePropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
 
-const Posts: React.FC = () => {
+const PostsPage: React.FC = () => {
   const { t } = useTranslation();
-
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -41,19 +28,13 @@ const Posts: React.FC = () => {
 
   return (
     <>
-      <Head>
-        <title>{t("posts.title")}</title>
-        <meta name="description" content="Courses app" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Header></Header>
+      <Header />
       <main>
         <section>
           {isLoggedIn === null ? (
             <p>{t("general.loading")}</p>
           ) : isLoggedIn ? (
-            <CreatePosts />
+            <CreatePostPage />
           ) : (
             <p>
               {t("general.login1")}
@@ -66,6 +47,7 @@ const Posts: React.FC = () => {
     </>
   );
 };
+
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
@@ -78,4 +60,4 @@ export const getServerSideProps = async (
   };
 };
 
-export default Posts;
+export default PostsPage;

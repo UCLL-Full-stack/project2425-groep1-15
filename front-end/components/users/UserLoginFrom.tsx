@@ -1,12 +1,9 @@
 import UserService from "@/services/UserService";
 import { StatusMessage, User } from "@/types";
-import classNames from "classnames";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import LoginStyles from "../../styles/Login.module.css";
 import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { GetServerSidePropsContext } from "next/types";
 
 const UserLoginForm: React.FC = () => {
   const { t } = useTranslation();
