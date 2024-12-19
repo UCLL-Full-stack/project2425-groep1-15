@@ -5,7 +5,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import PostStyles from "../../styles/Posts.module.css";
-import OverViewTemp from "@/components/posts/postOverview";
 import AchievementSection from "@/components/achievements/achievementSection";
 import UserService from "@/services/UserService";
 import { useTranslation } from "next-i18next";
@@ -13,58 +12,46 @@ import { GetServerSidePropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import LoginStyles from "../../styles/Login.module.css";
 import PostOverview from "@/components/posts/postOverview";
-import router from "next/router";
+import useSWR, { mutate } from "swr";
+import useInterval from "use-interval";
 
 const Posts: React.FC = () => {
   const { t } = useTranslation();
 
-  const [posts, setPosts] = useState<Array<Post>>();
+  const [token, setToken] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
 
-  const getUser = async () => {
-    const userData = sessionStorage.getItem("loggedInUser");
-    if (userData) {
-      try {
-        const parsedData = JSON.parse(userData);
-        const userEmail = parsedData.email;
-        const token = parsedData.token;
-        setUser(await UserService.getUserByEmail(userEmail, token));
-      } catch (error) {
-        console.error("Error parsing session storage data:", error);
-      }
-    }
+  const fetchPosts = async (token: string) => {
+    const response = await PostService.getAllPosts(token);
+    return await response.json();
   };
 
-  const getPosts = async () => {
-    const userData = sessionStorage.getItem("loggedInUser");
-
-    if (userData) {
-      try {
-        const parsedData = JSON.parse(userData);
-        setIsLoggedIn(!!parsedData.token);
-        const token = parsedData.token;
-        const response = await PostService.getAllPosts(token);
-        const json = await response.json();
-        setPosts(json);
-      } catch (error) {
-        console.error("Error parsing session storage data:", error);
-        setIsLoggedIn(false);
-      }
-    } else {
-      setIsLoggedIn(false);
-    }
+  const fetchUser = async (email: string, token: string) => {
+    return await UserService.getUserByEmail(email, token);
   };
+
+  const { data: posts, error: postsError } = useSWR(
+    token ? ["posts", token] : null,
+    ([, token]) => fetchPosts(token)
+  );
+
+  const { data: user, error: userError } = useSWR(
+    email && token ? ["user", email, token] : null,
+    ([, email, token]) => fetchUser(email, token)
+  );
+
+  useInterval(() => {
+    if (token) {
+      mutate(fetchPosts(token));
+    }
+  }, 5000);
 
   const pushDelete = async (id: number) => {
-    const userData = sessionStorage.getItem("loggedInUser");
-    if (userData) {
+    if (token) {
       try {
-        const parsedData = JSON.parse(userData);
-        await PostService.deletePost(id, parsedData.token);
-        setPosts(
-          (prevPosts) => prevPosts?.filter((post) => post.id !== id) || []
-        );
+        await PostService.deletePost(id, token);
+        mutate(fetchPosts(token));
       } catch (error) {
         console.error("Error in deletePost:", error);
       }
@@ -73,12 +60,13 @@ const Posts: React.FC = () => {
 
   useEffect(() => {
     const userData = sessionStorage.getItem("loggedInUser");
-
     if (userData) {
       try {
         const parsedData = JSON.parse(userData);
-        setIsLoggedIn(!!parsedData.token);
-        getUser();
+        const { email, token } = parsedData;
+        setToken(token);
+        setEmail(email);
+        setIsLoggedIn(!!token);
       } catch (error) {
         console.error("Error parsing session storage data:", error);
         setIsLoggedIn(false);
@@ -86,7 +74,6 @@ const Posts: React.FC = () => {
     } else {
       setIsLoggedIn(false);
     }
-    getPosts();
   }, []);
 
   return (

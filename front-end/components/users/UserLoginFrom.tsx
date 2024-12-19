@@ -55,7 +55,7 @@ const UserLoginForm: React.FC = () => {
     if (response.status === 200) {
       setStatusMessages([
         {
-          message: t("Login.success"),
+          message: t("login.success"),
           type: "success",
         },
       ]);
@@ -119,7 +119,7 @@ const UserLoginForm: React.FC = () => {
         <h3 className={LoginStyles.title}>{t("login.title")}</h3>
 
         {statusMessages.length > 0 && statusMessages[0].type === "success" && (
-          <p>{statusMessages[0].message}</p>
+          <p className={LoginStyles.success}>{statusMessages[0].message}</p>
         )}
 
         <form onSubmit={handleSubmit} className={LoginStyles.form}>

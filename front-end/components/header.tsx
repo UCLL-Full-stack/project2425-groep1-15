@@ -3,6 +3,7 @@ import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import Language from "./languages/languages";
+import Image from "next/image";
 
 const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
@@ -40,6 +41,12 @@ const Header: React.FC = () => {
         <a className={styles.title}> {t("header.title")}</a>
         <Link href="/profile" className={styles.link}>
           {t("header.profile")}
+          {/* <Image
+            src="/pictures/pfp.png"
+            alt="pfp"
+            width={50}
+            height={50}
+          ></Image> */}
         </Link>
         {isLoggedIn === null ? (
           <p>{t("general.loading")}</p>

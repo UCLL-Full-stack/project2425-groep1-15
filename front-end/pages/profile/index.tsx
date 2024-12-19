@@ -11,42 +11,47 @@ import { GetServerSidePropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import LoginStyles from "../../styles/Login.module.css";
 import ProfileStyles from "../../styles/Profile.module.css";
+import useSWR from "swr";
 
 const ProfilePage: React.FC = () => {
   const { t } = useTranslation();
-  const [user, setUser] = useState<User | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-  const [numPosts, setNumPosts] = useState<number>(0);
-  const [latestPost, setLatestPost] = useState<Post | null>(null);
-  const [latestAchievement, setLatestAchievement] =
-    useState<Achievement | null>(null);
 
-  const getUserData = async () => {
+  const fetcher = async (key: string, email: string, token: string) => {
+    if (key === "user") {
+      return UserService.getUserByEmail(email, token);
+    } else if (key === "posts") {
+      return PostService.getPostsByUserEmail(email, token);
+    }
+    throw new Error("Invalid key");
+  };
+
+  const { data: user, error: userError } = useSWR(
+    email && token ? ["user", email, token] : null,
+    ([key, email, token]) => fetcher(key, email, token)
+  );
+
+  const { data: posts, error: postsError } = useSWR(
+    email && token ? ["posts", email, token] : null,
+    ([key, email, token]) => fetcher(key, email, token)
+  );
+
+  const numPosts = posts?.length || 0;
+  const latestPost = posts?.length > 0 ? posts[posts.length - 1] : null;
+  const latestAchievement = user?.achievements?.[0] || null;
+
+  useEffect(() => {
     const userData = sessionStorage.getItem("loggedInUser");
-
     if (userData) {
-      try {
-        const { email, token } = JSON.parse(userData);
-        const fetchedUser = await UserService.getUserByEmail(email, token);
-
-        setUser(fetchedUser);
-        setLatestAchievement(fetchedUser?.achievements?.[0] || null);
-
-        const posts = await PostService.getPostsByUserEmail(email, token);
-        setNumPosts(posts.length);
-        setLatestPost(posts.length > 0 ? posts[posts.length - 1] : null);
-        setIsLoggedIn(true);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setIsLoggedIn(false);
-      }
+      const { email, token } = JSON.parse(userData);
+      setEmail(email);
+      setToken(token);
+      setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
     }
-  };
-
-  useEffect(() => {
-    getUserData();
   }, []);
 
   return (

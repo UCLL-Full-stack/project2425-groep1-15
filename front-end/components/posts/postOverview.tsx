@@ -5,7 +5,6 @@ import Logo from "../Logo";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
-import PostService from "@/services/PostService";
 
 type Props = {
   posts: Array<Post>;

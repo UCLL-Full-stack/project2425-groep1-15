@@ -117,3 +117,9 @@
   margin-top: 0;
   background-color: rgb(159, 159, 159);
 }
+
+.success {
+  color: rgb(134, 205, 28);
+  text-align: center;
+  margin: 0;
+}
