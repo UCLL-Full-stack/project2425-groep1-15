@@ -18,6 +18,7 @@ const PostOverviewTable: React.FC<Props> = ({ posts, user, pushDelete }) => {
 
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<number | null>(null);
 
   const handleDelete = async (id: number | undefined) => {
     if (!id) {
@@ -25,10 +26,13 @@ const PostOverviewTable: React.FC<Props> = ({ posts, user, pushDelete }) => {
       return;
     }
     setErrorMessage("");
+    setDeleting(id);
     try {
       await pushDelete(id);
     } catch (error) {
       setErrorMessage(t("posts.create.error2"));
+    } finally {
+      setDeleting(null);
     }
   };
 
@@ -65,21 +69,22 @@ const PostOverviewTable: React.FC<Props> = ({ posts, user, pushDelete }) => {
               <Link href={`/edit/${post.id}`}>
                 <button className={PostStyles.edit}>
                   {t("posts.editButton")}
-                </button>{" "}
+                </button>
               </Link>
             ) : (
-              <p className={PostStyles.edit}></p>
+              user.role != "admin" && <p className={PostStyles.edit}></p>
             )}
             {user.role == "admin" ? (
               <button
                 className={PostStyles.edit}
                 onClick={() => handleDelete(post.id)}
+                disabled={deleting === post.id}
               >
-                {t("posts.deleteButton")}
+                {deleting === post.id
+                  ? t("posts.deleting")
+                  : t("posts.deleteButton")}
               </button>
-            ) : (
-              <p className={PostStyles.edit}></p>
-            )}
+            ) : null}
           </div>
           <Image
             className={PostStyles.postImage}

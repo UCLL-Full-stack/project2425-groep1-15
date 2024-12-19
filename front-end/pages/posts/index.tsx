@@ -12,7 +12,7 @@ import { useTranslation } from "next-i18next";
 import { GetServerSidePropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import LoginStyles from "../../styles/Login.module.css";
-import PostOverviewTable from "@/components/posts/postOverview";
+import PostOverview from "@/components/posts/postOverview";
 import router from "next/router";
 
 const Posts: React.FC = () => {
@@ -56,6 +56,21 @@ const Posts: React.FC = () => {
     }
   };
 
+  const pushDelete = async (id: number) => {
+    const userData = sessionStorage.getItem("loggedInUser");
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+        await PostService.deletePost(id, parsedData.token);
+        setPosts(
+          (prevPosts) => prevPosts?.filter((post) => post.id !== id) || []
+        );
+      } catch (error) {
+        console.error("Error in deletePost:", error);
+      }
+    }
+  };
+
   useEffect(() => {
     const userData = sessionStorage.getItem("loggedInUser");
 
@@ -73,15 +88,6 @@ const Posts: React.FC = () => {
     }
     getPosts();
   }, []);
-
-  const pushDelete = async (id: number) => {
-    const userData = sessionStorage.getItem("loggedInUser");
-    if (userData) {
-      const parsedData = JSON.parse(userData);
-
-      await PostService.deletePost(id, parsedData.token);
-    }
-  };
 
   return (
     <>
@@ -104,7 +110,7 @@ const Posts: React.FC = () => {
               </div>
               {posts && user && (
                 <section className={PostStyles.postSection}>
-                  <PostOverviewTable
+                  <PostOverview
                     posts={posts}
                     user={user}
                     pushDelete={pushDelete}
